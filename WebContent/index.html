@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>United States of America Election Results</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+	<script type="text/javascript" src="index.js"></script>
+  </head>
+  
+  <body>
+    <div id="heading">
+      <h1 align="center">2000 General Presidential Elections</h1>
+    </div>
+    
+    <div id="mapSVG">
+        <object id="map" type="image/svg+xml" data="images/states.svg" onload="loadMap()"></object>
+    </div>
+    
+    <div  id="buttons">
+    	<button type="button" onclick="switchCounties()">Counties</button>
+    	<button type="button" onclick="switchStates()">States</button>
+    </div>
+  </body>
+</html>
+
