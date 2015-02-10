@@ -1,5 +1,5 @@
 <?php
-include_once 'database.php';
+include_once 'database/database.php';
 $db = new database;
 $request = json_decode(file_get_contents('php://input'), true);
 $reply = NULL;
