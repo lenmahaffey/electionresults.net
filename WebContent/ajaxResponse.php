@@ -7,7 +7,7 @@ $action = $request["action"];
 
 switch($action) {
 	case "stateWinner": 
-		$reply = $db->stateWinner($request["state"], $request["year"]);
+		if($reply = $db->stateWinner($request["state"], $request["year"]));
 		break;
 		
 	case "countyWinner": 

@@ -10,6 +10,11 @@
 	border: 1px solid black;
 }
 
+#canidates {
+	border: 1px solid black;
+}
+	
+}
 #buttons {
 	position:fixed;
     bottom: 0;
