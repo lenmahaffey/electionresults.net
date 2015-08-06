@@ -32,5 +32,10 @@
 			<type>2</type>
 			<location>/Users/bozziley/code/eclipse projects/workspace/Map Files</location>
 		</link>
+		<link>
+			<name>WebContent/database/database.php</name>
+			<type>1</type>
+			<location>/Users/bozziley/code/eclipse projects/workspace/Election Database/database.php</location>
+		</link>
 	</linkedResources>
 </projectDescription>
