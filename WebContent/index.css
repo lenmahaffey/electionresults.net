@@ -2,19 +2,37 @@
 
 #heading {
 	font-family: serif;
-	border: 1px solid black;
-	border-radius: 10em/5em
+	color: white;
+/*	border: 1px solid black; */
+/*	border-radius: 10em/5em */
 }
  
 #mapSVG {
-	border: 1px solid black;
+/*	border: 1px solid black; */
 }
 
-#canidates {
+#DEM {
 	border: 1px solid black;
+	float: left; 
+	width: 49%; 
 }
-	
+
+#REP {
+	border: 1px solid black;
+	float: right; 
+	width: 49%;
 }
+
+#DEM_vote {
+	float: right;
+	width: 49%;
+}
+
+#REP_vote {
+	float: left;
+	width: 49%;
+}
+
 #buttons {
 	position:fixed;
     bottom: 0;
