@@ -26,4 +26,11 @@
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>WebContent/images</name>
+			<type>2</type>
+			<location>/Users/bozziley/code/eclipse projects/workspace/Map Files</location>
+		</link>
+	</linkedResources>
 </projectDescription>
