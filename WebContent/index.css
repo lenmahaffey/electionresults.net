@@ -14,23 +14,27 @@
 #DEM {
 	border: 1px solid black;
 	float: left; 
-	width: 49%; 
+	width: 49%;
+	color: white; 
 }
 
 #REP {
 	border: 1px solid black;
 	float: right; 
 	width: 49%;
+	color: white;
 }
 
 #DEM_vote {
 	float: right;
 	width: 49%;
+	color: white;
 }
 
 #REP_vote {
 	float: left;
 	width: 49%;
+	color: white;
 }
 
 #buttons {
