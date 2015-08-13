@@ -31,7 +31,7 @@ function ajaxRequest(action, state, year, FIPS){
 		  	var states = document.getElementById("map");
 		  	var SVGDoc = states.contentDocument;
 			response = request.responseText
-			console.debug(response);
+//			console.debug(response);
 			switch (response) {
 				case '"DEM"':
 					SVGDoc.getElementById(state).style.fill = "blue";
