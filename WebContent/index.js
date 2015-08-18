@@ -28,19 +28,7 @@ function ajaxRequest(action, state, year, FIPS){
 	request.open("POST", url, true);
 	request.onreadystatechange = function() {//Call a function when the state changes.
 		if(request.readyState == 4 && request.status == 200) {
-		  	var states = document.getElementById("map");
-		  	var SVGDoc = states.contentDocument;
-			response = request.responseText
-//			console.debug(response);
-			switch (response) {
-				case '"DEM"':
-					SVGDoc.getElementById(state).style.fill = "blue";
-					break;
-				case '"REP"':
-					SVGDoc.getElementById(state).style.fill = "red";
-					break;
-//				default: window.alert(response);
-			};
+			colorState(request.responseText, state);
 		}
 		if(request.readyState == 4 && request.status == 500) {
 //			alert('FAIL');
@@ -49,4 +37,15 @@ function ajaxRequest(action, state, year, FIPS){
 	request.setRequestHeader("Content-type", "application/json");
 	request.setRequestHeader("Accept", "application/json");
 	request.send(params);
+}
+
+function colorState(response, state){
+	switch (response) {
+	case '"DEM"':
+		document.getElementById('map').contentDocument.getElementById(state).style.fill = "blue";
+		break;
+	case '"REP"':
+		document.getElementById('map').contentDocument.getElementById(state).style.fill = "red";
+		break;	
+	}
 }
