@@ -28,14 +28,34 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>WebContent/images</name>
-			<type>2</type>
-			<location>/Users/bozziley/code/eclipse projects/workspace/Map Files</location>
-		</link>
-		<link>
 			<name>WebContent/database/database.php</name>
 			<type>1</type>
 			<location>/Users/bozziley/code/eclipse projects/workspace/Election Database/database.php</location>
+		</link>
+		<link>
+			<name>WebContent/images/counties.css</name>
+			<type>1</type>
+			<location>/Users/bozziley/code/eclipse projects/workspace/Map Files/counties.css</location>
+		</link>
+		<link>
+			<name>WebContent/images/counties.svg</name>
+			<type>1</type>
+			<location>/Users/bozziley/code/eclipse projects/workspace/Map Files/counties.svg</location>
+		</link>
+		<link>
+			<name>WebContent/images/singleStates</name>
+			<type>2</type>
+			<location>/Users/bozziley/code/eclipse projects/workspace/Map Files/combinedStatesAndCounties</location>
+		</link>
+		<link>
+			<name>WebContent/images/states.css</name>
+			<type>1</type>
+			<location>/Users/bozziley/code/eclipse projects/workspace/Map Files/states.css</location>
+		</link>
+		<link>
+			<name>WebContent/images/states.svg</name>
+			<type>1</type>
+			<location>/Users/bozziley/code/eclipse projects/workspace/Map Files/states.svg</location>
 		</link>
 	</linkedResources>
 </projectDescription>
