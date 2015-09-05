@@ -1,13 +1,32 @@
 function showCounties(){
-	map.style.display = "none";
-	map.setAttribute("data", "images/counties.svg");
-	map.style.display = "";
+	var states = document.getElementById("map").contentDocument.getElementsByClassName("state");
+	var counties = document.getElementById("map").contentDocument.getElementsByClassName("county");
+	for(var i = 0; i < states.length; i++){
+		states[i].style.display = "none";
+	}
+	
+	for(var i = 0; i < counties.length; i++){
+		counties[i].style.display = "";
+		counties[i].onclick = function(){ redClick(this) };
+	}
 }
 
 function showStates(){
-	map.style.display = "none";
-	map.setAttribute("data", "images/states.svg");
-	map.style.display = "";
+	var states = document.getElementById("map").contentDocument.getElementsByClassName("state");
+	var counties = document.getElementById("map").contentDocument.getElementsByClassName("county");
+	for(var i = 0; i < states.length; i++){
+		states[i].style.display = "";
+		states[i].onclick = function(){ redClick(this) };
+	}
+	
+	for(var i = 0; i < counties.length; i++){
+		counties[i].style.display = "none";
+	}
+}
+
+function redClick(target){
+	console.log("click");
+	target.style.fill = "red";
 }
 
 function getStateResults(){

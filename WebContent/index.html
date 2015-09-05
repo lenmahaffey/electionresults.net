@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>United States of America Election Results</title>
     <link rel="stylesheet" type="text/css" href="index.css">
-    <script src="jquery-1.11.3.min.js"> </script>
     <script src="index.js"> </script>
   </head>
   
@@ -17,11 +16,11 @@
     	<div align=right id="REP">Player 2<div align=left id="REP_vote">123</div></div>
     </div>
     <div id="mapSVG">
-        <object id="map" type="image/svg+xml" data="images/states.svg" onload=""></object>
+        <object id="map" type="image/svg+xml" data="images/usa.svg" onload="showStates()"></object>
     </div>
    
     <div  id="buttons">
-     	<button type="button" onclick="getCountyResults()">Results</button>
+<!--    <button type="button" onclick="getCountyResults()">Results</button>   --> 
     	<button type="button" onclick="showStates()">States</button>
     	<button type="button" onclick="showCounties()">Counties</button>
     </div>
