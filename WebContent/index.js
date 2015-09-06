@@ -58,6 +58,23 @@ function getCountyResults(){
 	}	
 }
 
+function countiesSetup(){
+	var request = new XMLHttpRequest;
+	var url = "images/counties.svg";
+	reqeust.open("GET", url, true);
+	request.onreadystatechange = function() {//Call a function when the state changes.
+		if(request.readyState == 4 && request.status == 200) {
+			console.log(request.response);
+		}
+		if(request.readyState == 4 && request.status == 500) {
+			alert('FAIL');
+		}
+	}
+	request.send(params);
+	
+}
+
+
 function ajaxRequest(action, state, year, FIPS){
 	var request = new XMLHttpRequest;
 	var url = "ajaxResponse.php";
