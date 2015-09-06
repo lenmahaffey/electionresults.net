@@ -27,6 +27,15 @@ function showStates(){
 }
 
 function loadMap(){
+	var states = document.getElementById("map").contentDocument.getElementsByClassName("state");
+	var counties = document.getElementById("map").contentDocument.getElementsByClassName("county");
+	for(var i = 0; i < states.length; i++){
+		states[i].style.fill = "grey";
+	}
+	
+	for(var i = 0; i < counties.length; i++){
+		counties[i].style.fill = "grey";
+	}
 	showStates();
 }
 
@@ -45,7 +54,7 @@ function getStateResults(){
 function getCountyResults(){
 	var counties = map.contentDocument.getElementsByClassName('county');
 	for(var i = 0; i < counties.length; i++){
-		ajaxRequest('countyWinner', counties.item(i).parentNode.id, '2000', states.item(i).id);
+		ajaxRequest('countyWinner', counties.item(i).parentNode.id, '2000', counties.item(i).id);
 	}	
 }
 
@@ -60,7 +69,16 @@ function ajaxRequest(action, state, year, FIPS){
 	request.open("POST", url, true);
 	request.onreadystatechange = function() {//Call a function when the state changes.
 		if(request.readyState == 4 && request.status == 200) {
-			colorState(request.responseText, state, FIPS);
+			switch (action) {
+			case "stateWinner" :
+				colorState(request.responseText, state);
+				break;
+			case "countyWinner" :
+				colorCounty(request.responseText, state, FIPS);
+				break;
+			default:
+				console.log(action);
+			}
 		}
 		if(request.readyState == 4 && request.status == 500) {
 //			alert('FAIL');
@@ -72,29 +90,29 @@ function ajaxRequest(action, state, year, FIPS){
 }
 
 function colorState(response, state){
+	var stateNode = document.getElementById("map").contentDocument.getElementById(state);
 	switch (response) {
 	case '"DEM"':
-		var stateNode = document.getElementById("map").contentDocument.getElementById("AL");
-		console.log(stateNode.id);
+		stateNode.children[0].style.fill = "blue";
 		break;
 	case '"REP"':
-		var stateNode = document.getElementById("map").contentDocument.getElementById("CO");
-		console.log(stateNode.id);
+		stateNode.children[0].style.fill = "red";
 		break;
 	default:
-		console.log(response);
+		console.log(stateNode.id + " not Found");
 	}
 }
 
 function colorCounty(response, state, FIPS){
+	var countyNode = document.getElementById('map').contentDocument.getElementById(FIPS);
 	switch (response) {
 	case '"DEM"':
-		document.getElementById('map').contentDocument.getElementById(FIPS).style.fill = "blue";
+		countyNode.style.fill = "blue";
 		break;
 	case '"REP"':
-		document.getElementById('map').contentDocument.getElementById(FIPS).style.fill = "red";
+		countyNode.style.fill = "red";
 		break;
 	default:
-		console.log(response);
+		console.log(stateNode.id + " not Found");
 	}
 }

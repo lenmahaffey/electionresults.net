@@ -9,19 +9,3 @@
 	stroke: white;
 	stroke-width: 1;
 }
-
-.state {
-	fill: grey;
-}
-
-.county {
-	fill: grey;
-}
-
-.county:hover {
-	fill: blue;
-}
-
-.state:hover {
-	fill: blue;
-}
