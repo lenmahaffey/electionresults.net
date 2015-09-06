@@ -1,7 +1,7 @@
 function showCounties(){
 	var states = document.getElementById("map").contentDocument.getElementsByClassName("state");
 	var counties = document.getElementById("map").contentDocument.getElementsByClassName("county");
-//	document.getElementById("results").onclick="getCountyResults()";
+	document.getElementById("results").onclick = function () { getCountyResults() };
 	for(var i = 0; i < states.length; i++){
 		states[i].style.display = "none";
 	}
@@ -15,7 +15,7 @@ function showCounties(){
 function showStates(){
 	var states = document.getElementById("map").contentDocument.getElementsByClassName("state");
 	var counties = document.getElementById("map").contentDocument.getElementsByClassName("county");
-//	document.getElementById("results").onclick="getStateResults()";
+	document.getElementById("results").onclick = function () { getStateResults() };
 	for(var i = 0; i < states.length; i++){
 		states[i].style.display = "";
 		states[i].onclick = function(){ redClick(this) };
