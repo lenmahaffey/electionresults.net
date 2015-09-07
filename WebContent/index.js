@@ -1,6 +1,6 @@
 function showCounties(){
-	var states = document.getElementById("map").contentDocument.getElementsByClassName("state");
-	var counties = document.getElementById("map").contentDocument.getElementsByClassName("county");
+	var states = map.contentDocument.getElementsByClassName("state");
+	var counties =  map.contentDocument.getElementsByClassName("county");
 	document.getElementById("results").onclick = function () { getCountyResults() };
 	for(var i = 0; i < states.length; i++){
 		states[i].style.display = "none";
@@ -13,8 +13,8 @@ function showCounties(){
 }
 
 function showStates(){
-	var states = document.getElementById("map").contentDocument.getElementsByClassName("state");
-	var counties = document.getElementById("map").contentDocument.getElementsByClassName("county");
+	var states = map.contentDocument.getElementsByClassName("state");
+	var counties = map.contentDocument.getElementsByClassName("county");
 	document.getElementById("results").onclick = function () { getStateResults() };
 	for(var i = 0; i < states.length; i++){
 		states[i].style.display = "";
@@ -24,19 +24,6 @@ function showStates(){
 	for(var i = 0; i < counties.length; i++){
 		counties[i].style.display = "none";
 	}
-}
-
-function loadMap(){
-	var states = document.getElementById("map").contentDocument.getElementsByClassName("state");
-	var counties = document.getElementById("map").contentDocument.getElementsByClassName("county");
-	for(var i = 0; i < states.length; i++){
-		states[i].style.fill = "grey";
-	}
-	
-	for(var i = 0; i < counties.length; i++){
-		counties[i].style.fill = "grey";
-	}
-	showStates();
 }
 
 function redClick(target){
@@ -61,19 +48,27 @@ function getCountyResults(){
 function countiesSetup(){
 	var request = new XMLHttpRequest;
 	var url = "images/counties.svg";
-	reqeust.open("GET", url, true);
+	request.open("GET", url, true);
 	request.onreadystatechange = function() {//Call a function when the state changes.
 		if(request.readyState == 4 && request.status == 200) {
-			console.log(request.response);
+			var countiesDoc = request.responseXML;
+			var counties = countiesDoc.getElementsByClassName("county");
+			for (var c = 0; c < counties.length; c++){
+				countyImport = map.contentDocument.importNode(counties[c], true);
+				if(countyImport){
+					console.log("Import " + counties[c].id + " succeeded")
+					if(map.contentDocument.getElementById(counties[c].parentNode.id).appendChild(countyImport)){
+						console.log("Append " + counties[c].id + " succeeded");
+					}else console.log(counties[c].id + " Append Failed");
+				}else console.log(counties[c].id + " Import failed");
+			}
 		}
 		if(request.readyState == 4 && request.status == 500) {
 			alert('FAIL');
 		}
 	}
-	request.send(params);
-	
+	request.send();
 }
-
 
 function ajaxRequest(action, state, year, FIPS){
 	var request = new XMLHttpRequest;
@@ -107,7 +102,7 @@ function ajaxRequest(action, state, year, FIPS){
 }
 
 function colorState(response, state){
-	var stateNode = document.getElementById("map").contentDocument.getElementById(state);
+	var stateNode = map.contentDocument.getElementById(state);
 	switch (response) {
 	case '"DEM"':
 		stateNode.children[0].style.fill = "blue";
@@ -121,7 +116,7 @@ function colorState(response, state){
 }
 
 function colorCounty(response, state, FIPS){
-	var countyNode = document.getElementById('map').contentDocument.getElementById(FIPS);
+	var countyNode = map.contentDocument.getElementById(FIPS);
 	switch (response) {
 	case '"DEM"':
 		countyNode.style.fill = "blue";

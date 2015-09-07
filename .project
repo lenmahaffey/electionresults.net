@@ -58,6 +58,11 @@
 			<location>/Users/bozziley/code/eclipse projects/workspace/Map Files/states.svg</location>
 		</link>
 		<link>
+			<name>WebContent/images/usa.css</name>
+			<type>1</type>
+			<location>/Users/bozziley/code/eclipse projects/workspace/Map Files/usa.css</location>
+		</link>
+		<link>
 			<name>WebContent/images/usa.svg</name>
 			<type>1</type>
 			<location>/Users/bozziley/code/eclipse projects/workspace/Map Files/usa.svg</location>
