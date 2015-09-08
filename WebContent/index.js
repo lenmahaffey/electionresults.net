@@ -1,7 +1,10 @@
 function showCounties(){
 	var states = map.contentDocument.getElementsByClassName("state");
 	var counties =  map.contentDocument.getElementsByClassName("county");
-	document.getElementById("results").onclick = function () { getCountyResults() };
+	document.getElementById("2000Results").onclick = function () { getCountyResults("2000") };
+	document.getElementById("2004Results").onclick = function () { getCountyResults("2004") };
+	document.getElementById("2008Results").onclick = function () { getCountyResults("2008") };
+	document.getElementById("2012Results").onclick = function () { getCountyResults("2012") };
 	for(var i = 0; i < states.length; i++){
 		states[i].style.display = "none";
 	}
@@ -15,7 +18,10 @@ function showCounties(){
 function showStates(){
 	var states = map.contentDocument.getElementsByClassName("state");
 	var counties = map.contentDocument.getElementsByClassName("county");
-	document.getElementById("results").onclick = function () { getStateResults() };
+	document.getElementById("2000Results").onclick = function () { getStateResults("2000") };
+	document.getElementById("2004Results").onclick = function () { getStateResults("2004") };
+	document.getElementById("2008Results").onclick = function () { getStateResults("2008") };
+	document.getElementById("2012Results").onclick = function () { getStateResults("2012") };
 	for(var i = 0; i < states.length; i++){
 		states[i].style.display = "";
 		states[i].onclick = function(){ redClick(this) };
@@ -27,21 +33,22 @@ function showStates(){
 }
 
 function redClick(target){
-	console.log("click");
 	target.style.fill = "red";
 }
 
-function getStateResults(){
+function getStateResults(year){
+	setHeader(year);
 	var states = map.contentDocument.getElementsByClassName('state');
 	for(var i = 0; i < states.length; i++){
-		ajaxRequest('stateWinner', states.item(i).parentNode.id, '2000');
+		ajaxRequest('stateWinner', states.item(i).parentNode.id, year);
 	}	
 }
 
-function getCountyResults(){
+function getCountyResults(year){
+	setHeader(year);
 	var counties = map.contentDocument.getElementsByClassName('county');
 	for(var i = 0; i < counties.length; i++){
-		ajaxRequest('countyWinner', counties.item(i).parentNode.id, '2000', counties.item(i).id);
+		ajaxRequest('countyWinner', counties.item(i).parentNode.id, year, counties.item(i).id);
 	}	
 }
 
@@ -49,24 +56,23 @@ function countiesSetup(){
 	var request = new XMLHttpRequest;
 	var url = "images/counties.svg";
 	request.open("GET", url, true);
-	request.onreadystatechange = function() {//Call a function when the state changes.
+	request.onreadystatechange = function() {
 		if(request.readyState == 4 && request.status == 200) {
-			var countiesDoc = request.responseXML;
+			var parser = new DOMParser();
+			var countiesDoc = parser.parseFromString(request.responseText, "application/xml");
 			var counties = countiesDoc.getElementsByClassName("county");
 			for (var c = 0; c < counties.length; c++){
 				countyImport = map.contentDocument.importNode(counties[c], true);
-				if(countyImport){
-					console.log("Import " + counties[c].id + " succeeded")
-					if(map.contentDocument.getElementById(counties[c].parentNode.id).appendChild(countyImport)){
-						console.log("Append " + counties[c].id + " succeeded");
-					}else console.log(counties[c].id + " Append Failed");
-				}else console.log(counties[c].id + " Import failed");
+				map.contentDocument.getElementById(counties[c].parentNode.id).appendChild(countyImport);
 			}
+			document.getElementById("countiesSetupButton").parentNode.removeChild(document.getElementById("countiesSetupButton"));
 		}
 		if(request.readyState == 4 && request.status == 500) {
 			alert('FAIL');
 		}
 	}
+	request.setRequestHeader("Content-type", "text/xml");
+	request.setRequestHeader("Accept", "text/xml");
 	request.send();
 }
 
@@ -111,7 +117,7 @@ function colorState(response, state){
 		stateNode.children[0].style.fill = "red";
 		break;
 	default:
-		console.log(stateNode.id + " not Found");
+		stateNode.children[0].style.fill = "grey";
 	}
 }
 
@@ -125,6 +131,11 @@ function colorCounty(response, state, FIPS){
 		countyNode.style.fill = "red";
 		break;
 	default:
-		console.log(stateNode.id + " not Found");
+		countyNode.style.fill = "grey";
 	}
 }
+
+function setHeader(year){
+	//console.log(document.getElementById("heading").innerHTML);
+	document.getElementById("heading").innerHTML = year + " General Presidential Elections";
+};
