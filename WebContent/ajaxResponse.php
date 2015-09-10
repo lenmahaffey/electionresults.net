@@ -18,8 +18,8 @@ switch($action) {
 		$reply = $db->countyName($request["state"], $request["year"], $request["FIPS"]); 
 		break;
 		
-	case "stateResultsFederal": 
-		$reply = $db->stateResultsFederal($request["state"], $request["year"]); 
+	case "FECResultsStateWinnerForYear": 
+		$reply = $db->FECResultsStateWinnerForYear($request["year"], $request["state"]); 
 		break;
 		
 	case "stateResultsState": 

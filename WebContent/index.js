@@ -40,7 +40,7 @@ function getStateResults(year){
 	setHeader(year);
 	var states = map.contentDocument.getElementsByClassName('state');
 	for(var i = 0; i < states.length; i++){
-		ajaxRequest('stateWinner', states.item(i).parentNode.id, year);
+		ajaxRequest('FECResultsStateWinnerForYear', states.item(i).parentNode.id, year);
 	}	
 }
 
@@ -88,6 +88,8 @@ function ajaxRequest(action, state, year, FIPS){
 	request.onreadystatechange = function() {//Call a function when the state changes.
 		if(request.readyState == 4 && request.status == 200) {
 			switch (action) {
+			case "FECResultsStateWinnerForYear" :
+				colorState(request.responseText, state);
 			case "stateWinner" :
 				colorState(request.responseText, state);
 				break;
