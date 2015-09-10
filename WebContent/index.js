@@ -108,16 +108,16 @@ function ajaxRequest(action, state, year, FIPS){
 }
 
 function colorState(response, state){
-	var stateNode = map.contentDocument.getElementById(state);
+	var stateNode = map.contentDocument.getElementById(state).getElementsByClassName("state")[0];
 	switch (response) {
 	case '"DEM"':
-		stateNode.children[0].style.fill = "blue";
+		stateNode.style.fill = "blue";
 		break;
 	case '"REP"':
-		stateNode.children[0].style.fill = "red";
+		stateNode.style.fill = "red";
 		break;
 	default:
-		stateNode.children[0].style.fill = "grey";
+		stateNode.style.fill = "grey";
 	}
 }
 
