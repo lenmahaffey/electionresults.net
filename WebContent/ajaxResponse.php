@@ -6,34 +6,38 @@ $reply = NULL;
 $action = $request["action"];
 
 switch($action) {
-	case "stateWinner": 
+	case "stateWinner" : 
 		if($reply = $db->stateWinner($request["state"], $request["year"]));
 		break;
 		
-	case "countyWinner": 
+	case "countyWinner" : 
 		$reply = $db->countyWinner($request["state"], $request["year"], $request["FIPS"]); 
 		break;
 		
-	case "countyName":
+	case "countyName" :
 		$reply = $db->countyName($request["state"], $request["year"], $request["FIPS"]); 
 		break;
 		
-	case "FECResultsStateWinnerForYear": 
+	case "FECResultsStateWinnerForYear" : 
 		$reply = $db->FECResultsStateWinnerForYear($request["year"], $request["state"]); 
 		break;
 		
-	case "stateResultsState": 
+	case "stateResultsState" : 
 		$reply = $db->stateResultsState($request["state"], $request["year"]); 
 		break;
 		
-	case "countyResultsFederal": 
+	case "countyResultsFederal" : 
 		$reply = $db->countyResultsFederal($request["state"], $request["year"], $request["FIPS"]); 
 		break;
 		
-	case "countyResultsState": 
+	case "countyResultsState" : 
 		$reply = $db->countyResultsState($request["state"], $request["year"], $request["FIPS"]); 
 		break;
-
+		
+	case "FECResultsByCanidate" :
+		$reply = $db->FECResultsByCanidate($request["year"]);
+		break;
+		
 	default: echo "Switch Failure for: " . $action;
 }
 
