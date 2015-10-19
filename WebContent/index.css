@@ -1,28 +1,36 @@
 @CHARSET "UTF-8";
 
 #heading {
-	font-family: serif;
+	font-family: impact;
+	font-size: 50px;
 	color: white;
-/*	border: 1px solid black; */
-/*	border-radius: 10em/5em */
+/*	border: 5px solid grey; 
+	border-radius: 10em/5em; */
 }
  
-#mapSVG {
-/*	border: 1px solid black; */
+#canidates {
+	font-family: arial;
+	/*position: relative;
+	border-top: 10px groove;
+	border-color: blue;*/
 }
-
 #DEM {
-	border: 1px solid black;
+/*	border: 3px groove;
+	border-color: grey;
+	border-radius: 5em/10em; */
 	float: left; 
 	width: 49%;
 	color: white; 
+	font-size: 25px;
 }
 
 #REP {
-	border: 1px solid black;
+/*	border: 3px solid grey;
+	border-radius: 5em/10em; */
 	float: right; 
 	width: 49%;
 	color: white;
+	font-size: 25px;
 }
 
 #DEM_vote {
@@ -37,7 +45,17 @@
 	color: white;
 }
 
+#mapSVG {
+/*	border: 1px solid red; */
+	position: relative;
+}
+
 #buttons {
 	position:fixed;
     bottom: 0;
+}
+
+#toolTip {
+	color: white;
+	position:absolute;
 }

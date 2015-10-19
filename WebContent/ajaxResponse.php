@@ -38,6 +38,14 @@ switch($action) {
 		$reply = $db->FECResultsByCanidate($request["year"]);
 		break;
 		
+	case "getCanidate" :
+		$reply = $db->getCanidate($request["year"], $request["can"]);
+		break;
+		
+	case "getFIPSName" :
+		$reply = $db->getFIPSName($request["FIPS"]);
+		break;
+		
 	default: echo "Switch Failure for: " . $action;
 }
 

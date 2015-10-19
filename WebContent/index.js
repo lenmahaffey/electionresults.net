@@ -1,3 +1,19 @@
+function showStates(){
+	var states = map.contentDocument.getElementsByClassName("state");
+	var counties = map.contentDocument.getElementsByClassName("county");
+	document.getElementById("2000Results").onclick = function () { getStateResults("2000") };
+	document.getElementById("2004Results").onclick = function () { getStateResults("2004") };
+	document.getElementById("2008Results").onclick = function () { getStateResults("2008") };
+	document.getElementById("2012Results").onclick = function () { getStateResults("2012") };
+	for(var i = 0; i < states.length; i++){
+		states[i].style.display = "";
+		states[i].onclick = function(){ redClick(this) }
+	}
+	for(var i = 0; i < counties.length; i++){
+		counties[i].style.display = "none";
+	}
+}
+
 function showCounties(){
 	var states = map.contentDocument.getElementsByClassName("state");
 	var counties =  map.contentDocument.getElementsByClassName("county");
@@ -8,27 +24,8 @@ function showCounties(){
 	for(var i = 0; i < states.length; i++){
 		states[i].style.display = "none";
 	}
-	
 	for(var i = 0; i < counties.length; i++){
 		counties[i].style.display = "";
-		counties[i].onclick = function(){ redClick(this) };
-	}
-}
-
-function showStates(){
-	var states = map.contentDocument.getElementsByClassName("state");
-	var counties = map.contentDocument.getElementsByClassName("county");
-	document.getElementById("2000Results").onclick = function () { getStateResults("2000") };
-	document.getElementById("2004Results").onclick = function () { getStateResults("2004") };
-	document.getElementById("2008Results").onclick = function () { getStateResults("2008") };
-	document.getElementById("2012Results").onclick = function () { getStateResults("2012") };
-	for(var i = 0; i < states.length; i++){
-		states[i].style.display = "";
-		states[i].onclick = function(){ redClick(this) };
-	}
-	
-	for(var i = 0; i < counties.length; i++){
-		counties[i].style.display = "none";
 	}
 }
 
@@ -38,6 +35,7 @@ function redClick(target){
 
 function getStateResults(year){
 	setHeader(year);
+	ajaxRequest('FECResultsByCanidate', 0, year);
 	var states = map.contentDocument.getElementsByClassName('state');
 	for(var i = 0; i < states.length; i++){
 		ajaxRequest('FECResultsStateWinnerForYear', states.item(i).parentNode.id, year);
@@ -76,26 +74,36 @@ function countiesSetup(){
 	request.send();
 }
 
-function ajaxRequest(action, state, year, FIPS){
+function ajaxRequest(action, state, year, FIPS, can){
 	var request = new XMLHttpRequest;
 	var url = "ajaxResponse.php";
 	var params = JSON.stringify({
 								"action": action,
 								"state": state, 
 								"year": year, 
-								"FIPS": FIPS});
+								"FIPS": FIPS,
+								"can": can});
 	request.open("POST", url, true);
 	request.onreadystatechange = function() {//Call a function when the state changes.
 		if(request.readyState == 4 && request.status == 200) {
 			switch (action) {
 			case "FECResultsStateWinnerForYear" :
 				colorState(request.responseText, state);
+				break;
 			case "stateWinner" :
 				colorState(request.responseText, state);
 				break;
 			case "countyWinner" :
 				colorCounty(request.responseText, state, FIPS);
 				break;
+			case "FECResultsByCanidate" :
+				setVotes(request.response, year);
+				break;
+			case "getCanidate" :
+				setCanidate(request.response);
+				break;
+			case "getFIPSName" :
+				setToolTip(request.response);
 			default:
 				console.log(action);
 			}
@@ -138,6 +146,52 @@ function colorCounty(response, state, FIPS){
 }
 
 function setHeader(year){
-	//console.log(document.getElementById("heading").innerHTML);
-	document.getElementById("heading").innerHTML = year + " General Presidential Elections";
+
+	heading.textContent = year + " General Presidential Elections";
 };
+
+function setVotes(results, year){
+	var JSONResults = JSON.parse(results);
+	REP_vote.textContent = JSONResults.REP.toLocaleString('en-US');
+	DEM_vote.textContent = JSONResults.DEM.toLocaleString('en-US');
+	ajaxRequest("getCanidate", 0, year,  0, "REP");
+	ajaxRequest("getCanidate", 0, year,  0, "DEM");
+}
+
+function setCanidate(results){
+	var JSONResults = JSON.parse(results);
+	var votes = document.getElementById(JSONResults["PARTY"] + "_vote").textContent;
+	document.getElementById(JSONResults["PARTY"]).textContent = JSONResults["PFIRST"] + " " + JSONResults["PLAST"];
+	var div = document.createElement('div');
+	div.id = JSONResults["PARTY"] + "_vote";
+	div.style.textAlign = "left";
+	div.textContent = votes;
+	if (JSONResults["PARTY"] == "DEM"){
+		div.style.textAlign = "right";
+	}
+	if (JSONResults["PARTY"] == "REP"){
+		div.style.textAlign = "left";
+	}
+	document.getElementById(JSONResults["PARTY"]).appendChild(div);
+}
+
+function mouseOver(mapObject, x, y){
+	ajaxRequest('getFIPSName', 0, 0, mapObject.id)
+	toolTip.style.display = "block";
+	toolTip.style.top = (y + 75) + "px";
+	toolTip.style.left = (x) + "px";
+}
+
+function mouseOut(mapObject){
+	toolTip.style.display = "none";
+}
+
+function mouseMove(mapObject, x, y){
+	toolTip.style.top = (y + 75) + "px";
+	toolTip.style.left = (x) + "px";
+}
+
+function setToolTip(response){
+	var JSONResults = JSON.parse(response);
+	toolTip.innerHTML = JSONResults["NAME"];
+}

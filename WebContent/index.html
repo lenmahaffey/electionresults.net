@@ -8,18 +8,20 @@
   </head>
   
   <body  bgcolor="black" onload="">
-    <div  align="center">
-      <h1 id="heading">2000 General Presidential Elections</h1>
-    </div>
+    <div id="heading" align="center">2000 General Presidential Elections</div>
     <div id="canidates">
-   		<div align=left id="DEM">Player 1<div align=right id="DEM_vote">123</div></div>
-    	<div align=right id="REP">Player 2<div align=left id="REP_vote">123</div></div>
+   		<div align=left id="DEM">Player 1
+   			<div align=right id="DEM_vote">123</div>
+   		</div>
+    	<div align=right id="REP">Player 2 
+    		<div align=left id="REP_vote">123</div>
+    	</div>
     </div>
     <div id="mapSVG">
         <object id="map" type="image/svg+xml" data="images/states.svg" onload="showStates()"></object>
     </div>
-   
-    <div  id="buttons">
+    <div id="toolTip">ToolTip</div> 
+    <div id="buttons">
         <button id="2000Results" type="button" onclick="">2000</button>
         <button id="2004Results" type="button" onclick="">2004</button>
         <button id="2008Results" type="button" onclick="">2008</button>
@@ -29,7 +31,7 @@
     	<button id="countiesSetupButton" type="button" onclick="countiesSetup()">Get Counties</button>
     	
     </div>
-     
+
   </body>
 </html>
 
