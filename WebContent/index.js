@@ -5,13 +5,30 @@ function showStates(){
 	document.getElementById("2004Results").onclick = function () { getStateResults("2004") };
 	document.getElementById("2008Results").onclick = function () { getStateResults("2008") };
 	document.getElementById("2012Results").onclick = function () { getStateResults("2012") };
+	toolTip.style.display = "none";
 	for(var i = 0; i < states.length; i++){
 		states[i].style.display = "";
-		states[i].onclick = function(){ redClick(this) }
+		states[i].onclick = function(){ onClick(this) }
+		states[i].onmouseenter = function(e){
+			var x = e.clientX;
+			var y = e.clientY;
+			mouseEnter(this, x, y);
+		};
+		
+		states[i].onmousemove = function(e){
+			var x = e.clientX;
+			var y = e.clientY;
+			mouseMove(this, x, y);
+		};
+		
+		states[i].onmouseleave = function(e){
+			mouseLeave(this);
+		};
 	}
 	for(var i = 0; i < counties.length; i++){
 		counties[i].style.display = "none";
 	}
+	resetHeading();
 }
 
 function showCounties(){
@@ -26,13 +43,34 @@ function showCounties(){
 	}
 	for(var i = 0; i < counties.length; i++){
 		counties[i].style.display = "";
+		counties[i].onmouseenter = function(e){
+			mouseEnter(this);
+		};
+		
+		counties[i].onmousemove = function(e){
+			var x = e.clientX;
+			var y = e.clientY;
+			mouseMove(this, x, y);
+		};
+		
+		counties[i].onmouseleave = function(e){
+			mouseLeave(this);
+		};
 	}
+	resetHeading();
 }
 
-function redClick(target){
-	target.style.fill = "red";
+function onClick(target){
+	mouseLeave();
+	stateWindow = document.getElementById("overlay");
+	stateWindow.style.visibility = "visible"
+	stateWindow.stateMap.setAttribute("data", "images/states/" + target.id + ".svg")
 }
 
+function hideStateWindow(){
+	stateWindow = document.getElementById("overlay");
+	stateWindow.style.visibility = "hidden"
+}
 function getStateResults(year){
 	setHeader(year);
 	ajaxRequest('FECResultsByCanidate', 0, year);
@@ -44,6 +82,7 @@ function getStateResults(year){
 
 function getCountyResults(year){
 	setHeader(year);
+	ajaxRequest('FECResultsByCanidate', 0, year);
 	var counties = map.contentDocument.getElementsByClassName('county');
 	for(var i = 0; i < counties.length; i++){
 		ajaxRequest('countyWinner', counties.item(i).parentNode.id, year, counties.item(i).id);
@@ -64,6 +103,10 @@ function countiesSetup(){
 				map.contentDocument.getElementById(counties[c].parentNode.id).appendChild(countyImport);
 			}
 			document.getElementById("countiesSetupButton").parentNode.removeChild(document.getElementById("countiesSetupButton"));
+			var counties =  map.contentDocument.getElementsByClassName("county");
+			for(var i = 0; i < counties.length; i++){
+				counties[i].style.display = "none";
+			}
 		}
 		if(request.readyState == 4 && request.status == 500) {
 			alert('FAIL');
@@ -146,14 +189,13 @@ function colorCounty(response, state, FIPS){
 }
 
 function setHeader(year){
-
 	heading.textContent = year + " General Presidential Elections";
 };
 
 function setVotes(results, year){
 	var JSONResults = JSON.parse(results);
-	REP_vote.textContent = JSONResults.REP.toLocaleString('en-US');
-	DEM_vote.textContent = JSONResults.DEM.toLocaleString('en-US');
+	REP_vote.textContent = JSONResults.REP;
+	DEM_vote.textContent = JSONResults.DEM;
 	ajaxRequest("getCanidate", 0, year,  0, "REP");
 	ajaxRequest("getCanidate", 0, year,  0, "DEM");
 }
@@ -175,14 +217,18 @@ function setCanidate(results){
 	document.getElementById(JSONResults["PARTY"]).appendChild(div);
 }
 
-function mouseOver(mapObject, x, y){
+function mouseEnter(mapObject, x, y){
+	mouseOver(mapObject, x, y);
 	ajaxRequest('getFIPSName', 0, 0, mapObject.id)
 	toolTip.style.display = "block";
+}
+function mouseOver(mapObject, x, y){
+//	toolTip.style.display = "block";
 	toolTip.style.top = (y + 75) + "px";
 	toolTip.style.left = (x) + "px";
 }
 
-function mouseOut(mapObject){
+function mouseLeave(mapObject){
 	toolTip.style.display = "none";
 }
 
@@ -194,4 +240,22 @@ function mouseMove(mapObject, x, y){
 function setToolTip(response){
 	var JSONResults = JSON.parse(response);
 	toolTip.innerHTML = JSONResults["NAME"];
+}
+
+function resetHeading(){
+	heading.textContent = "Select a Year";
+	
+	DEM.textContent = "Player 1";
+	var DEM_div = document.createElement('div');
+	DEM_div.id = "DEM_vote";
+	DEM_div.style.textAlign = "right";
+	DEM_div.textContent = "123";
+	DEM.appendChild(DEM_div);
+	
+	REP.textContent = "Player 2";
+	var REP_div = document.createElement('div');
+	REP_div.id = "REP_vote";
+	REP_div.style.textAlign = "left";
+	REP_div.textContent = "123";
+	REP.appendChild(REP_div);
 }

@@ -43,6 +43,11 @@
 			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Map Files/counties.svg</location>
 		</link>
 		<link>
+			<name>WebContent/images/states</name>
+			<type>2</type>
+			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Map Files/singleStates</location>
+		</link>
+		<link>
 			<name>WebContent/images/states.css</name>
 			<type>1</type>
 			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Map Files/states.css</location>
