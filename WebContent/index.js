@@ -63,8 +63,8 @@ function showCounties(){
 function onClick(target){
 	mouseLeave();
 	stateWindow = document.getElementById("overlay");
+	stateMap.setAttribute("data", "images/states/" + target.parentNode.id + ".svg")
 	stateWindow.style.visibility = "visible"
-	stateWindow.stateMap.setAttribute("data", "images/states/" + target.id + ".svg")
 }
 
 function hideStateWindow(){
