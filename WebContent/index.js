@@ -14,13 +14,11 @@ function showStates(){
 			var y = e.clientY;
 			mouseEnter(this, x, y);
 		};
-		
 		states[i].onmousemove = function(e){
 			var x = e.clientX;
 			var y = e.clientY;
 			mouseMove(this, x, y);
 		};
-		
 		states[i].onmouseleave = function(e){
 			mouseLeave(this);
 		};
@@ -62,13 +60,34 @@ function showCounties(){
 
 function onClick(target){
 	mouseLeave();
-	stateWindow = document.getElementById("overlay");
-	stateMap.setAttribute("data", "images/states/" + target.parentNode.id + ".svg")
-	stateWindow.style.visibility = "visible"
+	var stateWindow = document.getElementById("overlay");
+	stateSetup(target.parentNode.id);
+	//stateMap.setAttribute("data", "images/states/" + target.parentNode.id + ".svg")
+}
+
+function stateSetup(state){
+	console.log(state);
+	var request = new XMLHttpRequest;
+	var url = "singleStatePages/" + state + ".html";
+	console.log(url);
+	request.open("GET", url, true);
+	request.onreadystatechange = function() {
+		if(request.readyState == 4 && request.status == 200) {
+			stateContent.innerHTML = request.responseText;
+			stateWindow.style.visibility = "visible"
+			console.log(request.responseText);
+		}
+		if(request.readyState == 4 && request.status == 500) {
+			console.log("fail");
+		}
+	}
+	request.setRequestHeader("Content-type", "text/html");
+	request.setRequestHeader("Accept", "text/html");
+	request.send();
 }
 
 function hideStateWindow(){
-	stateWindow = document.getElementById("overlay");
+	var stateWindow = document.getElementById("overlay");
 	stateWindow.style.visibility = "hidden"
 }
 function getStateResults(year){
