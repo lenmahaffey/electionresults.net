@@ -62,7 +62,6 @@ function onClick(target){
 	mouseLeave();
 	var stateWindow = document.getElementById("overlay");
 	stateSetup(target.parentNode.id);
-	//stateMap.setAttribute("data", "images/states/" + target.parentNode.id + ".svg")
 }
 
 function stateSetup(state){
@@ -73,9 +72,8 @@ function stateSetup(state){
 	request.open("GET", url, true);
 	request.onreadystatechange = function() {
 		if(request.readyState == 4 && request.status == 200) {
-			stateContent.innerHTML = request.responseText;
-			stateWindow.style.visibility = "visible"
-			console.log(request.responseText);
+			overlayWindow.innerHTML = request.responseText;
+			overlay.style.visibility = "visible"
 		}
 		if(request.readyState == 4 && request.status == 500) {
 			console.log("fail");

@@ -73,7 +73,7 @@
 	z-index: 1000;
 }
 
- #stateContent {
+ #overlayWindow {
 	padding: 5px 10px 5px 10px;
 	border-radius: 10px;
 	background: black;
@@ -146,5 +146,17 @@
 }
 
 #stateButtons {
+	
+}
+
+#results {
+	
+}
+
+#resultsWindow {
+	
+}
+
+#resultsButton {
 	
 }
