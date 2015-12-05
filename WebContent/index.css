@@ -14,7 +14,7 @@
 	border-top: 10px groove;
 	border-color: blue;*/
 }
-#DEM {
+#DEM_can {
 /*	border: 3px groove;
 	border-color: grey;
 	border-radius: 5em/10em; */
@@ -24,7 +24,7 @@
 	font-size: 25px;
 }
 
-#REP {
+#REP_can {
 /*	border: 3px solid grey;
 	border-radius: 5em/10em; */
 	float: right; 
@@ -150,13 +150,32 @@
 }
 
 #results {
-	
+	border: 3px groove;
+	border-color: grey;
+	border-radius: 5em/10em;
+	width: 15%;
+	margin: auto;
 }
 
 #resultsWindow {
-	
+	color: white;
+	display: inline;
 }
 
 #resultsButton {
 	
+}
+
+.alignLeft {
+	display: inline;
+	float: left; 
+	width: 49%;
+}
+
+.alignRight {
+	display: inline;
+	float: right; 
+	width: 49%;
+	text-align: right;
+
 }

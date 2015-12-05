@@ -215,12 +215,33 @@ function setVotes(results, year){
 	DEM_vote.textContent = JSONResults.DEM;
 	ajaxRequest("getCanidate", 0, year,  0, "REP");
 	ajaxRequest("getCanidate", 0, year,  0, "DEM");
+	var arr = Object.keys(JSONResults);
+	for(var i = 0; i < arr.length; i++){
+		var can = arr[i];
+		var results = JSONResults[arr[i]];
+		var newDiv = document.createElement("div");
+		newDiv.className = "canidateResult"
+		var newElement = document.createElement("p");
+		var newNode = document.createTextNode(can);
+		newElement.appendChild(newNode);
+		newElement.className = "alignLeft";
+		var resultsWindow = document.getElementById("resultsWindow");
+		newDiv.appendChild(newElement);
+		
+		var newElement = document.createElement("p");
+		var newNode = document.createTextNode(results);
+		newElement.appendChild(newNode);
+		newElement.className = "alignRight";
+		var resultsWindow = document.getElementById("resultsWindow");
+		newDiv.appendChild(newElement);
+		resultsWindow.appendChild(newDiv);
+	}
 }
 
 function setCanidate(results){
 	var JSONResults = JSON.parse(results);
 	var votes = document.getElementById(JSONResults["PARTY"] + "_vote").textContent;
-	document.getElementById(JSONResults["PARTY"]).textContent = JSONResults["PFIRST"] + " " + JSONResults["PLAST"];
+	document.getElementById(JSONResults["PARTY"] + "_can").textContent = JSONResults["PFIRST"] + " " + JSONResults["PLAST"];
 	var div = document.createElement('div');
 	div.id = JSONResults["PARTY"] + "_vote";
 	div.style.textAlign = "left";
@@ -231,7 +252,7 @@ function setCanidate(results){
 	if (JSONResults["PARTY"] == "REP"){
 		div.style.textAlign = "left";
 	}
-	document.getElementById(JSONResults["PARTY"]).appendChild(div);
+	document.getElementById(JSONResults["PARTY"]  + "_can").appendChild(div);
 }
 
 function mouseEnter(mapObject, x, y){
@@ -262,17 +283,17 @@ function setToolTip(response){
 function resetHeading(){
 	heading.textContent = "Select a Year";
 	
-	DEM.textContent = "Player 1";
+	DEM_can.textContent = "Player 1";
 	var DEM_div = document.createElement('div');
 	DEM_div.id = "DEM_vote";
 	DEM_div.style.textAlign = "right";
 	DEM_div.textContent = "123";
-	DEM.appendChild(DEM_div);
+	DEM_can.appendChild(DEM_div);
 	
-	REP.textContent = "Player 2";
+	REP_can.textContent = "Player 2";
 	var REP_div = document.createElement('div');
 	REP_div.id = "REP_vote";
 	REP_div.style.textAlign = "left";
 	REP_div.textContent = "123";
-	REP.appendChild(REP_div);
+	REP_can.appendChild(REP_div);
 }
