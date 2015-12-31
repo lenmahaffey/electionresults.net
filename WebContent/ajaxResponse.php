@@ -46,6 +46,13 @@ switch($action) {
 		$reply = $db->getFIPSName($request["FIPS"]);
 		break;
 		
+	case "getAllCanidates" :
+		$reply = $db->getCanidate($request["year"], $request["can"]);
+		break;
+		
+	case "getParty" :
+		$reply = $db->getParty($request["year"], $request["can"]);
+		break;
 	default: echo "Switch Failure for: " . $action;
 }
 

@@ -58,22 +58,14 @@ function showCounties(){
 	resetHeading();
 }
 
-function onClick(target){
-	mouseLeave();
-	var stateWindow = document.getElementById("overlay");
-	stateSetup(target.parentNode.id);
-}
-
 function stateSetup(state){
-	console.log(state);
 	var request = new XMLHttpRequest;
 	var url = "singleStatePages/" + state + ".html";
-	console.log(url);
 	request.open("GET", url, true);
 	request.onreadystatechange = function() {
 		if(request.readyState == 4 && request.status == 200) {
 			overlayWindow.innerHTML = request.responseText;
-			overlay.style.visibility = "visible"
+			overlay.style.visibility = "visible";
 		}
 		if(request.readyState == 4 && request.status == 500) {
 			console.log("fail");
@@ -82,28 +74,6 @@ function stateSetup(state){
 	request.setRequestHeader("Content-type", "text/html");
 	request.setRequestHeader("Accept", "text/html");
 	request.send();
-}
-
-function hideStateWindow(){
-	var stateWindow = document.getElementById("overlay");
-	stateWindow.style.visibility = "hidden"
-}
-function getStateResults(year){
-	setHeader(year);
-	ajaxRequest('FECResultsByCanidate', 0, year);
-	var states = map.contentDocument.getElementsByClassName('state');
-	for(var i = 0; i < states.length; i++){
-		ajaxRequest('FECResultsStateWinnerForYear', states.item(i).parentNode.id, year);
-	}	
-}
-
-function getCountyResults(year){
-	setHeader(year);
-	ajaxRequest('FECResultsByCanidate', 0, year);
-	var counties = map.contentDocument.getElementsByClassName('county');
-	for(var i = 0; i < counties.length; i++){
-		ajaxRequest('countyWinner', counties.item(i).parentNode.id, year, counties.item(i).id);
-	}	
 }
 
 function countiesSetup(){
@@ -133,6 +103,50 @@ function countiesSetup(){
 	request.setRequestHeader("Accept", "text/xml");
 	request.send();
 }
+
+function showResultsWindow(){
+	var resultsButton = document.getElementById("resultsButton");
+	var results = document.getElementById("results");
+	resultsButton.innerHTML = "Hide Results";
+	resultsButton.onclick = function () { hideResultsWindow() };
+	results.style.visibility = "visible";
+}
+
+function hideResultsWindow(){
+	var resultsButton = document.getElementById("resultsButton");
+	resultsButton.innerHTML = "Show Results"
+	resultsButton.onclick = function () { showResultsWindow() };
+	results.style.visibility = "hidden";
+}
+
+function onClick(target){
+	mouseLeave();
+	var stateWindow = document.getElementById("overlay");
+	stateSetup(target.parentNode.id);
+}
+
+function hideStateWindow(){
+	var stateWindow = document.getElementById("overlay");
+	stateWindow.style.visibility = "hidden"
+}
+function getStateResults(year){
+	setHeader(year);
+	ajaxRequest('FECResultsByCanidate', 0, year);
+	var states = map.contentDocument.getElementsByClassName('state');
+	for(var i = 0; i < states.length; i++){
+		ajaxRequest('FECResultsStateWinnerForYear', states.item(i).parentNode.id, year);
+	}	
+}
+
+function getCountyResults(year){
+	setHeader(year);
+	ajaxRequest('FECResultsByCanidate', 0, year);
+	var counties = map.contentDocument.getElementsByClassName('county');
+	for(var i = 0; i < counties.length; i++){
+		ajaxRequest('countyWinner', counties.item(i).parentNode.id, year, counties.item(i).id);
+	}	
+}
+
 
 function ajaxRequest(action, state, year, FIPS, can){
 	var request = new XMLHttpRequest;
@@ -164,6 +178,10 @@ function ajaxRequest(action, state, year, FIPS, can){
 				break;
 			case "getFIPSName" :
 				setToolTip(request.response);
+			case "getAllCanidates" :
+				setResultsCanidates(request.response);
+			case "getParty" :
+				setResultsParty(request.response, can);
 			default:
 				console.log(action);
 			}
@@ -216,16 +234,31 @@ function setVotes(results, year){
 	ajaxRequest("getCanidate", 0, year,  0, "REP");
 	ajaxRequest("getCanidate", 0, year,  0, "DEM");
 	var arr = Object.keys(JSONResults);
+	var column1 = document.getElementById("column1");
+	var column2 = document.getElementById("column2");
+	while(column1.firstChild){
+		column1.removeChild(column1.firstChild);
+	}
+	while(column2.firstChild){
+		column2.removeChild(column2.firstChild);
+	}
 	for(var i = 0; i < arr.length; i++){
 		var can = arr[i];
 		var results = JSONResults[arr[i]];
 		var newDiv = document.createElement("div");
-		newDiv.className = "canidateResult"
+		newDiv.id = can;
+		ajaxRequest("getAllCanidates", 0, year, 0, can)
+		newDiv.className = "canidateResult";
 		var newElement = document.createElement("p");
 		var newNode = document.createTextNode(can);
 		newElement.appendChild(newNode);
 		newElement.className = "alignLeft";
-		var resultsWindow = document.getElementById("resultsWindow");
+		newDiv.appendChild(newElement);
+		
+		var newElement = document.createElement("p");
+		var newNode = document.createTextNode(can);
+		newElement.appendChild(newNode);
+		newElement.className = "alignCenter";
 		newDiv.appendChild(newElement);
 		
 		var newElement = document.createElement("p");
@@ -234,8 +267,16 @@ function setVotes(results, year){
 		newElement.className = "alignRight";
 		var resultsWindow = document.getElementById("resultsWindow");
 		newDiv.appendChild(newElement);
-		resultsWindow.appendChild(newDiv);
+		console.log(arr.length);
+		if(i >= (arr.length / 2)){
+			console.log("Column  1: " + i);
+			column2.appendChild(newDiv);
+		}else{
+			console.log("Column  2: " + i);
+			column1.appendChild(newDiv);
+		}
 	}
+	getResultsParty()
 }
 
 function setCanidate(results){
@@ -296,4 +337,18 @@ function resetHeading(){
 	REP_div.style.textAlign = "left";
 	REP_div.textContent = "123";
 	REP_can.appendChild(REP_div);
+}
+
+function setResultsCanidates(response){
+	var JSONResults = JSON.parse(response);
+//	console.log(JSONResults);
+	document.getElementById(JSONResults["PARTY"]).getElementsByClassName("alignLeft")[0].textContent = JSONResults["PFIRST"] + " " + JSONResults["PLAST"];
+}
+
+function setResultsParty(response, can) {
+	var JSONResults = JSON.parse(response);
+	var canidates = document.getElementByClassName("canidateResult").getElementByClassName("alignCenter");
+	for(var i = 0; i < canidates.length; i++) {
+		console.log(canidates[i].innerHTML);
+	}
 }

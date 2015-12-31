@@ -7,7 +7,7 @@
     <script src="index.js"> </script>
   </head>
   
-  <body  bgcolor="black" onload="">
+  <body  onload="">
     <div id="heading" align="center">Select a Year</div>
     <div id="canidates">
    		<div align=left id="DEM_can">Player 1
@@ -22,21 +22,27 @@
     </div>
     <div id="toolTip"></div> 
     <div id="buttons">
-        <button id="2000Results" type="button" onclick="">2000</button>
-        <button id="2004Results" type="button" onclick="">2004</button>
-        <button id="2008Results" type="button" onclick="">2008</button>
-        <button id="2012Results" type="button" onclick="">2012</button> 
-    	<button type="button" onclick="showStates()">Show States</button>
-    	<button type="button" onclick="showCounties()">Show Counties</button>
-    	<button id="countiesSetupButton" type="button" onclick="countiesSetup()">Get Counties</button>	
+    	<div id="years">
+        	<button id="2000Results" type="button" onclick="">2000</button>
+        	<button id="2004Results" type="button" onclick="">2004</button>
+        	<button id="2008Results" type="button" onclick="">2008</button>
+        	<button id="2012Results" type="button" onclick="">2012</button>
+        	<button id="resultsButton" type="button" onclick="showResultsWindow()">Show Results</button>
+        </div>
+        <div id="mapButtons"> 
+    		<button type="button" onclick="showStates()">Show States</button>
+    		<button type="button" onclick="showCounties()">Show Counties</button>
+    		<button id="countiesSetupButton" type="button" onclick="countiesSetup()">Get Counties</button>	
+    	</div>
     </div>
     <div id="results">
-    	<div id="resultsButton"></div>
-    	<div id="resultsWindow"></div>
+    	<div id="resultsWindow">
+    	    <div id="column1"></div>
+    		<div id="column2"></div>
+    	</div>
     </div>
 	<div id="overlay">
-	 <div id="overlayWindow">
-		</div>
+	 <div id="overlayWindow"></div>
 	</div>
   </body>
 </html>
