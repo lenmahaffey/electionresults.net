@@ -28,6 +28,16 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>WebContent/SVGTesting/states.css</name>
+			<type>1</type>
+			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Map Files/states.css</location>
+		</link>
+		<link>
+			<name>WebContent/SVGTesting/states.svg</name>
+			<type>1</type>
+			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Map Files/states.svg</location>
+		</link>
+		<link>
 			<name>WebContent/database/database.php</name>
 			<type>1</type>
 			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Election Database/database.php</location>

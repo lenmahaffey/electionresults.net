@@ -10,17 +10,19 @@
   <body  onload="">
     <div id="heading" align="center">Select a Year</div>
     <div id="canidates">
-   		<div align=left id="DEM_header">
-   			<p align=left id="DEM_canidate">Player 1</p>
-   			<p align=right id="DEM_vote">123</p>
+	   	<div align=left id="DEM_header">
+	   		<div align=left id="DEM_canidate">Player 1</div>
+	   		<div align=right id="DEM_vote">123</div>
    		</div>
     	<div align=right id="REP_header"> 
-    		<p align=right id="REP_canidate">Player 2</p>
-    		<p align=left id="REP_vote">123</p>
+    		<div align=left id="REP_vote">123</div>
+    		<div align=right id="REP_canidate">Player 2</div>
     	</div>
     </div>
-    <div id="mapSVG">
-        <object id="map" type="image/svg+xml" data="images/states.svg" onload="showStates()"></object>
+     <div id="maps">
+   		 <div id="allStatesView">
+        	<object id="allStatesSVG" type="image/svg+xml" data="images/states.svg" onload="showStates()"></object>
+    	</div>
     </div>
     <div id="toolTip"></div> 
     <div id="buttons">

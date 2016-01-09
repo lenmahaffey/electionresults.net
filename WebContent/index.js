@@ -33,11 +33,11 @@ function countiesSetup(){
 			var countiesDoc = parser.parseFromString(request.responseText, "application/xml");
 			var counties = countiesDoc.getElementsByClassName("county");
 			for (var c = 0; c < counties.length; c++){
-				countyImport = map.contentDocument.importNode(counties[c], true);
-				map.contentDocument.getElementById(counties[c].parentNode.id).appendChild(countyImport);
+				countyImport = allStatesSVG.contentDocument.importNode(counties[c], true);
+				allStatesSVG.contentDocument.getElementById(counties[c].parentNode.id).appendChild(countyImport);
 			}
 			document.getElementById("countiesSetupButton").parentNode.removeChild(document.getElementById("countiesSetupButton"));
-			var counties =  map.contentDocument.getElementsByClassName("county");
+			var counties =  allStatesSVG.contentDocument.getElementsByClassName("county");
 			for(var i = 0; i < counties.length; i++){
 				counties[i].style.display = "none";
 			}
@@ -52,8 +52,8 @@ function countiesSetup(){
 }
 
 function showStates(){
-	var states = map.contentDocument.getElementsByClassName("state");
-	var counties = map.contentDocument.getElementsByClassName("county");
+	var states = allStatesSVG.contentDocument.getElementsByClassName("state");
+	var counties = allStatesSVG.contentDocument.getElementsByClassName("county");
 	document.getElementById("2000Results").onclick = function () { setupAllStatesView("2000") };
 	document.getElementById("2004Results").onclick = function () { setupAllStatesView("2004") };
 	document.getElementById("2008Results").onclick = function () { setupAllStatesView("2008") };
@@ -85,8 +85,8 @@ function showStates(){
 }
 
 function showCounties(){
-	var states = map.contentDocument.getElementsByClassName("state");
-	var counties =  map.contentDocument.getElementsByClassName("county");
+	var states = allStatesSVG.contentDocument.getElementsByClassName("state");
+	var counties =  allStatesSVG.contentDocument.getElementsByClassName("county");
 	document.getElementById("2000Results").onclick = function () { setupAllCountiesView("2000") };
 	document.getElementById("2004Results").onclick = function () { setupAllCountiesView("2004") };
 	document.getElementById("2008Results").onclick = function () { setupAllCountiesView("2008") };
@@ -129,7 +129,7 @@ function resetHeading(){
 function setupAllStatesView(year){
 	setHeading(year);
 	ajaxRequest('FECResultsByCanidate', year, 0, 0, 0, setCanidates);
-	var states = map.contentDocument.getElementsByClassName('state');
+	var states = allStatesSVG.contentDocument.getElementsByClassName('state');
 	for(var i = 0; i < states.length; i++){
 		ajaxRequest('FECResultsStateWinnerForYear', year, states.item(i).parentNode.id, 0, 0, colorState);
 	}	
@@ -138,7 +138,7 @@ function setupAllStatesView(year){
 function setupAllCountiesView(year){
 	setHeading(year);
 	ajaxRequest('FECResultsByCanidate', year, 0, 0, 0, setCanidates);
-	var counties = map.contentDocument.getElementsByClassName('county');
+	var counties = allStatesSVG.contentDocument.getElementsByClassName('county');
 	for(var i = 0; i < counties.length; i++){
 		ajaxRequest('countyWinner', year, counties.item(i).parentNode.id, counties.item(i).id, 0, colorCounty);
 	}	
@@ -207,7 +207,7 @@ function setHeadingCanidates(){
 }
 
 function colorState(request, results){
-	var stateNode = map.contentDocument.getElementById(request['state']).getElementsByClassName("state")[0];
+	var stateNode = allStatesSVG.contentDocument.getElementById(request['state']).getElementsByClassName("state")[0];
 	console.log(results);
 	switch (results) {
 	case "DEM":
@@ -222,7 +222,7 @@ function colorState(request, results){
 }
 
 function colorCounty(request, results){
-	var countyNode = map.contentDocument.getElementById(request['FIPS']);
+	var countyNode = allStatesSVG.contentDocument.getElementById(request['FIPS']);
 	switch (results) {
 	case "DEM":
 		countyNode.style.fill = "blue";
