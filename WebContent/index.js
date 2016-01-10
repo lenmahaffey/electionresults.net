@@ -260,7 +260,7 @@ function setToolTip(request, response){
 }
 
 function onClick(target){
-
+	showStateView();
 }
 
 function showResultsWindow(){
@@ -277,3 +277,60 @@ function hideResultsWindow(){
 	resultsButton.onclick = function () { showResultsWindow() };
 	results.style.visibility = "hidden";
 }
+
+function showStateView() {
+	stateView.style.visibility = "visible"
+}
+
+function hideStateView() {
+	stateView.style.visibility = "hidden"
+}
+
+function resizeSVG(SVGMap, window) {
+	console.log(SVGMap);
+	console.log(window);
+	var SVG = SVGMap.contentDocument;
+	var SVGHeight = SVG.getElementsByTagName('svg')[0].getAttribute("height");
+	var SVGWidth = SVG.getElementsByTagName('svg')[0].getAttribute("width");
+	var SVGViewbox = SVG.getElementsByTagName('svg')[0].getAttribute("viewbox");
+	var windowHeight = window.clientHeight;
+	var windowWidth = window.clientWidth;
+	var widthRatio = (windowWidth / SVGWidth).toFixed(2);
+	var heightRatio = (windowHeight / SVGHeight).toFixed(2);
+	var newHeight;
+	var newWidth;
+	var newViewbox;
+	console.log("The old SVG width was: " + SVGWidth);
+	console.log("The old SVG height was: " + SVGHeight);
+	console.log("The old SVG viewbox was: " + SVGViewbox);
+	//console.log("The new viewbox is: " + newViewbox);
+	console.log("The width ratio is: " + widthRatio);
+	console.log("The height ratio is: " + heightRatio);
+	console.log("The window width is: " + windowWidth);
+	console.log((SVGWidth * widthRatio).toFixed(2));
+	console.log("The window height is: " + windowHeight);
+	console.log((SVGHeight * heightRatio).toFixed(2));
+//	console.log("The new SVG width is: " + SVG.getElementsByTagName('svg')[0].getAttribute("width"));
+//	console.log("The new SVG height is: " + SVG.getElementsByTagName('svg')[0].getAttribute("height"));
+//	console.log("The new SVG viewbox is: " + SVGViewbox);
+	if (SVGWidth > windowWidth){ //scale down
+		console.log("Scale down");
+		newWidth = (SVGWidth * widthRatio).toFixed(2);
+		newHeight = (SVGHeight * heightRatio).toFixed(2);
+		newViewBox = "(0 0 " + newWidth + " " + newHeight + ")";
+	}
+	 
+	if (SVGWidth < windowWidth){
+		console.log("Scale Up");
+		newWidth = (SVGWidth / widthRatio).toFixed(2);
+		newHeight = (SVGHeight / heightRatio).toFixed(2);
+		newViewbox = "(0 0 " + newWidth + " " + newHeight + ")";
+	}
+	console.log(newViewbox);
+//	SVG.getElementsByTagName('svg')[0].setAttribute("viewBox", newViewbox);
+	SVG.getElementsByTagName('svg')[0].setAttribute("width", windowWidth);
+	SVG.getElementsByTagName('svg')[0].setAttribute("height", windowHeight);
+}
+
+	
+	

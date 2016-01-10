@@ -3,6 +3,7 @@
 body {
 	color: white;
 	background: black;
+	overflow: hidden;
 }
 
 #heading {
@@ -142,5 +143,39 @@ body {
 }
 
 #stateView {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background: rgba(0,0,0,0.9);
+	visibility: hidden;
+}
+
+#stateSVG {
+	background: blue;
+}
+
+#singleStateSVG {
+	background: red;
+}
+
+#stateButtons{
+	text-align: center;
+}
+
+#closeStateButton {
 	
+}
+
+#leftView {
+	width: 49%;
+	height: 100%;
+	overflow: hidden;
+	display: inline-block;
+}
+
+#rightView{
+	width: 49%;
+	height: 100%;
+	overflow: hidden;
+	display: inline-block;
 }
