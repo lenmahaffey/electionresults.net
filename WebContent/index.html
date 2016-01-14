@@ -24,13 +24,12 @@
    		 	<div id="stateView">
    		 		<div id="stateButtons">
    		 			<button id="closeStateButton" type="button" onclick="hideStateView()">Close State</button>
-   		 			<button id="closeStateButton" type="button" onclick="resizeSVG(singleStateSVG, leftView)">Resize</button>
 				</div>
 				<div id="leftView">
-					<object id="singleStateSVG" type="image/svg+xml" data="images/states/tx.svg" onload=""></object>
+					<object id="singleStateSVG" type="image/svg+xml" data="images/states/ri.svg" onload="resizeSVG(this, this.parentElement)"></object>
 				</div>
 				<div id="rightView">
-				<object id="stateSVG" type="image/svg+xml" data="images/states/al.svg" onload=""></object>
+					<object id="stateSVG" type="image/svg+xml" data="images/states/tx.svg" onload="resizeSVG(this, this.parentElement)"></object>
 				</div> 
 			</div>
 				<div id="allStatesView">
@@ -53,12 +52,12 @@
     		<button id="countiesSetupButton" type="button" onclick="countiesSetup()">Get Counties</button>	
     	</div>
     </div>
-    <div id="results">
-    	<div id="resultsWindow">
-    	    <div id="column1"></div>
-    		<div id="column2"></div>
-    	</div>
-    </div>
+	    <div id="resultsWindow">
+	    	<div id="results">
+	    	    <div id="column1"></div>
+	    		<div id="column2"></div>
+	    	</div>
+	    </div>
   </body>
 </html>
 
