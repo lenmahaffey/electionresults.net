@@ -51,6 +51,26 @@ function countiesSetup(){
 	request.send();
 }
 
+function stateSetup(state){
+	var request = new XMLHttpRequest;
+	var url = "images/states/" + state.parentNode.id + ".svg";
+	request.open("GET", url, true);
+	request.onreadystatechange = function() {
+		if(request.readyState == 4 && request.status == 200) {
+			leftView.innerHTML = request.responseText;
+			//console.log(leftView.getElementsByTagName('svg')[0]);
+			showStateView();
+			resizeSVG(leftView.getElementsByTagName('svg')[0], leftView);
+		}
+		if(request.readyState == 4 && request.status == 500) {
+			alert('FAIL');
+		}
+	}
+	request.setRequestHeader("Content-type", "text/xml");
+	request.setRequestHeader("Accept", "text/xml");
+	request.send();
+}
+
 function showStates(){
 	var states = allStatesSVG.contentDocument.getElementsByClassName("state");
 	var counties = allStatesSVG.contentDocument.getElementsByClassName("county");
@@ -260,7 +280,8 @@ function setToolTip(request, response){
 }
 
 function onClick(target){
-	showStateView();
+	stateSetup(target);
+	mouseLeave(target);
 }
 
 function showResultsWindow(){
@@ -284,14 +305,17 @@ function showStateView() {
 
 function hideStateView() {
 	stateView.style.visibility = "hidden"
+	while(leftView.firstChild){
+		leftView.removeChild(leftView.firstChild);
+	}
 }
 
-function resizeSVG(SVGMap, window) {
-	console.log(SVGMap);
+function resizeSVG(SVG, window) {
+	console.log(SVG);
 	console.log(window);
-	var SVG = SVGMap.contentDocument;
-	var SVGHeight = SVG.getElementsByTagName('svg')[0].getAttribute("height");
-	var SVGWidth = SVG.getElementsByTagName('svg')[0].getAttribute("width");
+//	var SVG = SVGMap.contentDocument;
+	var SVGHeight = SVG.getAttribute("height");
+	var SVGWidth = SVG.getAttribute("width");
 	var windowHeight = window.clientHeight;
 	var windowWidth = window.clientWidth;
 	var widthRatio = (windowWidth / SVGWidth).toFixed(2);
@@ -313,9 +337,6 @@ function resizeSVG(SVGMap, window) {
 	if (SVGWidth < windowWidth){ //scale up
 		console.log("Scale Up");
 	}
-	SVG.getElementsByTagName('svg')[0].setAttribute("width", windowWidth);
-	SVG.getElementsByTagName('svg')[0].setAttribute("height", windowHeight);
+	SVG.setAttribute("width", windowWidth);
+	SVG.setAttribute("height", windowHeight);
 }
-
-	
-	

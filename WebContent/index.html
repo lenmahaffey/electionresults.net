@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>United States of America Election Results</title>
     <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="images/states/state.css">
     <script src="index.js"> </script>
   </head>
   
@@ -25,12 +26,8 @@
    		 		<div id="stateButtons">
    		 			<button id="closeStateButton" type="button" onclick="hideStateView()">Close State</button>
 				</div>
-				<div id="leftView">
-					<object id="singleStateSVG" type="image/svg+xml" data="images/states/ri.svg" onload="resizeSVG(this, this.parentElement)"></object>
-				</div>
-				<div id="rightView">
-					<object id="stateSVG" type="image/svg+xml" data="images/states/tx.svg" onload="resizeSVG(this, this.parentElement)"></object>
-				</div> 
+				<div id="leftView"></div>
+				<div id="rightView"></div> 
 			</div>
 				<div id="allStatesView">
         			<object id="allStatesSVG" type="image/svg+xml" data="images/states.svg" onload="showStates()"></object>
