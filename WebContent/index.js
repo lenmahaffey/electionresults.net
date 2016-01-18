@@ -66,6 +66,28 @@ function setupSVG(SVG) {
 	}
 }
 
+function setupSingleStateSVG(SVG) {
+	var counties = SVG.getElementsByClassName("county");
+	for(var i = 0; i < counties.length; i++){
+		counties[i].onmouseenter = function(e){
+			var x = e.clientX;
+			var y = e.clientY;
+			mouseEnter(this, (x), (y ));
+		}
+		counties[i].onmousemove = function(e){
+			var x = e.clientX;
+			var y = e.clientY;
+			mouseMove(this, (x), (y));
+		}
+		counties[i].onmouseleave = function(e){
+			mouseLeave(this);
+		}
+		counties[i].onclick = function () {
+		
+		}
+	}
+}
+
 function allStatesSVGLoad(){
 	var request = new XMLHttpRequest;
 	var url = "images/allStates.svg";
@@ -118,7 +140,7 @@ function singleStateSVGLoad(state){
 		if(request.readyState == 4 && request.status == 200) {
 			leftView.innerHTML = request.responseText;
 			resizeSVG(leftView.getElementsByTagName('svg')[0], leftView);
-			setupSVG(leftView.getElementsByTagName('svg')[0]);
+			setupSingleStateSVG(leftView.getElementsByTagName('svg')[0]);
 			if (currentYear){
 				ajaxRequest('countyWinnersByStateForYear', currentYear, state.parentNode.id, 0, 0, colorAllCountiesInStateView);
 				ajaxRequest('stateResultsByCanidate', currentYear, state.parentNode.id, 0, 0, setCanidates);
