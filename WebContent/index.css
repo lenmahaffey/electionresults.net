@@ -20,6 +20,7 @@ body {
 	width: 49%;
 	font-size: 25px;
 	margin: auto;
+	text-align: left;
 }
 
 #REP_header {
@@ -27,6 +28,7 @@ body {
 	width: 50.5%;
 	font-size: 25px;
 	margin: auto;
+	text-align: right;
 }
 
 #DEM_canidate {
@@ -34,6 +36,7 @@ body {
 	width: 49%;
 	font-size: 25px;
 	margin: auto;
+	text-align: left;
 }
 
 #REP_canidate {
@@ -41,18 +44,20 @@ body {
 	width: 49%;
 	font-size: 25px;
 	margin: auto;
+	text-align: right;
 }
 
 #DEM_vote {
 	display: inline-block;
 	width: 49%;
-
+	text-align: right;
 }
 
 #REP_vote {
 	display: inline-block;
 	width: 49%;
 	margin: auto;
+	text-align: left;
 }
 
 #buttons {
@@ -72,6 +77,7 @@ body {
 
 #toolTip {
 	position:absolute;
+	background: black;
 }
 
 #resultsWindow {
@@ -168,7 +174,11 @@ body {
 }
 
 #closeStateButton {
-	
+
+}
+
+#showCountiesButton {
+
 }
 
 #leftView {

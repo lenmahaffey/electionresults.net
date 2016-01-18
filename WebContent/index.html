@@ -8,20 +8,20 @@
     <script src="index.js"> </script>
   </head>
   
-  <body  onload="">
+  <body  onload="allStatesSVGLoad()">
     <div id="heading" align="center">Select a Year</div>
     <div id="canidates">
-	   	<div align=left id="DEM_header">
-	   		<div align=left id="DEM_canidate">Player 1</div>
-	   		<div align=right id="DEM_vote">123</div>
+	   	<div id="DEM_header">
+	   		<div id="DEM_canidate">Player 1</div>
+	   		<div id="DEM_vote">123</div>
    		</div>
-    	<div align=right id="REP_header"> 
-    		<div align=left id="REP_vote">123</div>
-    		<div align=right id="REP_canidate">Player 2</div>
+    	<div id="REP_header"> 
+    		<div id="REP_vote">123</div>
+    		<div id="REP_canidate">Player 2</div>
     	</div>
     </div>
      <div id="maps">
-   		 <div> <!--  Empty div for absolute positioning size inheritance  -->
+   		 <div> 
    		 	<div id="stateView">
    		 		<div id="stateButtons">
    		 			<button id="closeStateButton" type="button" onclick="hideStateView()">Close State</button>
@@ -30,23 +30,22 @@
 				<div id="rightView"></div> 
 			</div>
 				<div id="allStatesView">
-        			<object id="allStatesSVG" type="image/svg+xml" data="images/states.svg" onload="showStates()"></object>
+        			<div id="allStatesSVG"></div>
 				</div>
     	</div>
     </div>
     <div id="toolTip"></div> 
     <div id="buttons">
     	<div id="yearsButtons">
-        	<button id="2000Results" type="button" onclick="">2000</button>
-        	<button id="2004Results" type="button" onclick="">2004</button>
-        	<button id="2008Results" type="button" onclick="">2008</button>
-        	<button id="2012Results" type="button" onclick="">2012</button>
+        	<button id="2000Results" type="button" onclick="setupAllStatesView('2000')">2000</button>
+        	<button id="2004Results" type="button" onclick="setupAllStatesView('2004')">2004</button>
+        	<button id="2008Results" type="button" onclick="setupAllStatesView('2008')">2008</button>
+        	<button id="2012Results" type="button" onclick="setupAllStatesView('2012')">2012</button>
         	<button id="resultsButton" type="button" onclick="showResultsWindow()">Show Results</button>
         </div>
         <div id="mapButtons"> 
-    		<button type="button" onclick="showStates()">Show States</button>
-    		<button type="button" onclick="showCounties()">Show Counties</button>
-    		<button id="countiesSetupButton" type="button" onclick="countiesSetup()">Get Counties</button>	
+    		<button id="showHideButton" type="button" onclick="showCounties()">Show Counties</button>
+    		<button id="countiesSetupButton" type="button" onclick="allCountiesSVGLoad()">Get Counties</button>	
     	</div>
     </div>
 	    <div id="resultsWindow">

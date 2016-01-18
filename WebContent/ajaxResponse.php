@@ -14,24 +14,16 @@ switch($action) {
 		$reply = $db->countyWinner($request["state"], $request["year"], $request["FIPS"]); 
 		break;
 		
-	case "countyName" :
-		$reply = $db->countyName($request["state"], $request["year"], $request["FIPS"]); 
-		break;
-		
 	case "FECResultsStateWinnerForYear" : 
 		$reply = $db->FECResultsStateWinnerForYear($request["year"], $request["state"]); 
 		break;
 		
-	case "stateResultsState" : 
-		$reply = $db->stateResultsState($request["state"], $request["year"]); 
+	case "stateResultsByCanidate" : 
+		$reply = $db->stateResultsByCanidate($request["state"], $request["year"]); 
 		break;
 		
-	case "countyResultsFederal" : 
-		$reply = $db->countyResultsFederal($request["state"], $request["year"], $request["FIPS"]); 
-		break;
-		
-	case "countyResultsState" : 
-		$reply = $db->countyResultsState($request["state"], $request["year"], $request["FIPS"]); 
+	case "countyResults" : 
+		$reply = $db->countyResults($request["state"], $request["year"], $request["FIPS"]); 
 		break;
 		
 	case "FECResultsByCanidate" :
@@ -46,13 +38,14 @@ switch($action) {
 		$reply = $db->getFIPSName($request["FIPS"]);
 		break;
 		
-	case "getAllCanidates" :
-		$reply = $db->getCanidate($request["year"], $request["can"]);
-		break;
-		
 	case "getParty" :
 		$reply = $db->getParty($request["year"], $request["can"]);
 		break;
+		
+	case "countyWinnersByStateForYear" :
+		$reply = $db->countyWinnersByStateForYear($request["year"], $request["state"]);
+		break;
+		
 	default: echo "Switch Failure for: " . $action;
 }
 

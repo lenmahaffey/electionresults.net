@@ -43,6 +43,16 @@
 			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Election Database/database.php</location>
 		</link>
 		<link>
+			<name>WebContent/images/allStates.css</name>
+			<type>1</type>
+			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Map Files/states.css</location>
+		</link>
+		<link>
+			<name>WebContent/images/allStates.svg</name>
+			<type>1</type>
+			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Map Files/states.svg</location>
+		</link>
+		<link>
 			<name>WebContent/images/counties.css</name>
 			<type>1</type>
 			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Map Files/counties.css</location>
@@ -56,16 +66,6 @@
 			<name>WebContent/images/states</name>
 			<type>2</type>
 			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Map Files/singleStates</location>
-		</link>
-		<link>
-			<name>WebContent/images/states.css</name>
-			<type>1</type>
-			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Map Files/states.css</location>
-		</link>
-		<link>
-			<name>WebContent/images/states.svg</name>
-			<type>1</type>
-			<location>/Users/bozziley/code/eclipse projects/electionsWorkspace/Map Files/states.svg</location>
 		</link>
 	</linkedResources>
 </projectDescription>
