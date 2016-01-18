@@ -1,5 +1,4 @@
 var currentYear;
-var currentResults;
 
 function ajaxRequest(action, year, state, FIPS, can, callback){
 	var request = new XMLHttpRequest;
@@ -15,7 +14,6 @@ function ajaxRequest(action, year, state, FIPS, can, callback){
 		if(request.readyState == 4 && request.status == 200) {
 			var JSONResults = JSON.parse(request.response);
 			var JSONRequest = JSON.parse(params);
-			currentResults = JSONResults;
 			callback(JSONRequest, JSONResults);
 		}
 		if(request.readyState == 4 && request.status == 500) {
