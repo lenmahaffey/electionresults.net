@@ -1,59 +1,156 @@
+<!--  Copyright © 2016 TLA Designs, LLC. All rights reserved. -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>United States of America Election Results</title>
-    <link rel="stylesheet" type="text/css" href="index.css">
-    <link rel="stylesheet" type="text/css" href="images/states/state.css">
-    <script src="index.js"> </script>
-  </head>
-  
-  <body  onload="allStatesSVGLoad()">
-    <div id="heading" align="center">Select a Year</div>
-    <div id="canidates">
-	   	<div id="DEM_header">
-	   		<div id="DEM_canidate">Player 1</div>
-	   		<div id="DEM_vote">123</div>
-   		</div>
-    	<div id="REP_header"> 
-    		<div id="REP_vote">123</div>
-    		<div id="REP_canidate">Player 2</div>
-    	</div>
-    </div>
-     <div id="maps">
-   		 <div> 
-   		 	<div id="stateView">
-   		 		<div id="stateButtons">
-   		 			<button id="closeStateButton" type="button" onclick="hideStateView()">Close State</button>
+<head>
+<meta charset="UTF-8">
+<title>United States of America Election Results</title>
+<link rel="stylesheet" type="text/css" href="index.css">
+<link rel="stylesheet" type="text/css" href="images/states.css">
+<script src="index.js">
+
+</script>
+<!-- Google Analytics script   -->
+<script>
+	(function(i, s, o, g, r, a, m) {
+		i['GoogleAnalyticsObject'] = r;
+		i[r] = i[r] || function() {
+			(i[r].q = i[r].q || []).push(arguments)
+		}, i[r].l = 1 * new Date();
+		a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+		a.async = 1;
+		a.src = g;
+		m.parentNode.insertBefore(a, m)
+	})(window, document, 'script', '//www.google-analytics.com/analytics.js',
+			'ga');
+
+	ga('create', 'UA-73715865-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+</head>
+
+<body onload="allStatesSVGLoad()">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+	<div id="toolTip"></div>
+	<div id="heading">Select a Year</div>
+	<div id="canidates">
+		<div id="DEM_header">
+			<div id="DEM_canidate"></div>
+			<div id="DEM_vote"></div>
+		</div>
+		<div id="REP_header">
+			<div id="REP_vote"></div>
+			<div id="REP_canidate"></div>
+		</div>
+	</div>
+	<div id="buttons">
+		<button id="resultsButton" type="button" onclick="showResultsWindow()">Show
+			Results</button>
+		<div id="yearsButtons">
+			<button id="2000Results" type="button"
+				onclick="setupAllStatesView('2000')">2000</button>
+			<button id="2004Results" type="button"
+				onclick="setupAllStatesView('2004')">2004</button>
+			<button id="2008Results" type="button"
+				onclick="setupAllStatesView('2008')">2008</button>
+			<button id="2012Results" type="button"
+				onclick="setupAllStatesView('2012')">2012</button>
+		</div>
+		<div id="mapButtons">
+			<p id="message"></p>
+			<button id="showHideButton" type="button" onclick="showCounties()">Show
+				Counties</button>
+			<button id="countiesSetupButton" type="button"
+				onclick="allCountiesSVGLoad()">Get Counties</button>
+		</div>
+	</div>
+	<div id="maps">
+		<div>
+			<div id="stateView">
+				<div id="stateButtons">
+					<button id="closeStateButton" type="button"
+						onclick="hideStateView()">Close State</button>
 				</div>
 				<div id="leftView"></div>
-				<div id="rightView"></div> 
-			</div>
-				<div id="allStatesView">
-        			<div id="allStatesSVG"></div>
+				<div id="rightView">
+					<div id="countyResults">
+						<div id="countyName">Cick a county</div>
+						<div id="columnA"></div>
+					</div>
 				</div>
-    	</div>
-    </div>
-    <div id="toolTip"></div> 
-    <div id="buttons">
-    	<div id="yearsButtons">
-        	<button id="2000Results" type="button" onclick="setupAllStatesView('2000')">2000</button>
-        	<button id="2004Results" type="button" onclick="setupAllStatesView('2004')">2004</button>
-        	<button id="2008Results" type="button" onclick="setupAllStatesView('2008')">2008</button>
-        	<button id="2012Results" type="button" onclick="setupAllStatesView('2012')">2012</button>
-        	<button id="resultsButton" type="button" onclick="showResultsWindow()">Show Results</button>
-        </div>
-        <div id="mapButtons"> 
-    		<button id="showHideButton" type="button" onclick="showCounties()">Show Counties</button>
-    		<button id="countiesSetupButton" type="button" onclick="allCountiesSVGLoad()">Get Counties</button>	
-    	</div>
-    </div>
-	    <div id="resultsWindow">
-	    	<div id="results">
-	    	    <div id="column1"></div>
-	    		<div id="column2"></div>
-	    	</div>
-	    </div>
-  </body>
+			</div>
+			<div id="allStatesView">
+				<div id="allStatesSVG"></div>
+			</div>
+		</div>
+	</div>
+	<div id="resultsWindow">
+		<div id="results">
+			<div id="column1"></div>
+			<div id="column2"></div>
+		</div>
+	</div>
+	<div id="copyright">
+		Copyright © 2017<br>TLA Designs, LLC.<br>All rights
+		reserved.
+	</div>
+	<div id="topBanner">
+		<div class="left">
+		<!-- <a href="http://blog.electionresults.net">Read The Blog</a> -->	
+		</div>
+		<div class="right">
+			<div class="fb-like" 
+			     data-href="https://www.electionresults.net" 
+			     data-layout="button_count" 
+			     data-action="like" 
+			     data-size="large" 
+			     data-show-faces="false" 
+			     data-share="true"></div>
+		 </div>
+	</div>
+	<!-- 
+	<div id="ad1">
+		<script async
+			src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- sideBanner 
+			<ins class="adsbygoogle"
+				style="display: inline-block; width: 336px; height: 280px"
+				data-ad-client="ca-pub-3417965397395384" data-ad-slot="9856597359"></ins>
+			<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</div>
+	<div id="bottombanner">
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<!-- bottomBanner 
+		<ins class="adsbygoogle"
+		     style="display:inline-block;width:728px;height:90px"
+		     data-ad-client="ca-pub-3417965397395384"
+		     data-ad-slot="7337535751"></ins>
+		<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+		
+	</div>
+	 -->
+</body>
 </html>
 

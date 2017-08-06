@@ -1,4 +1,57 @@
+/* Copyright © 2016 TLA Designs, LLC. All rights reserved. */
 var currentYear;
+var lastCountyClicked;
+var statesArray = {
+		Alabama:"AL",
+		Alaska:"AK",
+		Arizona:"AZ",
+		Arkansas:"AR",
+		California:"CA",
+		Colorado:"CO",
+		Connecticut:"CT",
+		Delaware:"DE",
+		Florida:"FL",
+		Georgia :"GA",
+		Hawaii:"HI",
+		Iowa:"IA",
+		Idaho:"ID",
+		Illinois:"IL",
+		Indiana:"IN",
+		Kansas:"KS",
+		Kentucky:"KY",
+		Louisiana:"LA",
+		Massachusetts:"MA",
+		Maryland:"MD",
+		Maine:"ME",
+		Michigan:"MI",
+		Minnesota:"MN",
+		Missouri:"MO",
+		Mississippi:"MS",
+		Montana:"MT",
+		'North Carolina':"NC",
+		'North Dakota':"ND",
+		Nebraska:"NE",
+		'New Hampshire':"NH",
+		'New Jersey':"NJ",
+		'New Mexico':"NM",
+		Nevada:"NV",
+		'New York':"NY",
+		Ohio:"OH",
+		Oklahoma:"OK",
+		Oregon:"OR",
+		Pennsylvania:"PA",
+		'Rhode Island':"RI",
+		'South Carolina':"SC",
+		'South Dakota':"SD",
+		Tennessee:"TN",
+		Texas:"TX",
+		Utah:"UT",
+		Vermont:"VT",
+		Virginia:"VA",
+		Washington:"WA",
+		Wisconsin:"WI",
+		'West Virginia':"WV",
+		Wyoming:"WY"};
 
 function ajaxRequest(action, year, state, FIPS, can, callback){
 	var request = new XMLHttpRequest;
@@ -26,20 +79,23 @@ function ajaxRequest(action, year, state, FIPS, can, callback){
 }
 
 function setupSVG(SVG) {
-	var states = SVG.getElementsByClassName("state");
-	var counties = SVG.getElementsByClassName("county");
+	var states = SVG.querySelectorAll('.state')
+	var counties = SVG.querySelectorAll('.county')
 	for(var i = 0; i < states.length; i++){
 		states[i].onmouseenter = function(e){
+			e = e || window.event;
 			var x = e.clientX;
 			var y = e.clientY;
 			mouseEnter(this, (x), (y));
 		}
 		states[i].onmousemove = function(e){
+			e = e || window.event;
 			var x = e.clientX;
 			var y = e.clientY;
-			mouseMove(this, (x), (y));
+			mouseMove((x), (y));
 		}
 		states[i].onmouseleave = function(e){
+			e = e || window.event;
 			mouseLeave(this);
 		}
 		states[i].onclick = function () {
@@ -48,16 +104,19 @@ function setupSVG(SVG) {
 	}
 	for(var i = 0; i < counties.length; i++){
 		counties[i].onmouseenter = function(e){
+			e = e || window.event;
 			var x = e.clientX;
 			var y = e.clientY;
 			mouseEnter(this, (x), (y ));
 		}
 		counties[i].onmousemove = function(e){
+			e = e || window.event;
 			var x = e.clientX;
 			var y = e.clientY;
-			mouseMove(this, (x), (y));
+			mouseMove((x), (y));
 		}
 		counties[i].onmouseleave = function(e){
+			e = e || window.event;
 			mouseLeave(this);
 		}
 		counties[i].onclick = function () {
@@ -67,35 +126,42 @@ function setupSVG(SVG) {
 }
 
 function setupSingleStateSVG(SVG) {
-	var counties = SVG.getElementsByClassName("county");
+	var counties = SVG.querySelectorAll('.county')
 	for(var i = 0; i < counties.length; i++){
 		counties[i].onmouseenter = function(e){
+			e = e || window.event;
 			var x = e.clientX;
 			var y = e.clientY;
 			mouseEnter(this, (x), (y ));
 		}
 		counties[i].onmousemove = function(e){
+			e = e || window.event;
 			var x = e.clientX;
 			var y = e.clientY;
-			mouseMove(this, (x), (y));
+			mouseMove((x), (y));
 		}
 		counties[i].onmouseleave = function(e){
+			e = e || window.event;
 			mouseLeave(this);
 		}
 		counties[i].onclick = function () {
-		
+			onClickSingleState(this);
 		}
 	}
 }
 
 function allStatesSVGLoad(){
 	var request = new XMLHttpRequest;
-	var url = "images/allStates.svg";
+	var url = "images/states.svg";
 	request.open("GET", url, true);
 	request.onreadystatechange = function() {
 		if(request.readyState == 4 && request.status == 200) {
-			allStatesSVG.innerHTML = request.responseText;
-			setupSVG(allStatesSVG.getElementsByTagName("svg")[0]);
+			allStatesView.innerHTML = request.responseText;
+			//var windowHeight = allStatesView.clientHeight;
+			//var windowWidth = allStatesView.clientWidth;
+			//allStatesSVG.setAttribute("width", windowWidth);
+			//allStatesSVG.setAttribute("height", windowHeight);
+			setupSVG(allStatesSVG);
 		}
 		if(request.readyState == 4 && request.status == 500) {
 			alert('FAIL');
@@ -107,21 +173,26 @@ function allStatesSVGLoad(){
 }
 
 function allCountiesSVGLoad(){
+	document.getElementById("countiesSetupButton").parentNode.removeChild(document.getElementById("countiesSetupButton"));
 	var request = new XMLHttpRequest;
 	var url = "images/counties.svg";
 	request.open("GET", url, true);
 	request.onreadystatechange = function() {
+		if(request.readyState == 2) {
+			
+		}
 		if(request.readyState == 4 && request.status == 200) {
 			var parser = new DOMParser();
 			var countiesDoc = parser.parseFromString(request.responseText, "application/xml");
-			var counties = countiesDoc.getElementsByClassName("county");
+			var counties = countiesDoc.querySelectorAll('.county')
 			for (var c = 0; c < counties.length; c++){
 				countyImport = document.importNode(counties[c], true);
 				document.getElementById(counties[c].parentNode.id).appendChild(countyImport);
 			}
-			document.getElementById("countiesSetupButton").parentNode.removeChild(document.getElementById("countiesSetupButton"));
+			message.innerHTML = "";
+			document.getElementById("showHideButton").style.visibility = "visible";
 			showStates();
-			setupSVG(allStatesSVG.getElementsByTagName("svg")[0]);
+			setupSVG(allStatesSVG);
 		}
 		if(request.readyState == 4 && request.status == 500) {
 			alert('FAIL');
@@ -130,6 +201,7 @@ function allCountiesSVGLoad(){
 	request.setRequestHeader("Content-type", "text/xml");
 	request.setRequestHeader("Accept", "text/xml");
 	request.send();
+	message.innerHTML = "Please wait";
 }
 
 function singleStateSVGLoad(state){
@@ -158,8 +230,8 @@ function singleStateSVGLoad(state){
 }
 
 function showStates(){
-	var states = allStatesSVG.getElementsByClassName("state");
-	var counties = allStatesSVG.getElementsByClassName("county");
+	var states = allStatesSVG.querySelectorAll('.state')
+	var counties = allStatesSVG.querySelectorAll('.county')
 	showHideButton.innerHTML = "Show Counties";
 	showHideButton.onclick = function () { showCounties() };
 	document.getElementById("2000Results").onclick = function () { setupAllStatesView("2000") };
@@ -183,8 +255,8 @@ function showStates(){
 }
 
 function showCounties(){
-	var states = allStatesSVG.getElementsByClassName("state");
-	var counties =  allStatesSVG.getElementsByClassName("county");
+	var states = allStatesSVG.querySelectorAll('.state')
+	var counties =  allStatesSVG.querySelectorAll('.county')
 	showHideButton.innerHTML = "Show States";
 	showHideButton.onclick = function () { showStates() };
 	document.getElementById("2000Results").onclick = function () { setupAllCountiesView("2000") };
@@ -204,9 +276,14 @@ function showCounties(){
 	}
 	
 	if (currentYear){
+		var states = allStatesSVG.querySelectorAll('.state');
+		var statesList = new Array();
 		for(var i = 0; i < states.length; i++){
-			ajaxRequest('countyWinnersByStateForYear', currentYear, states.item(i).parentNode.id, 0, 0, colorAllCountiesByState);
+			statesList[i] = states.item(i).parentNode.id; 
 		}
+		ajaxRequest('FECResultsByCanidate', currentYear, 0, 0, 0, setCanidates);
+		ajaxRequest('allCountyWinnersByStateForYear', currentYear, statesList, 0, 0, colorAllCounties);
+		ajaxRequest('FECResultsAllStateWinnersForYear', currentYear, statesList, 0, 0, colorAllStates);
 	}
 }
 
@@ -216,56 +293,56 @@ function setHeading(year){
 
 function resetHeading(){
 	heading.textContent = "Select a Year";
-	DEM_canidate.textContent = "Player 1";
-	DEM_vote.textContent = "123";
-	REP_canidate.textContent = "Player 2";
-	REP_vote.textContent = "123";
+	DEM_canidate.textContent = "";
+	DEM_vote.textContent = "";
+	REP_canidate.textContent = "";
+	REP_vote.textContent = "";
 }
 
 function setupAllStatesView(year){
 	currentYear = year;
+	setHeading(year);
 	if (leftView.hasChildNodes()) {
-		var state = leftView.getElementsByTagName('svg')[0].getElementsByClassName('state');
-		var counties = leftView.getElementsByTagName('svg')[0].getElementsByClassName('county');
+		var state = leftView.getElementsByTagName('svg')[0].querySelectorAll('.state');
+		var counties = leftView.getElementsByTagName('svg')[0].querySelectorAll('.county');
 		for(var i = 0; i < counties.length; i++){
 			ajaxRequest('countyWinner', year, counties.item(i).parentNode.id, counties.item(i).id, 0, colorStateViewCounty);
 		}
 		ajaxRequest('stateResultsByCanidate', year, state[0].parentNode.id, 0, 0, setCanidates);
 		ajaxRequest('getFIPSName', 0, 0,  state[0].id, 0, setStateViewHeader);
-	}else {
-		setHeading(year);
-		ajaxRequest('FECResultsByCanidate', year, 0, 0, 0, setCanidates);
 	}
-	var states = allStatesSVG.getElementsByClassName('state');
+
+	var states = allStatesSVG.querySelectorAll('.state');
+	var statesList = new Array();
 	for(var i = 0; i < states.length; i++){
-		ajaxRequest('FECResultsStateWinnerForYear', year, states.item(i).parentNode.id, 0, 0, colorState);
-	}	
+		statesList[i] = states.item(i).parentNode.id; 
+	}
+	ajaxRequest('FECResultsAllStateWinnersForYear', year, statesList, 0, 0, colorAllStates);
+	ajaxRequest('FECResultsByCanidate', year, 0, 0, 0, setCanidates);
 }
 
 function setupAllCountiesView(year){
 	currentYear = year;
+	setHeading(year);
 	if (leftView.hasChildNodes()){
-		var state = leftView.getElementsByTagName('svg')[0].getElementsByClassName('state');
-		var counties = leftView.getElementsByTagName('svg')[0].getElementsByClassName('county');
+		var state = leftView.getElementsByTagName('svg')[0].querySelectorAll('.state');
+		var counties = leftView.getElementsByTagName('svg')[0].querySelectorAll('.county');
 		for(var i = 0; i < counties.length; i++){
 			ajaxRequest('countyWinner', year, counties.item(i).parentNode.id, counties.item(i).id, 0, colorStateViewCounty);
 		}	
 		ajaxRequest('stateResultsByCanidate', year, state[0].parentNode.id, 0, 0, setCanidates);
 		ajaxRequest('getFIPSName', 0, 0,  state[0].id, 0, setStateViewHeader);
-	}else {
-		setHeading(year);
-		ajaxRequest('FECResultsByCanidate', year, 0, 0, 0, setCanidates);
 	}
 	
-	var counties = allStatesSVG.getElementsByClassName('state');
-	for(var i = 0; i < counties.length; i++){
-		ajaxRequest('countyWinnersByStateForYear', year, counties.item(i).parentNode.id, 0, 0, colorAllCountiesByState);
-	}
-	
-	var states = allStatesSVG.getElementsByClassName('state');
+	var states = allStatesSVG.querySelectorAll('.state');
+	var statesList = new Array();
 	for(var i = 0; i < states.length; i++){
-		ajaxRequest('FECResultsStateWinnerForYear', year, states.item(i).parentNode.id, 0, 0, colorState);
+		statesList[i] = states.item(i).parentNode.id; 
 	}
+	ajaxRequest('FECResultsByCanidate', year, 0, 0, 0, setCanidates);
+	ajaxRequest('allCountyWinnersByStateForYear', year, statesList, 0, 0, colorAllCounties);
+	ajaxRequest('FECResultsAllStateWinnersForYear', year, statesList, 0, 0, colorAllStates);
+
 }
 
 function setCanidates(request, result) {
@@ -273,6 +350,8 @@ function setCanidates(request, result) {
 }
 
 function setResultsWindow(request, results){
+	var canidatesArray = new Array();
+	var partiesArray = new Array();
 	var resultsArray = Object.keys(results);
 	var column1 = document.getElementById("column1");
 	var column2 = document.getElementById("column2");
@@ -308,9 +387,11 @@ function setResultsWindow(request, results){
 		}else{
 			column1.appendChild(newCanidateDiv);
 		}
-		ajaxRequest('getCanidate', request['year'], 0, 0, canidate, setCanidateName);
-		ajaxRequest('getParty', request['year'], 0, 0, canidate, setPartyName);
+		canidatesArray[i] = canidate;
+		partiesArray[i] = canidate;
 	}
+	ajaxRequest('getAllCanidates', request['year'], 0, 0, canidatesArray, setAllCanidateNames);
+	ajaxRequest('getAllParties', request['year'], 0, 0, partiesArray, setAllPartyNames);
 }
 
 function setCanidateName (request, result) {
@@ -319,10 +400,28 @@ function setCanidateName (request, result) {
 	setHeadingCanidates();
 }
 
+function setAllCanidateNames (request, result) {
+	var resultsArray = request['can'];
+	for (var i = 0; i < resultsArray.length; i++){
+		var canidateNameElement = document.getElementById(resultsArray[i]).getElementsByClassName("canidateName")[0];
+		canidateNameElement.textContent = result[resultsArray[i]].PFIRST + " " + result[resultsArray[i]].PLAST;
+	}
+	setHeadingCanidates();
+}
+
 function setPartyName (request, result) {
 	var canidatePartyNameElement = document.getElementById(request['can']).getElementsByClassName("partyName")[0];
 	canidatePartyNameElement.textContent = result['PARTY_NAME'];
 }
+
+function setAllPartyNames (request, result) {
+	var resultsArray = request['can'];
+	for (var i = 0; i < resultsArray.length; i++){
+		var canidatePartyNameElement = document.getElementById(resultsArray[i]).getElementsByClassName("partyName")[0];
+		canidatePartyNameElement.textContent = result[resultsArray[i]].PARTY_NAME;
+	}
+}
+
 function setHeadingCanidates(){
 	REP_vote.textContent = document.getElementById('REP').getElementsByClassName("votes")[0].textContent;
 	DEM_vote.textContent = document.getElementById('DEM').getElementsByClassName("votes")[0].textContent;
@@ -331,7 +430,7 @@ function setHeadingCanidates(){
 }
 
 function colorState(request, results){
-	var stateNode = allStatesSVG.getElementsByTagName("svg")[0].getElementById(request['state']).getElementsByClassName('state')[0];
+	var stateNode = allStatesSVG.getElementById(request['state']).querySelectorAll('.state')[0];
 	switch (results) {
 	case "DEM":
 		stateNode.style.fill = "blue";
@@ -344,6 +443,24 @@ function colorState(request, results){
 	}
 }
 
+function colorAllStates(request, results){
+	for(var i = 0; i < results.length; i++){
+		var stateArray = results[i];
+		for (var state in stateArray){
+			var stateNode = allStatesSVG.getElementById(state).querySelectorAll('.state')[0];
+			switch (stateArray[state]) {
+			case "DEM":
+				stateNode.style.fill = "blue";
+				break;
+			case "REP":
+				stateNode.style.fill = "red";
+				break;
+			default:
+				stateNode.style.fill = "grey";
+			}
+		}
+	}
+}
 function colorCounty(SVGObject, winner){
 	switch (winner) {
 	case "DEM":
@@ -357,18 +474,24 @@ function colorCounty(SVGObject, winner){
 	}
 }
 
-function colorAllCountiesByState(request, results){
-	for(var key in results){
-		var countyNode = allStatesSVG.getElementsByTagName("svg")[0].getElementById(key);
-		switch (results[key]) {
-			case "DEM":
-				countyNode.style.fill = "blue";
-				break;
-			case "REP":
-				countyNode.style.fill = "red";
-				break;
-			default:
-				countyNode.style.fill = "grey";
+function colorAllCounties(request, results){
+	for(var i = 0; i < results.length; i++){
+		var stateArray = results[i];
+		for (var state in stateArray){
+			var countyNode = allStatesSVG.getElementById(state);
+			if(countyNode){
+				switch (stateArray[state]) {
+					case "DEM":
+						countyNode.style.fill = "blue";
+						break;
+					case "REP":
+						countyNode.style.fill = "red";
+						break;
+					default:
+						countyNode.style.fill = "grey";
+						break;
+				}
+			}
 		}
 	}
 }
@@ -393,6 +516,12 @@ function mouseEnter(mapObject, x, y){
 	toolTip.style.display = "block";
 }
 
+function mouseEnterTable(can, x, y){
+	mouseOver(mapObject, x, y);
+	ajaxRequest('getCanidate', 0, 0, mapObject.id, 0, setToolTip)
+	toolTip.style.display = "block";
+}
+
 function mouseOver(mapObject, x, y){
 	toolTip.style.top = (y + 15) + "px";
 	toolTip.style.left = (x) + "px";
@@ -402,13 +531,15 @@ function mouseLeave(mapObject){
 	toolTip.style.display = "none";
 }
 
-function mouseMove(mapObject, x, y){
+function mouseMove(x, y){
 	toolTip.style.top = (y + 15) + "px";
 	toolTip.style.left = (x) + "px";
 }
 
 function setToolTip(request, response){
-	toolTip.innerHTML = response["NAME"];
+	if (response == null){
+		toolTip.textContent = "unknown";
+	}else toolTip.textContent = response["NAME"];
 }
 
 function onClick(target){
@@ -430,16 +561,27 @@ function hideResultsWindow(){
 }
 
 function showStateView() {
+	allStatesSVG.style.pointerEvents = "none";
 	stateView.style.visibility = "visible";
+	stateView.style.pointerEvents = "auto";
 }
 
 function hideStateView() {
-	setHeading(currentYear);
-	ajaxRequest('FECResultsByCanidate', currentYear, 0, 0, 0, setCanidates);
+	if (currentYear){
+		setHeading(currentYear);
+		ajaxRequest('FECResultsByCanidate', currentYear, 0, 0, 0, setCanidates);
+	}else {
+		resetHeading();
+	}
 	stateView.style.visibility = "hidden"
+	allStatesSVG.style.pointerEvents = "auto";
 	while(leftView.firstChild){
 		leftView.removeChild(leftView.firstChild);
 	}
+	while(columnA.firstChild){
+		columnA.removeChild(columnA.firstChild);
+	}
+	countyName.innerHTML = "Click a county";
 }
 
 function resizeSVG(SVG, window) {
@@ -462,6 +604,148 @@ function colorAllCountiesInStateView(request, results) {
 }
 
 function setStateViewHeader(request, response) {
-	console.log(response)
 	heading.textContent = currentYear + " " + response['NAME'] +" General Presidential Elections";
+}
+
+function onClickSingleState(mapObject){
+	lastCountyClicked = mapObject;
+	if(currentYear){
+		ajaxRequest('countyResults', mapObject.parentNode.id, currentYear, mapObject.id, 0, setCountyResults)
+		ajaxRequest("getFIPSName", 0, mapObject.parentNode.id, mapObject.id, 0, setCountyName);
+	}else{
+		countyName.innerHTML = "Select a year then click a county"
+	}
+}
+
+function setCountyResults(request, response){
+	var resultsArray = Object.keys(response);
+	while(columnA.firstChild){
+		columnA.removeChild(columnA.firstChild);
+	}
+	for(var i = 0; i < resultsArray.length; i++){
+		var canidate = resultsArray[i];
+		var canidateVotes = response[canidate];
+		var newCanidateDiv = document.createElement("div");
+		var newCanidateNameElement = document.createElement("div");
+		var newCanidateVotesElement = document.createElement("div");
+		newCanidateDiv.id = canidate + "StateView";
+		newCanidateDiv.className = "stateCanidateResult";
+		newCanidateNameElement.className = "stateCanidateName";
+		newCanidateVotesElement.className = "stateVotes";
+		newCanidateNameElement.textContent = canidate;
+		newCanidateVotesElement.textContent = canidateVotes;
+		newCanidateDiv.appendChild(newCanidateNameElement);
+		newCanidateDiv.appendChild(newCanidateVotesElement);
+		columnA.appendChild(newCanidateDiv);
+		ajaxRequest('getCanidate', currentYear, 0, 0, canidate, setStateViewCanidateName);
+	}
+}
+
+function setStateViewCanidateName(request, response) {
+	var canidateNameElement = document.getElementById(request['can']  + "StateView").getElementsByClassName("stateCanidateName")[0];
+	canidateNameElement.textContent = response["PFIRST"] + " " + response["PLAST"];
+}
+
+function setCountyName(request, response){
+	if(request['state'] == "LA"){
+		countyName.innerHTML = response["NAME"] + " Parish"
+	}else{
+		countyName.innerHTML = response["NAME"] + " County"
+	}
+}
+
+function setTable(request, response) {
+	var tableDiv = document.createElement('div');
+	tableDiv.id = "tableDiv";
+	var table = document.createElement('table');
+	table.id = "resultsTable";
+	var headingRow = document.createElement('tr');
+	headingRow.id = 'headingRow';
+	var stateRow = document.createElement('tr');
+	stateRow.id = 'stateRow';
+	var FECRow = document.createElement('tr');
+	FECRow.id = 'FECRow';
+	for (var i = 0; i < Object.keys(response).length; i++){
+		var newHeading = document.createElement('th');
+		newHeading.innerHTML = Object.keys(response)[i];
+		newHeading.setAttribute('class', Object.keys(response)[i]);
+		newHeading.onmouseenter = function(e){
+			e = e || window.event;
+			var x = e.clientX;
+			var y = e.clientY;
+			mouseEnterTable(this, (x), (y));
+		}
+		newHeading.onmousemove = function(e){
+			e = e || window.event;
+			var x = e.clientX;
+			var y = e.clientY;
+			mouseMove((x), (y));
+		}
+		newHeading.onmouseleave = function(e){
+			e = e || window.event;
+			mouseLeaveTable(this);
+		}
+		var newStateResult = document.createElement('td');
+		newStateResult.setAttribute('class', Object.keys(response)[i]);
+		newStateResult.innerHTML = response[Object.keys(response)[i]].stateResults
+		var newFECResult = document.createElement('td');
+		newFECResult.setAttribute('class', Object.keys(response)[i]);
+		newFECResult.innerHTML = response[Object.keys(response)[i]].FECResults
+		if (newFECResult.textContent != newStateResult.textContent){
+			newFECResult.style.background = "red";
+			newStateResult.style.background = "red";
+		}else {
+			//newFECResult.style.background = "green";
+			//newStateResult.style.background = "green";
+		}
+		headingRow.appendChild(newHeading);
+		stateRow.appendChild(newStateResult);
+		FECRow.appendChild(newFECResult);
+		
+	}
+	table.appendChild(headingRow);
+	table.appendChild(stateRow);
+	table.appendChild(FECRow);
+	tableDiv.appendChild(table);
+	document.body.appendChild(tableDiv);
+	for (var i = 0; i < headingRow.children.length; i++){
+		ajaxRequest('getCanidate', request['year'], 0, 0, headingRow.children[i].textContent, setTableCanidateName);
+	}
+}
+
+function setTableCanidateName(reqeust, response){
+	document.getElementsByClassName(response['PARTY'])[0].textContent = response['PLAST'];
+}
+
+function mouseEnterTable(can, x, y){
+	console.log(can.className);
+	mouseOverTable(x, y);
+	var page = getPageName();
+	ajaxRequest('getCanidate', page.year, 0, 0, can.className, setTableToolTip)
+	toolTip.style.display = "block";
+}
+
+function setTableToolTip(request, response){
+	toolTip.textContent = response["PFIRST"] + " " + response["PLAST"];
+}
+function mouseOverTable(x, y){
+	toolTip.style.top = (y + 15) + "px";
+	toolTip.style.left = (x) + "px";
+}
+
+function mouseLeaveTable(){
+	toolTip.style.display = "none";
+}
+
+function getPageName() {
+	var title = document.title.split(" ");
+	var year = title[0];
+	if (title[1] == "West"){
+		var state = title[1] + ' ' + title[2];
+		state = statesArray[state];
+	} else var state = statesArray[title[1]];
+	var pageData = new Object;
+	pageData.state = state;
+	pageData.year = year;
+	return pageData;
 }
