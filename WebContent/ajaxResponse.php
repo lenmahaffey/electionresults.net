@@ -28,11 +28,11 @@ switch($action) {
 		break;
 		
 	case "stateResultsByCanidate" : 
-		$reply = $db->stateResultsByCanidate($request["state"], $request["year"]); 
+	    $reply = $db->stateResultsByCanidate($request["year"], $request["state"]); 
 		break;
 		
 	case "countyResults" : 
-		$reply = $db->countyResults($request["state"], $request["year"], $request["FIPS"]); 
+	    $reply = $db->countyResults($request["year"], $request["state"], $request["FIPS"]); 
 		break;
 		
 	case "FECResultsByCanidate" :
