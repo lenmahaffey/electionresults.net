@@ -3,6 +3,8 @@
 	<name>electionresults.net</name>
 	<comment></comment>
 	<projects>
+		<project>Election Database</project>
+		<project>Map Files</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
