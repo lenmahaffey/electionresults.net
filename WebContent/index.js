@@ -237,7 +237,8 @@ function showStates(){
 	document.getElementById("2000Results").onclick = function () { setupAllStatesView("2000") };
 	document.getElementById("2004Results").onclick = function () { setupAllStatesView("2004") };
 	document.getElementById("2008Results").onclick = function () { setupAllStatesView("2008") };
-	document.getElementById("2012Results").onclick = function () { setupAllStatesView("2012") };
+    document.getElementById("2012Results").onclick = function () { setupAllStatesView("2012") };
+    document.getElementById("2016Results").onclick = function () { setupAllStatesView("2016") };
 	
 	for(var i = 0; i < states.length; i++){
 		states[i].style.visibility = "visible";
@@ -262,7 +263,8 @@ function showCounties(){
 	document.getElementById("2000Results").onclick = function () { setupAllCountiesView("2000") };
 	document.getElementById("2004Results").onclick = function () { setupAllCountiesView("2004") };
 	document.getElementById("2008Results").onclick = function () { setupAllCountiesView("2008") };
-	document.getElementById("2012Results").onclick = function () { setupAllCountiesView("2012") };
+    document.getElementById("2012Results").onclick = function () { setupAllCountiesView("2012") };
+    document.getElementById("2016Results").onclick = function () { setupAllCountiesView("2016") };
 
 	for(var i = 0; i < states.length; i++){
 		states[i].style.visibility = "hidden";

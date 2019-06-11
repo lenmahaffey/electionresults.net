@@ -32,32 +32,32 @@
 		<link>
 			<name>WebContent/database/database.php</name>
 			<type>1</type>
-			<location>/Users/bozziley/code/eclipse/electionsWorkspace/Election Database/database.php</location>
+			<location>C:/Users/Len Mahaffey/Documents/code/eclipse workspaces/electionWorkspace/electionDatabase/database.php</location>
 		</link>
 		<link>
 			<name>WebContent/images/counties.css</name>
 			<type>1</type>
-			<location>/Users/bozziley/code/eclipse/electionsWorkspace/Map Files/counties.css</location>
+			<location>C:/Users/Len Mahaffey/Documents/code/eclipse workspaces/electionWorkspace/MapFiles/counties.css</location>
 		</link>
 		<link>
 			<name>WebContent/images/counties.svg</name>
 			<type>1</type>
-			<location>/Users/bozziley/code/eclipse/electionsWorkspace/Map Files/counties.svg</location>
+			<location>C:/Users/Len Mahaffey/Documents/code/eclipse workspaces/electionWorkspace/MapFiles/counties.svg</location>
 		</link>
 		<link>
 			<name>WebContent/images/states</name>
 			<type>2</type>
-			<location>/Users/bozziley/code/eclipse/electionsWorkspace/Map Files/singleStates</location>
+			<location>C:/Users/Len Mahaffey/Documents/code/eclipse workspaces/electionWorkspace/MapFiles/singleStates</location>
 		</link>
 		<link>
 			<name>WebContent/images/states.css</name>
 			<type>1</type>
-			<location>/Users/bozziley/code/eclipse/electionsWorkspace/Map Files/states.css</location>
+			<location>C:/Users/Len Mahaffey/Documents/code/eclipse workspaces/electionWorkspace/MapFiles/states.css</location>
 		</link>
 		<link>
 			<name>WebContent/images/states.svg</name>
 			<type>1</type>
-			<location>/Users/bozziley/code/eclipse/electionsWorkspace/Map Files/states.svg</location>
+			<location>C:/Users/Len Mahaffey/Documents/code/eclipse workspaces/electionWorkspace/MapFiles/states.svg</location>
 		</link>
 	</linkedResources>
 </projectDescription>
