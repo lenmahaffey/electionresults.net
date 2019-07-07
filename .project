@@ -28,36 +28,4 @@
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>WebContent/database/database.php</name>
-			<type>1</type>
-			<location>C:/Users/Len Mahaffey/Documents/code/eclipse workspaces/electionWorkspace/electionDatabase/database.php</location>
-		</link>
-		<link>
-			<name>WebContent/images/counties.css</name>
-			<type>1</type>
-			<location>C:/Users/Len Mahaffey/Documents/code/eclipse workspaces/electionWorkspace/MapFiles/counties.css</location>
-		</link>
-		<link>
-			<name>WebContent/images/counties.svg</name>
-			<type>1</type>
-			<location>C:/Users/Len Mahaffey/Documents/code/eclipse workspaces/electionWorkspace/MapFiles/counties.svg</location>
-		</link>
-		<link>
-			<name>WebContent/images/states</name>
-			<type>2</type>
-			<location>C:/Users/Len Mahaffey/Documents/code/eclipse workspaces/electionWorkspace/MapFiles/singleStates</location>
-		</link>
-		<link>
-			<name>WebContent/images/states.css</name>
-			<type>1</type>
-			<location>C:/Users/Len Mahaffey/Documents/code/eclipse workspaces/electionWorkspace/MapFiles/states.css</location>
-		</link>
-		<link>
-			<name>WebContent/images/states.svg</name>
-			<type>1</type>
-			<location>C:/Users/Len Mahaffey/Documents/code/eclipse workspaces/electionWorkspace/MapFiles/states.svg</location>
-		</link>
-	</linkedResources>
 </projectDescription>
