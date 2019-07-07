@@ -1,4 +1,4 @@
-/* Copyright © 2016 TLA Designs, LLC. All rights reserved. */
+/* Copyright © 2019 TLA Designs, LLC. All rights reserved. */
 var currentYear;
 var lastCountyClicked;
 var statesArray = {

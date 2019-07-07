@@ -1,5 +1,5 @@
 <?php
-/* Copyright © 2016 TLA Designs, LLC. All rights reserved. */
+/* Copyright © 2019 TLA Designs, LLC. All rights reserved. */
 include_once 'database/database.php';
 $db = new database;
 $request = json_decode(file_get_contents('php://input'), true);
