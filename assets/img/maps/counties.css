@@ -1,0 +1,21 @@
+/* Copyright © 2016 TLA Designs, LLC. All rights reserved. */
+@CHARSET "UTF-8";
+
+.island{
+	stroke: white;
+	stroke-width: .2;
+}
+
+.main{
+	stroke: white;
+	stroke-width: 1;
+}
+
+.county {
+	fill: grey;
+}
+
+.county:hover {
+	fill: blue;
+}
+
