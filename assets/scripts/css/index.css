@@ -54,6 +54,13 @@ a:visited{
 	font-family: arial;
 }
 
+.canidateHeader
+{
+	display: inline-block;
+	font-size: 30px;
+	margin: auto;
+}
+
 #DEM_header {
 	display: inline-block;
 	width: 49%;
