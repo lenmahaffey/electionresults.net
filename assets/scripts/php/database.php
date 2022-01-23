@@ -1,15 +1,20 @@
 <?php
-/* Copyright © 2016 TLA Designs, LLC. All rights reserved. */
+/* Copyright © 2021 TLA Designs, LLC. All rights reserved. */
 class database{
 
 	private $link;
 
 	private function openDBConnection(){
-	    $this->link = mysqli_init();
-	    $this->link->real_connect('127.0.0.1:3306', 'electionResults', 'P@ssw0rd', 'electionresults');
-		//$this->link = new mysqli('localhost', 'election', 'election', 'election');
-		if ($this->link->connect_errno){
-			die('Connection Error ' . $this->link->connect_errno . ': ' . $this->link->connect_error);
+		$serverName = "localhost";
+        $connectionOptions = array("Database"=>"electionResults",
+								   "Uid"=>"electionResults", 
+								   "PWD"=>"P@ssw0rd");
+		$this->link = sqlsrv_connect($serverName, $connectionOptions);
+		if ($this->link == false){
+			echo ("Failure");
+		}
+		else{
+			echo "Success";
 		}
 	}
 
@@ -18,7 +23,7 @@ class database{
 	}
 
 	function __destruct(){
-		mysqli_close($this->link);
+		sqlsrv_close($this->link);
 	}
 
 	function stateWinner($state, $year){
