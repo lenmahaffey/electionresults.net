@@ -157,11 +157,6 @@ function allStatesSVGLoad(){
 	request.onreadystatechange = function() {
 		if(request.readyState == 4 && request.status == 200) {
 			allStatesView.innerHTML = request.responseText;
-			//var windowHeight = allStatesView.clientHeight;
-			//var windowWidth = allStatesView.clientWidth;
-			//allStatesSVG.setAttribute("width", windowWidth);
-			//allStatesSVG.setAttribute("height", windowHeight);
-			setupSVG(allStatesSVG);
 		}
 		if(request.readyState == 4 && request.status == 500) {
 			alert('FAIL');
