@@ -15,7 +15,7 @@
 
 <body>
 	<div id="toolTip"></div>
-	<div class="h1" id="heading">Select a Year</div>
+	<div id="heading" class="h1">Select a Year</div>
 	<div class="row" id="canidates">
 		<div class="col-6" id="DEM_header">
 			<div class="row">
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" id="buttons">
+	<div id="buttons" class="row">
 		<div class="col-1 text-start">
 			<button id="resultsButton" class="btn btn-light" type="button" onclick="showResultsWindow()">
 				Show Results
@@ -84,10 +84,22 @@
 			</div>
 		</div>
 	</div>
-	<div id="resultsWindow">
-		<div id="results">
-			<div id="column1"></div>
-			<div id="column2"></div>
+	<div class="container fixed-bottom">
+		<div id="results" class="row border border-5 border-secondary">
+			<div id="column1" class="col border-end border-secondary border-3">
+				<div class="row">
+					<div class="resultName col">Name</div>
+					<div class="resultParty col text-center">Party</div>
+					<div class="resultVotes col text-end">Votes</div>
+				</div>
+			</div>
+			<div id="column2" class="col">
+				<div class="row">
+					<div class="resultName col">Name</div>
+					<div class="resultParty col text-center">Party</div>
+					<div class="resultVotes col text-end">Votes</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div id="copyright">

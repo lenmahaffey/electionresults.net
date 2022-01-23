@@ -34,13 +34,11 @@ a:visited{
 }
 
 .left {
-	display: inline-block;
 	margin: auto;
 }
 
 .right {
 	float: right;
-	display: inline-block;
 	margin: auto;
 }
 
@@ -54,77 +52,6 @@ a:visited{
 	font-family: arial;
 }
 
-/*.canidateHeader
-{
-	display: inline-block;
-	font-size: 30px;
-	margin: auto;
-}
-
-#DEM_header {
-	display: inline-block;
-	width: 49%;
-	font-size: 30px;
-	margin: auto;
-	text-align: left;
-}
-
-#REP_header {
-	display: inline-block;
-	width: 50.5%;
-	font-size: 30px;
-	margin: auto;
-	text-align: right;
-}
-
-#DEM_canidate {
-	display: inline-block;
-	width: 49%;
-	font-size: 25px;
-	margin: auto;
-	text-align: left;
-}
-
-#REP_canidate {
-	display: inline-block;
-	width: 49%;
-	font-size: 30px;
-	margin: auto;
-	text-align: right;
-}
-
-#DEM_vote {
-	display: inline-block;
-	width: 49%;
-	text-align: right;
-}
-
-#REP_vote {
-	display: inline-block;
-	width: 49%;
-	margin: auto;
-	text-align: left;
-}
-
-#buttons {
-	
-}
-
-#yearsButtons {
-	text-align: center;
-	margin: auto;
-}
-
-#mapButtons {
-	display: inline-block;
-	position: absolute;
-	right: 0;
-}
-*/
-#allStatesView {
-
-}
-
 #toolTip {
 	position:absolute;
 	background: black;
@@ -135,77 +62,33 @@ a:visited{
 	visibility: hidden;
 }
 
-#resultsWindow {
-	visibility: hidden;
-	width: 75%;
-	margin: auto;
-}
-
 #results {
-	border-top: 5px solid grey;
-	border-left: 5px solid grey;
-	border-right: 5px solid grey;
-	width: 75%;
-	margin: auto;
-	background: rgba(0,0,0,0.8);
-	position: fixed;
-	bottom: 0;
+	background: rgba(0,0,0,0.8) !important;
 	height: 33%;
 	overflow: scroll;
 }
 
-#column1 {
-	display: inline-block;
-	width: 50%;
-	margin: auto;
-    border-right-style: solid;
-    border-color: grey;
-}
-
-#column2 {
-	display: inline-block;
-	width: 49%;
-	margin: auto;
-	vertical-align: top;
-}
-
-.canidateResult{
-	
-}
-
 .canidateName {
-	display: inline-block;
 	font-size: 15px;
 	width: 35%;
 	margin: 0 !important;
 }
 
 .PARTY_NAME {
-	display: inline-block;
 	font-size: 15px;
 	width: 45%;
 	margin: 0 !important;
 }
 
 .votes {
-	display: inline-block;
 	font-size: 15px;
 	width: 20%;
 	margin: 0 !important;
 }
 
 #column1.votes {
-	display: inline-block;
 	font-size: 15px;
 	margin: 0 !important;
-}
-
-#maps {
-
-}
-
-#allStatesView {
-
 }
 
 #stateView {
@@ -216,31 +99,17 @@ a:visited{
 	visibility: hidden;
 }
 
-#stateSVG {
 
-}
-
-#singleStateSVG {
-	
-}
 
 #stateButtons{
 	text-align: center;
-}
-
-#closeStateButton {
-
-}
-
-#showCountiesButton {
-
 }
 
 #leftView {
 	width: 49%;
 	height: 76%;
 	overflow: hidden;
-	display: inline-block;
+
 }
 
 #leftview .county {
@@ -250,12 +119,8 @@ a:visited{
 	width: 49%;
 	height: 76%;
 	overflow: scroll;
-	display: inline-block;
-	vertical-align: top;
-}
 
-#countyResults {
-	
+	vertical-align: top;
 }
 
 #countyName {
@@ -271,17 +136,11 @@ a:visited{
     font-size: 23px;
 }
 
-.stateCanidateResult {
-	
-}
-
 .stateCanidateName {
-	display: inline-block;
 	width: 48%;
 }
 
 .stateVotes {
-	display: inline-block;
 	width: 48%;
 	text-align: right;
 }
