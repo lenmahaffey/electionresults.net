@@ -15,6 +15,21 @@
 		$(document).ready(function () {
 			$.get("assets/img/maps/states.svg", function (data, status) {
 				$("#allStatesSVG").html(data.children)
+                $(".state").mouseenter(function (e) {
+
+                })
+
+                $(".state").mousemove(function (e) {
+                    var x = e.clientX;
+                    var y = e.clientY;
+                    console.log(x, y)
+				})
+				$(".state").mouseleave(function (e) {
+
+				})
+                $(".state").click(function (e) {
+                    console.log("CLICK!")
+                })
 			})
         })
 	</script>
