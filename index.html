@@ -1,95 +1,74 @@
-<!--  Copyright © 2019 TLA Designs, LLC. All rights reserved. -->
+<!--  Copyright © 2021 TLA Designs, LLC. All rights reserved. -->
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>United States of America Election Results</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="/assets/scripts/css/index.css">
-<link rel="stylesheet" type="text/css" href="/assets/img/maps/states.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="/assets/scripts/js/index.js">
-
-</script>
-<!-- Google Analytics script
-<script>
-	(function(i, s, o, g, r, a, m) {
-		i['GoogleAnalyticsObject'] = r;
-		i[r] = i[r] || function() {
-			(i[r].q = i[r].q || []).push(arguments)
-		}, i[r].l = 1 * new Date();
-		a = s.createElement(o), m = s.getElementsByTagName(o)[0];
-		a.async = 1;
-		a.src = g;
-		m.parentNode.insertBefore(a, m)
-	})(window, document, 'script', '//www.google-analytics.com/analytics.js',
-			'ga');
-
-	ga('create', 'UA-73715865-1', 'auto');
-	ga('send', 'pageview');
-</script>
-<!-- Google Analytics script   -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>United States of America Election Results</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="/assets/scripts/css/index.css">
+	<link rel="stylesheet" type="text/css" href="/assets/img/maps/states.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="/assets/scripts/js/index.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#resultsWindow").toggle()
+			$("#toolTip").toggle()
+			setupButtons()
+			setupMaps()
+		})
+	</script>
 </head>
 
-<body onload="allStatesSVGLoad()">
-    <!-- Facebook Like Button Script
-	<div id="fb-root"></div>
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
-    <!-- Facebook Like Button Script
-
-	<div id="fb-root"></div>
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
-    <!-- Facebook Like Button Script -->
+<body>
 	<div id="toolTip"></div>
-	<div class="h1" id="heading">Select a Year</div>
+	<div id="heading" class="h1 text-center">Select a Year</div>
 	<div class="row" id="canidates">
-		<div class="col-6 canidateHeader" id="DEM_header">
+		<div class="col-6" id="REP_header">
 			<div class="row">
-				<div class="col-6" id="DEM_canidate"></div>
-				<div class="col-6" id="DEM_vote"></div>
+				<div class="col-6 h3 text-start" id="REP_canidate">DEM</div>
+				<div class="col-6 h3 text-end" id="REP_vote">000</div>
 			</div>
 		</div>
-		<div class="col-6" id="REP_header">
-			<div>
-				<div class="col-6" id="REP_vote"></div>
-				<div class="col-6"  id="REP_canidate"></div>
+		<div class="col-6" id="DEM_header">
+			<div class="row">
+				<div class="col-6 h3 text-start" id="DEM_vote">000</div>
+				<div class="col-6 h3 text-end" id="DEM_canidate">REP</div>
 			</div>
 		</div>
 	</div>
-	<div id="buttons">
-		<button id="resultsButton" type="button" onclick="showResultsWindow()">Show
-			Results</button>
-		<div id="yearsButtons">
-			<button class="btn btn-primary" id="2000Results" type="button"
-				onclick="setupAllStatesView('2000')">2000</button>
-			<button id="2004Results" type="button"
-				onclick="setupAllStatesView('2004')">2004</button>
-			<button id="2008Results" type="button"
-				onclick="setupAllStatesView('2008')">2008</button>
-			<button id="2012Results" type="button"
-                onclick="setupAllStatesView('2012')">2012</button>
-            <button id="2016Results" type="button"
-				onclick="setupAllStatesView('2016')">2016</button>
+	<div id="buttons" class="row">
+		<div class="col-1 text-start">
+			<button id="resultsButton" class="btn btn-light" type="button">
+				Show Results
+			</button>
 		</div>
-		<div id="mapButtons">
-			<p id="message"></p>
-			<button id="showHideButton" type="button" onclick="showCounties()">Show
-				Counties</button>
-			<button id="countiesSetupButton" type="button"
-				onclick="allCountiesSVGLoad()">Get Counties</button>
+		<div class="col-10 text-center">
+			<div class="row">
+				<div class="col p-0">
+					<button class="btn btn-light" id="2000Results" type="button">
+						2000
+					</button>
+					<button class="btn btn-light" id="2004Results" type="button">
+						2004
+					</button>
+					<button class="btn btn-light" id="2008Results" type="button">
+						2008
+					</button>
+					<button class="btn btn-light" id="2012Results" type="button">
+						2012
+					</button>
+					<button class="btn btn-light" id="2016Results" type="button">
+						2016
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-1 text-end">
+			<button id="countiesButton" class="btn btn-light" type="button">
+				Show Counties
+			</button>
 		</div>
 	</div>
 	<div id="maps">
@@ -112,19 +91,30 @@
 			</div>
 		</div>
 	</div>
-	<div id="resultsWindow">
-		<div id="results">
-			<div id="column1"></div>
-			<div id="column2"></div>
+	<div class="container fixed-bottom">
+		<div id="resultsWindow" class="row border border-5 border-secondary border-bottom-0">
+			<div id="column1" class="col border-end border-secondary border-3">
+				<div class="row">
+					<div class="resultName col">Name</div>
+					<div class="resultParty col text-center">Party</div>
+					<div class="resultVotes col text-end">Votes</div>
+				</div>
+			</div>
+			<div id="column2" class="col">
+				<div class="row">
+					<div class="resultName col">Name</div>
+					<div class="resultParty col text-center">Party</div>
+					<div class="resultVotes col text-end">Votes</div>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div id="copyright">
-		Copyright © 2019<br>TLA Designs, LLC.<br>All rights
-		reserved.
+	<div class="position-absolute bottom-0 end-0">
+		Copyright © 2021<br>TLA Designs, LLC.<br>All rights reserved
 	</div>
-	<div id="topBanner">
+	<!--<div id="topBanner">-->
 		<!-- Facebook Like Button -->
-		<div class="right">
+		<!--<div class="right">
 			<div class="fb-like"
 			     data-href="https://www.electionresults.net"
 			     data-layout="button_count"
@@ -132,9 +122,9 @@
 			     data-size="large"
 			     data-show-faces="false"
 			     data-share="true"></div>
-		 </div>
+		 </div>-->
 		 <!-- Facebook Like Button -->
-	</div>
+	<!--</div>-->
 </body>
 </html>
 
