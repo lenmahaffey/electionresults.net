@@ -14,6 +14,19 @@ body {
 	margin: 0px;
 }
 
+#toolTip {
+	position: absolute;
+	background: black;
+	z-index: 100;
+}
+
+#resultsWindow {
+	background: rgba(0,0,0,0.8);
+	height: 33%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+/*Above good -- below to be checked*/
 a{
 	color:white;
 	text-decoration: none;
@@ -42,50 +55,6 @@ a:visited{
 	margin: auto;
 }
 
-#canidates {
-	font-family: arial;
-}
-
-#toolTip {
-	position:absolute;
-	background: black;
-	z-index: 100;
-}
-
-#showHideButton {
-	visibility: hidden;
-}
-
-#resultsWindow {
-	background: rgba(0,0,0,0.8) !important;
-	height: 33%;
-	overflow-y: scroll;
-	overflow-x: hidden;
-}
-
-.canidateName {
-	font-size: 15px;
-	width: 35%;
-	margin: 0 !important;
-}
-
-.PARTY_NAME {
-	font-size: 15px;
-	width: 45%;
-	margin: 0 !important;
-}
-
-.votes {
-	font-size: 15px;
-	width: 20%;
-	margin: 0 !important;
-}
-
-#column1.votes {
-	font-size: 15px;
-	margin: 0 !important;
-}
-
 #stateView {
 	position: absolute;
 	height: 100%;
@@ -94,27 +63,20 @@ a:visited{
 	visibility: hidden;
 }
 
-
-
-#stateButtons{
-	text-align: center;
-}
-
 #leftView {
 	width: 49%;
 	height: 76%;
 	overflow: hidden;
-
 }
 
 #leftview .county {
 	stroke-width: .2;
 }
+
 #rightView{
 	width: 49%;
 	height: 76%;
 	overflow: scroll;
-
 	vertical-align: top;
 }
 
@@ -138,19 +100,6 @@ a:visited{
 .stateVotes {
 	width: 48%;
 	text-align: right;
-}
-
-#resultsButton {
-	position: absolute;
-	left: 0;
-}
-
-#copyright {
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	z-index: 1000;
-	font-size: 10px;
 }
 
 #bottomBanner {
