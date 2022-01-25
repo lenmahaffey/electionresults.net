@@ -2,6 +2,7 @@
 function setHeading(year) {
 	$("#heading").text(year + " General Presidential Elections")
 }
+
 function setupButtons() {
 	$("#2000Results").click(function (e) {
 		year = 2000;
