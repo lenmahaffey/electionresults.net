@@ -1,9 +1,9 @@
-/* Copyright © 2016 TLA Designs, LLC. All rights reserved. */
+/* Copyright © 2021 TLA Designs, LLC. All rights reserved. */
 @CHARSET "UTF-8";
 
 .island{
 	stroke: white;
-	stroke-width: .2;
+	stroke-width: 1;
 }
 
 .main{
