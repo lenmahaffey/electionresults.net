@@ -10,78 +10,64 @@
 	<link rel="stylesheet" type="text/css" href="/assets/img/maps/states.css">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-	<!--<script src="/assets/scripts/js/index.js"></script>-->
+	<script src="/assets/scripts/js/index.js"></script>
 	<script>
 		$(document).ready(function () {
-			$.get("assets/img/maps/states.svg", function (data, status) {
-				$("#allStatesSVG").html(data.children)
-                $(".state").mouseenter(function (e) {
-
-                })
-
-                $(".state").mousemove(function (e) {
-                    var x = e.clientX;
-                    var y = e.clientY;
-                    console.log(x, y)
-				})
-				$(".state").mouseleave(function (e) {
-
-				})
-                $(".state").click(function (e) {
-                    console.log("CLICK!")
-                })
-			})
+			$("#resultsWindow").toggle()
+            $("#toolTip").toggle()
+			setupButtons()
+			setupMaps()
         })
 	</script>
 </head>
 
 <body>
 	<div id="toolTip"></div>
-	<div id="heading" class="h1">Select a Year</div>
+	<div id="heading" class="h1 text-center">Select a Year</div>
 	<div class="row" id="canidates">
-		<div class="col-6" id="DEM_header">
-			<div class="row">
-				<div class="col-6 h3" id="DEM_canidate">REP</div>
-				<div class="col-6 h3 text-end" id="DEM_vote">000</div>
-			</div>
-		</div>
 		<div class="col-6" id="REP_header">
 			<div class="row">
-				<div class="col-6 h3" id="REP_vote">000</div>
-				<div class="col-6 h3 text-end"  id="REP_canidate">DEM</div>
+				<div class="col-6 h3 text-start" id="REP_canidate">DEM</div>
+				<div class="col-6 h3 text-end" id="REP_vote">000</div>
+			</div>
+		</div>
+		<div class="col-6" id="DEM_header">
+			<div class="row">
+				<div class="col-6 h3 text-start" id="DEM_vote">000</div>
+				<div class="col-6 h3 text-end" id="DEM_canidate">REP</div>
 			</div>
 		</div>
 	</div>
 	<div id="buttons" class="row">
 		<div class="col-1 text-start">
-			<button id="resultsButton" class="btn btn-light" type="button" onclick="showResultsWindow()">
+			<button id="resultsButton" class="btn btn-light" type="button">
 				Show Results
 			</button>
 		</div>
 		<div class="col-10 text-center">
 			<div class="row">
 				<div class="col p-0">
-					<button class="btn btn-light" id="2000Results" type="button" onclick="setupAllStatesView('2000')">
+					<button class="btn btn-light" id="2000Results" type="button">
 						2000
 					</button>
-					<button class="btn btn-light" id="2004Results" type="button" onclick="setupAllStatesView('2004')">
+					<button class="btn btn-light" id="2004Results" type="button">
 						2004
 					</button>
-					<button class="btn btn-light" id="2008Results" type="button" onclick="setupAllStatesView('2008')">
+					<button class="btn btn-light" id="2008Results" type="button">
 						2008
 					</button>
-					<button class="btn btn-light" id="2012Results" type="button" onclick="setupAllStatesView('2012')">
+					<button class="btn btn-light" id="2012Results" type="button">
 						2012
 					</button>
-					<button class="btn btn-light" id="2016Results" type="button" onclick="setupAllStatesView('2016')">
+					<button class="btn btn-light" id="2016Results" type="button">
 						2016
 					</button>
 				</div>
 			</div>
 		</div>
 		<div class="col-1 text-end">
-			<button id="countiesSetupButton" class="btn btn-light" type="button" onclick="allCountiesSVGLoad()">
-				Get Counties
+			<button id="countiesButton" class="btn btn-light" type="button">
+				Show Counties
 			</button>
 			<p id="message"></p>
 		</div>
@@ -107,7 +93,7 @@
 		</div>
 	</div>
 	<div class="container fixed-bottom">
-		<div id="resultsWindow" class="row border border-5 border-secondary">
+		<div id="resultsWindow" class="row border border-5 border-secondary border-bottom-0">
 			<div id="column1" class="col border-end border-secondary border-3">
 				<div class="row">
 					<div class="resultName col">Name</div>
