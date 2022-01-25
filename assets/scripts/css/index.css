@@ -42,12 +42,6 @@ a:visited{
 	margin: auto;
 }
 
-#heading {
-	font-family: impact;
-	font-size: 50px;
-	text-align: center;
-}
- 
 #canidates {
 	font-family: arial;
 }
@@ -65,7 +59,8 @@ a:visited{
 #resultsWindow {
 	background: rgba(0,0,0,0.8) !important;
 	height: 33%;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .canidateName {
