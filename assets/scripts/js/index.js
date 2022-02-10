@@ -115,7 +115,7 @@ function setToolTipPosition(x, y) {
 }
 
 function setToolTipValue(target) {
-	$.post("assets/scripts/php/ajaxResponse.php", {FIPS: target}, function (result) {
+	$.post("assets/scripts/php/ajaxResponse.php", {action: "getFIPS", FIPS: target}, function (result) {
 		//console.log(data)
 	})
 }
