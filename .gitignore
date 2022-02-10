@@ -1,4 +1,9 @@
+/.vs/
+/App_Data
+/css
 /electionresults.net.sln
 /Web.Config
-/.vs/
-/css
+/website.publishproj
+
+
+

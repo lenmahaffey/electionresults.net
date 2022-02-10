@@ -1,15 +1,20 @@
 <?php
-/* Copyright © 2016 TLA Designs, LLC. All rights reserved. */
+/* Copyright © 2021 TLA Designs, LLC. All rights reserved. */
 class database{
 
 	private $link;
-
+	
 	private function openDBConnection(){
-	    $this->link = mysqli_init();
-	    $this->link->real_connect('127.0.0.1:3306', 'electionResults', 'P@ssw0rd', 'electionresults');
-		//$this->link = new mysqli('localhost', 'election', 'election', 'election');
-		if ($this->link->connect_errno){
-			die('Connection Error ' . $this->link->connect_errno . ': ' . $this->link->connect_error);
+		$serverName = "localhost";
+        $connectionOptions = array("Database"=>"electionResults",
+								   "Uid"=>"electionResults", 
+								   "PWD"=>"P@ssw0rd");
+		$this->link = sqlsrv_connect($serverName, $connectionOptions);
+		if ($this->link == false){
+			print_r( sqlsrv_errors());
+		}
+		else{
+			//echo "Success";
 		}
 	}
 
@@ -18,25 +23,46 @@ class database{
 	}
 
 	function __destruct(){
-		mysqli_close($this->link);
+		sqlsrv_close($this->link);
 	}
-
-	function stateWinner($state, $year){
-		$query = "SELECT * FROM " . $year . "_" . $state . "_PRES";
-		////$query = $this->link->prepare($queryString);
-		$result = $this->link->query($query);
+	
+	function stateWinner($year, $state){
+		$sql = "
+		SELECT TOP 1 CANIDATE AS PARTY, CAN_".$year.".PFIRST, CAN_".$year.".PMID, CAN_".$year.".PLAST, SUM(VOTES) AS VOTES FROM STATECOUNTS
+		JOIN CAN_".$year." ON CANIDATE = CAN_".$year.".PARTY
+		WHERE STATECOUNTS.FIPS > 001000 AND STATECOUNTS.FIPS < (001000 + 1000) AND YEAR = ".$year."
+		GROUP BY CANIDATE, CAN_".$year.".PFIRST, CAN_".$year.".PMID, CAN_".$year.".PLAST
+		ORDER BY VOTES DESC
+		";
+		try	{
+			$result = sqlsrv_query($this->link, $sql);
+		}
+		catch(Exception $e){
+			print_r(e);
+		}
+		print_r($result);
 		if ($result){
-			$resultCount = $result->num_rows;
-			$result->data_seek($resultCount-1);
-			$array = $result->fetch_array(MYSQLI_ASSOC);
-			unset($array['FIPS']);
-			unset($array['COUNTY']);
-			unset($array['COUNTY_TOTAL']);
-			$highestVoteCount = max($array);
-			$winner = array_search($highestVoteCount, $array);
-			return $winner;
+			$array = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC);
+			return $array;
 		}else return mysqli_error($this->link);
 	}
+
+	// function stateWinner($state, $year){
+	// 	$query = "SELECT * FROM " . $year . "_" . $state . "_PRES";
+	// 	////$query = $this->link->prepare($queryString);
+	// 	$result = $this->link->query($query);
+	// 	if ($result){
+	// 		$resultCount = $result->num_rows;
+	// 		$result->data_seek($resultCount-1);
+	// 		$array = $result->fetch_array(MYSQLI_ASSOC);
+	// 		unset($array['FIPS']);
+	// 		unset($array['COUNTY']);
+	// 		unset($array['COUNTY_TOTAL']);
+	// 		$highestVoteCount = max($array);
+	// 		$winner = array_search($highestVoteCount, $array);
+	// 		return $winner;
+	// 	}else return mysqli_error($this->link);
+	// }
 
 	function FECResultsByCanidate($year){
 		$query = "SELECT * FROM " . $year . "_FEC WHERE STATE = 'CAN_TOTAL'";
@@ -55,7 +81,7 @@ class database{
 			return $array;
 		}else return mysqli_error($this->link);
 	}
-
+	
 	function FECResultsByState($year, $state){
 		$query = "SELECT * FROM " . $year . "_FEC WHERE STATE='" . $state . "'";
 		////$query = $this->$link->prepare($queryString);
@@ -96,7 +122,7 @@ class database{
 			return $winner;
 		}else return mysqli_error($this->link);
 	}
-
+	
 	function FECResultsAllStateWinnersForYear($year, $states){
 		$winners = array();
 		$i = 0;
@@ -138,14 +164,14 @@ class database{
 			return $array;
 		}else return mysqli_error($this->link);
 	}
-
+	
 	function countyWinner($year, $state, $FIPS){
 		$query = "SELECT * FROM " . $year . "_" . $state . "_PRES WHERE FIPS=" . $FIPS;
 		//$query = $this->$link->prepare($queryString);
 		$result = $this->link->query($query);
 		if ($result->num_rows !=0){
 			$resultCount = $result->num_rows;
-
+		
 			$result->data_seek($resultCount-1);
 			$array = $result->fetch_array(MYSQLI_ASSOC);
 			unset($array['FIPS']);
@@ -156,14 +182,14 @@ class database{
 			return $winner;
 		}else return mysqli_error($this->link);
 	}
-
+	
 	function allCountyWinners($year, $state, $FIPS){
 		$query = "SELECT * FROM " . $year . "_" . $state . "_PRES WHERE FIPS=" . $FIPS;
 		//$query = $this->$link->prepare($queryString);
 		$result = $this->link->query($query);
 		if ($result->num_rows !=0){
 			$resultCount = $result->num_rows;
-
+	
 			$result->data_seek($resultCount-1);
 			$array = $result->fetch_array(MYSQLI_ASSOC);
 			unset($array['FIPS']);
@@ -174,7 +200,7 @@ class database{
 			return $winner;
 		}else return mysqli_error($this->link);
 	}
-
+	
 	function countyResults($year, $state, $FIPS){
 		$query = "SELECT * FROM " . $year . "_" . $state . "_PRES WHERE FIPS=" . $FIPS;
 		//$query = $this->$link->prepare($queryString);
@@ -190,7 +216,7 @@ class database{
 			return $array;
 		}else return mysqli_error($this->link);
 	}
-
+	
 	function getCanidate($year, $can){
 		$query = "SELECT * FROM " . $year . "_CAN WHERE PARTY=" ."'$can'";
 		//$query = $this->$link->prepare($queryString);
@@ -202,7 +228,7 @@ class database{
 			return $array;
 		}else return mysqli_error($this->link);
 	}
-
+	
 	function getParty($year, $party){
 		$query = "SELECT * FROM " . $year . "_PAR WHERE PARTY=" . "'$party'";
 		//$query = $this->$link->prepare($queryString);
@@ -214,14 +240,14 @@ class database{
 			return $array;
 		}else return mysqli_error($this->link);
 	}
-
+	
 	function getAllCanidates($year, $canidates){
 		$winners = array();
 		$i = 0;
 		foreach ($canidates as $canidate){
 			$query = "SELECT * FROM " . $year . "_CAN WHERE PARTY=" ."'$canidate'";
 			$result = $this->link->query($query);
-
+			
 			if ($result){
 				$resultCount = $result->num_rows;
 				$result->data_seek($resultCount-1);
@@ -232,7 +258,7 @@ class database{
 		}
 		return $winners;
 	}
-
+	
 	function getAllParties($year, $parties){
 		$winners = array();
 		$i = 0;
@@ -250,21 +276,22 @@ class database{
 		}
 		return $winners;
 	}
-
-	function getFIPSName($FIPS){
-	    //$query = "SELECT * FROM FIPS WHERE `DESCRIPTION` = 'State'";
-	    //print ($query);
-		$query = "SELECT * FROM FIPS WHERE FIPS=" . $FIPS;
-		//$query = $this->$link->prepare($queryString);
-		$result = $this->link->query($query);
+	
+	function getFIPS($FIPS){
+		$query = "EXEC GetFIPS @" + FIPS;
+		try	{
+			$result = sqlsrv_query($this->link, $sql);
+		}
+		catch(Exception $e){
+			print_r(e);
+		}
+		print_r($result);
 		if ($result){
-			$resultCount = $result->num_rows;
-			$result->data_seek($resultCount-1);
-			$array = $result->fetch_array(MYSQLI_ASSOC);
+			$array = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC);
 			return $array;
 		}else return mysqli_error($this->link);
 	}
-
+	
 	function getAllStates(){
 	    $query = "SELECT * FROM `FIPS`";
 	    //print ($query);
@@ -278,7 +305,7 @@ class database{
 	        return $array;
 	    }else return mysqli_error($this->link);
 	}
-
+	
 	function countyWinnersByStateForYear($year, $state){
 		$query = "SELECT * FROM " . $year . "_" . $state . "_PRES";
 		//$query = $this->$link->prepare($queryString);
@@ -302,7 +329,7 @@ class database{
 			return $resultsArray;
 		}
 	}
-
+	
 	function allCountyWinnersByStateForYear($year, $states){
 		$winners = array();
 		$i = 0;
@@ -312,7 +339,7 @@ class database{
 		}
 		return $winners;
 	}
-
+	
 	function getWordpressResultsTableData($year, $state){
 		$FECResults = $this->FECResultsByState($year, $state);
 		$stateResults = $this->stateResultsByCanidate($year, $state);

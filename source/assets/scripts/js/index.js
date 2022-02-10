@@ -45,9 +45,11 @@ function setupMaps() {
 		$("#allStatesSVG").html(data.children)
 
 		$(".state").mouseenter(function (e) {
-			var x = e.clientX;
-			var y = e.clientY;
+			var x = e.clientX
+			var y = e.clientY
+			var target = e.currentTarget.id
 			setToolTipPosition(x, y)
+			setToolTipValue(target);
 			$("#toolTip").toggle()
 			$("#toolTip").text("ToolTip")
 
@@ -110,6 +112,12 @@ function addCountiesToSVG(nodesToAdd) {
 function setToolTipPosition(x, y) {
 	toolTip.style.top = (y - 20) + "px";
 	toolTip.style.left = (x + 15) + "px";
+}
+
+function setToolTipValue(target) {
+	$.post("assets/scripts/php/ajaxResponse.php", {FIPS: target}, function (result) {
+		//console.log(data)
+	})
 }
 
 var currentYear;

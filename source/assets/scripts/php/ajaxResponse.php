@@ -55,7 +55,7 @@ switch($action) {
 		$reply = $db->getAllParties($request["year"], $request["can"]);
 		break;
 
-	case "getFIPSName" :
+	case "getFIPS" :
 		$reply = $db->getFIPSName($request["FIPS"]);
 		break;
 
