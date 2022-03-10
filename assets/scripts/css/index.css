@@ -9,9 +9,20 @@ body {
 	color: white;
 	background: linear-gradient(black, black, rgba(15,0,153,1));
 	overflow: hidden;
-	font-family: arial;
 	min-height: 100%;
 	margin: 0px;
+}
+
+#countyResults {
+
+}
+
+#resultsWindow {
+	background: rgba(0,0,0,0.8);
+}
+
+#stateMap {
+
 }
 
 #toolTip {
@@ -20,91 +31,11 @@ body {
 	z-index: 100;
 }
 
-#resultsWindow {
+.modal-content {
 	background: rgba(0,0,0,0.8);
-	height: 33%;
-	overflow-y: scroll;
-	overflow-x: hidden;
-}
-/*Above good -- below to be checked*/
-a{
-	color:white;
-	text-decoration: none;
 }
 
-a:visited{
-	color:white;
-	text-decoration: none;
-}
-
-#topBanner {
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 100%;
-	font-size: 10px;
+.resultsContainer {
+	width: 85%;
 	margin: auto;
-}
-
-.left {
-	margin: auto;
-}
-
-.right {
-	float: right;
-	margin: auto;
-}
-
-#stateView {
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	background: rgba(0,0,0,0.9);
-	visibility: hidden;
-}
-
-#leftView {
-	width: 49%;
-	height: 76%;
-	overflow: hidden;
-}
-
-#leftview .county {
-	stroke-width: .2;
-}
-
-#rightView{
-	width: 49%;
-	height: 76%;
-	overflow: scroll;
-	vertical-align: top;
-}
-
-#countyName {
-	text-align: center;
-	font-size: 25px;
-}
-
-#columnA {
-	width: 75%;
-	margin: auto;
-    height: 75%;
-    overflow: scroll;
-    font-size: 23px;
-}
-
-.stateCanidateName {
-	width: 48%;
-}
-
-.stateVotes {
-	width: 48%;
-	text-align: right;
-}
-
-#bottomBanner {
-	position: absolute;
-	bottom: 0;
-	margin-left: auto;
-	margin-right: auto;
 }
