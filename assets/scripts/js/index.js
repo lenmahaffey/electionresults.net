@@ -1,32 +1,19 @@
 /* Copyright © 2021 TLA Designs, LLC. All rights reserved. */
+var currentYear;
+var countiesVisible = false;
 function setHeading(year) {
 	$("#heading").text(year + " General Presidential Elections")
 }
 
 function setupButtons() {
-	$("#2000Results").click(function (e) {
-		year = 2000;
-		setHeading(year);
-	})
-
-	$("#2004Results").click(function (e) {
-		year = 2004;
-		setHeading(year);
-	})
-
-	$("#2008Results").click(function (e) {
-		year = 2008;
-		setHeading(year);
-	})
-
-	$("#2012Results").click(function (e) {
-		year = 2012;
-		setHeading(year);
-	})
-
-	$("#2016Results").click(function (e) {
-		year = 2016;
-		setHeading(year);
+	var years = [2000, 2004, 2008, 2012, 2016]
+	years.forEach(function (year) {
+		var buttonName = "#" + year + "Results"
+		$(buttonName).click(function (e) {
+			currentYear = year;
+			setHeading(currentYear);
+			getResults()
+		})
 	})
 
 	$("#resultsButton").click(function () {
@@ -34,9 +21,12 @@ function setupButtons() {
 	})
 
 	$("#countiesButton").click(function () {
-		console.log("click")
-		$(".state").toggle()
-		$(".county").toggle()
+		this.textContent = (this.textContent == "Show States") ? "Show Counties" : "Show States"
+		toggleMap()
+	})
+	
+	$("#modalCloseButton").click(function () {
+		$(".modal").toggle()
 	})
 }
 
@@ -51,8 +41,6 @@ function setupMaps() {
 			setToolTipPosition(x, y)
 			setToolTipValue(target);
 			$("#toolTip").toggle()
-			$("#toolTip").text("ToolTip")
-
 		})
 
 		$(".state").mousemove(function (e) {
@@ -67,7 +55,9 @@ function setupMaps() {
 		})
 
 		$(".state").click(function (e) {
-
+			state = e.target.parentNode.parentNode.id
+			getSingleStateMap(state)
+			$(".modal").toggle()
 		})
 	})
 
@@ -75,9 +65,11 @@ function setupMaps() {
 		addCountiesToSVG(data)
 		$(".county").toggle()
 		$(".county").mouseenter(function (e) {
-			var x = e.clientX;
-			var y = e.clientY;
+			var x = e.clientX
+			var y = e.clientY
+			var target = e.currentTarget.id
 			setToolTipPosition(x, y)
+			setToolTipValue(target);
 			$("#toolTip").toggle()
 		})
 
@@ -115,12 +107,124 @@ function setToolTipPosition(x, y) {
 }
 
 function setToolTipValue(target) {
-	$.post("assets/scripts/php/ajaxResponse.php", {action: "getFIPS", FIPS: target}, function (result) {
-		//console.log(data)
+	$.post("assets/scripts/php/ajaxResponse.php", { action: "getFIPS", FIPS: target }, function (result) {
+		var data = JSON.parse(result)
+		$("#toolTip").text(data[0]["NAME"])
 	})
 }
 
-var currentYear;
+function setCandidateResults(data) {
+	//Clear previous data
+	$("#column1").html("")
+	$("#column2").html("")
+	for (var i = 0; i < data.length; i++) {
+		//get needed values, use an empty string for nulls
+		var pFirst = (data[i]["PFIRST"] == null) ? "" : data[i]["PFIRST"] + " "
+		var pMid = (data[i]["PMID"] == null) ? "" : data[i]["PMID"] + " "
+		var pLast = (data[i]["PLAST"] == null) ? "" : data[i]["PLAST"]
+		var party = (data[i]["PARTY"] == null) ? "" : data[i]["PARTY"]
+		var votes = (data[i]["VOTES"] == null) ? "" : data[i]["VOTES"]
+
+		//Look for major party candidates and set the heading with them
+		if (party == "Democratic Party") {
+			$("#DEM_candidate").text(pFirst + pMid + pLast)
+			$("#DEM_vote").text(votes.toLocaleString())
+		}
+		if (party == "Republican Party") {
+			$("#REP_candidate").text(pFirst + pMid + pLast)
+			$("#REP_vote").text(votes.toLocaleString())
+		}
+
+		//Create new canidateRow
+		var newElement = document.createElement("div")
+		newElement.classList.add("row")
+
+		var CandidateName = document.createElement("div")
+		CandidateName.classList.add("CandidateName", "col-4")
+		CandidateName.innerText = pFirst + pMid + pLast
+
+		var CandidateParty = document.createElement("div")
+		CandidateParty.classList.add("CandidateParty", "col-6", "text-center")
+		CandidateParty.innerText = party
+
+		var CandidateVotes = document.createElement("div")
+		CandidateVotes.classList.add("CandidateVotes", "col-2", "text-end")
+		CandidateVotes.innerText = votes.toLocaleString()
+
+		newElement.appendChild(CandidateName)
+		newElement.appendChild(CandidateParty)
+		newElement.appendChild(CandidateVotes)
+
+		//Append half the elements to column1 and the other half to column2
+		if (i < (data.length / 2)) {
+			document.getElementById("column1").appendChild(newElement)
+		} else {
+			document.getElementById("column2").appendChild(newElement)
+        }
+    }
+}
+
+function setColor(data) {
+	if (data['PARTY'] == "Democratic Party") {
+		$("#" + data['FIPS_ID']).css({fill: 'blue'})
+	}
+	if (data['PARTY'] == "Republican Party") {
+		$("#" + data['FIPS_ID']).css({ fill: 'red' })
+    }
+}
+
+function getSingleStateMap(state) {
+	url = "assets/img/maps/states/" + state + ".svg"
+	$.get(url, function (data, status) {
+		$("#stateMap").html(data.children)
+		var counties = $("#stateMap").find(".county")
+		counties.each(function () {
+			$.post("assets/scripts/php/ajaxResponse.php", { action: "STATES_SingleCountyWinner", year: currentYear, FIPS: $(this).attr('id') }, function (result) {
+				result = JSON.parse(result)
+				setColor(result[0])
+			})
+		})
+	})
+}
+
+function toggleMap() {
+	$(".state").toggle()
+	$(".county").toggle()
+	if ($(".county:visible").length > 0) {
+		countiesVisible = true
+	} else {
+		countiesVisible = false
+    }
+	getResults()
+}
+
+function getResults() {
+	if (countiesVisible == true) {
+		$(".state").each(function () {
+			$.post("assets/scripts/php/ajaxResponse.php", { action: "STATES_SingleStateAllCountyWinners", year: currentYear, FIPS: this.id }, function (result) {
+				if (result != "null") {
+					result = JSON.parse(result)
+					result.forEach(element => setColor(element))
+				}
+			})
+		})
+	} else {
+		$.post("assets/scripts/php/ajaxResponse.php", { action: "FEC_AllStateWinners", YEAR: currentYear }, function (result) {
+			result = JSON.parse(result)
+			result.forEach(function (result) {
+				setColor(result)
+			})
+		})
+		$.post("assets/scripts/php/ajaxResponse.php", { action: "FEC_AllCandidateTotals", YEAR: currentYear }, function (result) {
+			result = JSON.parse(result)
+			setCandidateResults(result)
+		})
+	}
+}
+//**********************************************************//
+//**********************************************************//
+//**********************************************************//
+//**********************************************************//
 var lastCountyClicked;
 
 function ajaxRequest(action, year, state, FIPS, can, callback){
@@ -184,7 +288,7 @@ function singleStateSVGLoad(state){
 			setupSingleStateSVG(leftView.getElementsByTagName('svg')[0]);
 			if (currentYear){
 				ajaxRequest('countyWinnersByStateForYear', currentYear, state.parentNode.id, 0, 0, colorAllCountiesInStateView);
-				ajaxRequest('stateResultsByCanidate', currentYear, state.parentNode.id, 0, 0, setCanidates);
+				ajaxRequest('stateResultsByCandidate', currentYear, state.parentNode.id, 0, 0, setCandidates);
 				ajaxRequest('getFIPSName', 0, 0,  state.id, 0, setStateViewHeader);
 			}
 			showStateView();
@@ -200,35 +304,10 @@ function singleStateSVGLoad(state){
 
 function resetHeading(){
 	heading.textContent = "Select a Year";
-	DEM_canidate.textContent = "";
+	DEM_Candidate.textContent = "";
 	DEM_vote.textContent = "";
-	REP_canidate.textContent = "";
+	REP_Candidate.textContent = "";
 	REP_vote.textContent = "";
-}
-
-function setupAllStatesView(year){
-	currentYear = year;
-	setHeading(year);
-	var states = allStatesSVG.querySelectorAll('.state');
-	var statesList = new Array();
-	for(var i = 0; i < states.length; i++){
-		statesList[i] = states.item(i).parentNode.id;
-	}
-	ajaxRequest('FECResultsAllStateWinnersForYear', year, statesList, 0, 0, colorAllStates);
-	if (leftView.hasChildNodes()) {
-		var state = leftView.getElementsByTagName('svg')[0].querySelectorAll('.state');
-		var counties = leftView.getElementsByTagName('svg')[0].querySelectorAll('.county');
-		for(var i = 0; i < counties.length; i++){
-			ajaxRequest('countyWinner', year, counties.item(i).parentNode.id, counties.item(i).id, 0, colorStateViewCounty);
-		}
-		if(lastCountyClicked) {
-			ajaxRequest('countyResults', year, state[0].parentNode.id, lastCountyClicked.id, 0, setCountyResults);
-		}
-		ajaxRequest('stateResultsByCanidate', year, state[0].parentNode.id, 0, 0, setCanidates);
-		ajaxRequest('getFIPSName', 0, 0,  state[0].id, 0, setStateViewHeader);
-	} else {
-		ajaxRequest('FECResultsByCanidate', year, 0, 0, 0, setCanidates);
-	}
 }
 
 function setupAllCountiesView(year){
@@ -250,127 +329,10 @@ function setupAllCountiesView(year){
 		if(lastCountyClicked) {
 			ajaxRequest('countyResults', year, state[0].parentNode.id, lastCountyClicked.id, 0, setCountyResults);
 		}
-		ajaxRequest('stateResultsByCanidate', year, state[0].parentNode.id, 0, 0, setCanidates);
+		ajaxRequest('stateResultsByCandidate', year, state[0].parentNode.id, 0, 0, setCandidates);
 		ajaxRequest('getFIPSName', 0, 0,  state[0].id, 0, setStateViewHeader);
 	} else {
-		ajaxRequest('FECResultsByCanidate', year, 0, 0, 0, setCanidates);
-	}
-}
-
-function setCanidates(request, result) {
-	setResultsWindow(request, result);
-}
-
-function setResultsWindow(request, results){
-	var canidatesArray = new Array();
-	var partiesArray = new Array();
-	var resultsArray = Object.keys(results);
-	var column1 = document.getElementById("column1");
-	var column2 = document.getElementById("column2");
-	while(column1.firstChild){
-		column1.removeChild(column1.firstChild);
-	}
-	while(column2.firstChild){
-		column2.removeChild(column2.firstChild);
-	}
-	for(var i = 0; i < resultsArray.length; i++){
-		var canidate = resultsArray[i];
-		var canidateVotes = results[canidate];
-		var newCanidateDiv = document.createElement("div");
-		var newCanidateNameElement = document.createElement("p");
-		var newCanidatePartyElement = document.createElement("p");
-		var newCanidateVotesElement = document.createElement("p");
-		newCanidateDiv.id = canidate;
-		newCanidateDiv.className = "canidateResult";
-		newCanidateNameElement.className = "canidateName";
-		newCanidatePartyElement.className = "PARTY_NAME";
-		newCanidateVotesElement.className = "votes";
-		newCanidateVotesElement.style.textAlign = "right";
-		newCanidatePartyElement.style.textAlign = "center";
-		newCanidateNameElement.textContent = canidate;
-		newCanidatePartyElement.textContent = canidate;
-		newCanidateVotesElement.textContent = canidateVotes;
-		newCanidateDiv.appendChild(newCanidateNameElement);
-		newCanidateDiv.appendChild(newCanidatePartyElement);
-		newCanidateDiv.appendChild(newCanidateVotesElement);
-
-		if(i >= (resultsArray.length / 2)){
-			column2.appendChild(newCanidateDiv);
-		}else{
-			column1.appendChild(newCanidateDiv);
-		}
-		canidatesArray[i] = canidate;
-		partiesArray[i] = canidate;
-	}
-	ajaxRequest('getAllCanidates', request['year'], 0, 0, canidatesArray, setAllCanidateNames);
-	ajaxRequest('getAllParties', request['year'], 0, 0, partiesArray, setAllPartyNames);
-}
-
-function setCanidateName (request, result) {
-	var canidateNameElement = document.getElementById(request['can']).getElementsByClassName("canidateName")[0];
-	canidateNameElement.textContent = result["PFIRST"] + " " + result["PLAST"];
-	setHeadingCanidates();
-}
-
-function setAllCanidateNames (request, result) {
-	var resultsArray = request['can'];
-	for (var i = 0; i < resultsArray.length; i++){
-		var canidateNameElement = document.getElementById(resultsArray[i]).getElementsByClassName("canidateName")[0];
-		canidateNameElement.textContent = result[resultsArray[i]].PFIRST + " " + result[resultsArray[i]].PLAST;
-	}
-	setHeadingCanidates();
-}
-
-function setPartyName (request, result) {
-	var canidatePartyNameElement = document.getElementById(request['can']).getElementsByClassName("PARTY_NAME")[0];
-	canidatePartyNameElement.textContent = result['PARTY_NAME'];
-}
-
-function setAllPartyNames (request, result) {
-	var resultsArray = request['can'];
-	for (var i = 0; i < resultsArray.length; i++){
-		var canidatePartyNameElement = document.getElementById(resultsArray[i]).getElementsByClassName("PARTY_NAME")[0];
-		canidatePartyNameElement.textContent = result[resultsArray[i]].PARTY_NAME;
-	}
-}
-
-function setHeadingCanidates(){
-	REP_vote.textContent = document.getElementById('REP').getElementsByClassName("votes")[0].textContent;
-	DEM_vote.textContent = document.getElementById('DEM').getElementsByClassName("votes")[0].textContent;
-	REP_canidate.textContent = document.getElementById('REP').getElementsByClassName("canidateName")[0].textContent;
-	DEM_canidate.textContent = document.getElementById('DEM').getElementsByClassName("canidateName")[0].textContent;
-}
-
-function colorState(request, results){
-	var stateNode = allStatesSVG.getElementById(request['state']).querySelectorAll('.state')[0];
-	switch (results) {
-	case "DEM":
-		stateNode.style.fill = "blue";
-		break;
-	case "REP":
-		stateNode.style.fill = "red";
-		break;
-	default:
-		stateNode.style.fill = "grey";
-	}
-}
-
-function colorAllStates(request, results){
-	for(var i = 0; i < results.length; i++){
-		var stateArray = results[i];
-		for (var state in stateArray){
-			var stateNode = allStatesSVG.getElementById(state).querySelectorAll('.state')[0];
-			switch (stateArray[state]) {
-			case "DEM":
-				stateNode.style.fill = "blue";
-				break;
-			case "REP":
-				stateNode.style.fill = "red";
-				break;
-			default:
-				stateNode.style.fill = "grey";
-			}
-		}
+		ajaxRequest('FECResultsByCandidate', year, 0, 0, 0, setCandidates);
 	}
 }
 
@@ -437,7 +399,7 @@ function showStateView() {
 function hideStateView() {
 	if (currentYear){
 		setHeading(currentYear);
-		ajaxRequest('FECResultsByCanidate', currentYear, 0, 0, 0, setCanidates);
+		ajaxRequest('FECResultsByCandidate', currentYear, 0, 0, 0, setCandidates);
 	}else {
 		resetHeading();
 	}
@@ -457,10 +419,6 @@ function resizeSVG(SVG, window) {
 	var SVGWidth = SVG.getAttribute("width");
 	var windowHeight = window.clientHeight;
 	var windowWidth = window.clientWidth;
-	var widthRatio = (windowWidth / SVGWidth).toFixed(2);
-	var heightRatio = (windowHeight / SVGHeight).toFixed(2);
-	var newHeight;
-	var newWidth;
 	SVG.setAttribute("width", windowWidth);
 	SVG.setAttribute("height", windowHeight);
 }
@@ -491,27 +449,27 @@ function setCountyResults(request, response){
 		columnA.removeChild(columnA.firstChild);
 	}
 	for(var i = 0; i < resultsArray.length; i++){
-		var canidate = resultsArray[i];
-		var canidateVotes = response[canidate];
-		var newCanidateDiv = document.createElement("div");
-		var newCanidateNameElement = document.createElement("div");
-		var newCanidateVotesElement = document.createElement("div");
-		newCanidateDiv.id = canidate + "StateView";
-		newCanidateDiv.className = "stateCanidateResult";
-		newCanidateNameElement.className = "stateCanidateName";
-		newCanidateVotesElement.className = "stateVotes";
-		newCanidateNameElement.textContent = canidate;
-		newCanidateVotesElement.textContent = canidateVotes;
-		newCanidateDiv.appendChild(newCanidateNameElement);
-		newCanidateDiv.appendChild(newCanidateVotesElement);
-		columnA.appendChild(newCanidateDiv);
-		ajaxRequest('getCanidate', currentYear, 0, 0, canidate, setStateViewCanidateName);
+		var Candidate = resultsArray[i];
+		var CandidateVotes = response[Candidate];
+		var newCandidateDiv = document.createElement("div");
+		var newCandidateNameElement = document.createElement("div");
+		var newCandidateVotesElement = document.createElement("div");
+		newCandidateDiv.id = Candidate + "StateView";
+		newCandidateDiv.className = "stateCandidateResult";
+		newCandidateNameElement.className = "stateCandidateName";
+		newCandidateVotesElement.className = "stateVotes";
+		newCandidateNameElement.textContent = Candidate;
+		newCandidateVotesElement.textContent = CandidateVotes;
+		newCandidateDiv.appendChild(newCandidateNameElement);
+		newCandidateDiv.appendChild(newCandidateVotesElement);
+		columnA.appendChild(newCandidateDiv);
+		ajaxRequest('getCandidate', currentYear, 0, 0, Candidate, setStateViewCandidateName);
 	}
 }
 
-function setStateViewCanidateName(request, response) {
-	var canidateNameElement = document.getElementById(request['can']  + "StateView").getElementsByClassName("stateCanidateName")[0];
-	canidateNameElement.textContent = response["PFIRST"] + " " + response["PLAST"];
+function setStateViewCandidateName(request, response) {
+	var CandidateNameElement = document.getElementById(request['can']  + "StateView").getElementsByClassName("stateCandidateName")[0];
+	CandidateNameElement.textContent = response["PFIRST"] + " " + response["PLAST"];
 }
 
 function setCountyName(request, response){
@@ -520,17 +478,4 @@ function setCountyName(request, response){
 	}else{
 		countyName.innerHTML = response["NAME"] + " County"
 	}
-}
-
-function getPageName() {
-	var title = document.title.split(" ");
-	var year = title[0];
-	if (title[1] == "West"){
-		var state = title[1] + ' ' + title[2];
-		state = statesArray[state];
-	} else var state = statesArray[title[1]];
-	var pageData = new Object;
-	pageData.state = state;
-	pageData.year = year;
-	return pageData;
 }
