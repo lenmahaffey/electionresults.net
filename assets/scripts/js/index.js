@@ -18,6 +18,11 @@ function setupButtons() {
 
 	$("#resultsButton").click(function () {
 		$("#resultsWindow").toggle()
+		if ($("#resultsWindow:visible").length > 0) {
+			$("#resultsButton").text("Hide Totals")
+		} else {
+			$("#resultsButton").text("Show Totals")
+        }
 	})
 
 	$("#countiesButton").click(function () {
