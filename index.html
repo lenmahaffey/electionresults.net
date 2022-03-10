@@ -24,17 +24,17 @@
 <body>
 	<div id="toolTip"></div>
 	<div id="heading" class="h1 text-center">Select a Year</div>
-	<div class="row" id="canidates">
-		<div class="col-6" id="REP_header">
-			<div class="row">
-				<div class="col-6 h3 text-start" id="REP_canidate">DEM</div>
-				<div class="col-6 h3 text-end" id="REP_vote">000</div>
-			</div>
-		</div>
+	<div class="row" id="candidates">
 		<div class="col-6" id="DEM_header">
 			<div class="row">
-				<div class="col-6 h3 text-start" id="DEM_vote">000</div>
-				<div class="col-6 h3 text-end" id="DEM_canidate">REP</div>
+				<div class="col-6 h3 text-start" id="DEM_candidate">DEM</div>
+				<div class="col-6 h3 text-end" id="DEM_vote">000</div>
+			</div>
+		</div>
+		<div class="col-6" id="REP_header">
+			<div class="row">
+				<div class="col-6 h3 text-start" id="REP_vote">000</div>
+				<div class="col-6 h3 text-end" id="REP_candidate">REP</div>
 			</div>
 		</div>
 	</div>
@@ -73,58 +73,52 @@
 	</div>
 	<div id="maps">
 		<div>
-			<div id="stateView">
-				<div id="stateButtons">
-					<button id="closeStateButton" type="button"
-						onclick="hideStateView()">Close State</button>
-				</div>
-				<div id="leftView"></div>
-				<div id="rightView">
-					<div id="countyResults">
-						<div id="countyName">Cick a county</div>
-						<div id="columnA"></div>
-					</div>
-				</div>
-			</div>
 			<div id="allStatesView">
 				<div id="allStatesSVG"></div>
 			</div>
 		</div>
 	</div>
-	<div class="container fixed-bottom">
-		<div id="resultsWindow" class="row border border-5 border-secondary border-bottom-0">
-			<div id="column1" class="col border-end border-secondary border-3">
-				<div class="row">
-					<div class="resultName col">Name</div>
-					<div class="resultParty col text-center">Party</div>
-					<div class="resultVotes col text-end">Votes</div>
-				</div>
-			</div>
-			<div id="column2" class="col">
-				<div class="row">
-					<div class="resultName col">Name</div>
-					<div class="resultParty col text-center">Party</div>
-					<div class="resultVotes col text-end">Votes</div>
-				</div>
-			</div>
+	<div class="resultsContainer fixed-bottom h-25">
+		<div id="resultsWindow" class="row border border-5 border-secondary border-bottom-0 h-100 overflow-auto">
+			<div id="column1" class="col border-end border-secondary border-3"></div>
+			<div id="column2" class="col"></div>
 		</div>
 	</div>
 	<div class="position-absolute bottom-0 end-0">
 		Copyright © 2021<br>TLA Designs, LLC.<br>All rights reserved
 	</div>
 	<!--<div id="topBanner">-->
-		<!-- Facebook Like Button -->
-		<!--<div class="right">
-			<div class="fb-like"
-			     data-href="https://www.electionresults.net"
-			     data-layout="button_count"
-			     data-action="like"
-			     data-size="large"
-			     data-show-faces="false"
-			     data-share="true"></div>
-		 </div>-->
-		 <!-- Facebook Like Button -->
+	<!-- Facebook Like Button -->
+	<!--<div class="right">
+		<div class="fb-like"
+			 data-href="https://www.electionresults.net"
+			 data-layout="button_count"
+			 data-action="like"
+			 data-size="large"
+			 data-show-faces="false"
+			 data-share="true"></div>
+	 </div>-->
+	<!-- Facebook Like Button -->
 	<!--</div>-->
+	<div class="modal" tabindex="-1">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content border border-1 border-secondary">
+				<div class="modal-header">
+					<h5 class="modal-title">Modal title</h5>
+					<button type="button" id="modalCloseButton" class="btn-close text-white" aria-label="Close">X</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div id="stateMap" class="col"></div>
+						<div id="countyResults" class="col"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
 
