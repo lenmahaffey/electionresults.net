@@ -44,8 +44,6 @@ class database{
 						array_push($array, $row);
 				  	}
 					return $array;
-				}else{
-					print_r("No Rows".PHP_EOL);
 				}
 			}else return sqlsrv_errors();
 		}
@@ -53,13 +51,19 @@ class database{
 			print_r(e);
 		}
 	}
+
+	function FEC_AllCandidateTotals($year){
+		$sql = "EXEC FEC_AllCandidateTotals @YEAR = ". $year;
+		return $this->executeSQL($sql);
+	}
+
 	function FEC_AllStateWinners($year){
 		$sql = "EXEC FEC_AllStateWinners @YEAR = ". $year;
 		return $this->executeSQL($sql);
 	}
 	
-	function FEC_SingleStateAllCanidateTotals($year, $FIPS){
-		$sql = "EXEC FEC_SingleStateAllCanidateTotals @YEAR = ". $year .", @FIPS = ".$FIPS;
+	function FEC_SingleStateAllCandidateTotals($year, $FIPS){
+		$sql = "EXEC FEC_SingleStateAllCandidateTotals @YEAR = ". $year .", @FIPS = ".$FIPS;
 		return $this->executeSQL($sql);
 	}
 
@@ -73,18 +77,18 @@ class database{
 		return $this->executeSQL($sql);
 	}
 	
-	function STATES_SingleCountyAllCanidateTotals($year, $FIPS){
-		$sql = "EXEC STATES_SingleCountyAllCanidateTotals @YEAR = ". $year .", @FIPS = ".$FIPS;
+	function STATES_SingleCountyAllCandidateTotals($year, $FIPS){
+		$sql = "EXEC STATES_SingleCountyAllCandidateTotals @YEAR = ". $year .", @FIPS = ".$FIPS;
 		return $this->executeSQL($sql);
 	}
 	
 	function STATES_SingleCountyWinner($year, $FIPS){
-		$sql = "EXEC STATES_SingleCountyAllCanidateTotals @YEAR = ". $year .", @FIPS = ".$FIPS;
+		$sql = "EXEC STATES_SingleCountyWinner @YEAR = ". $year .", @FIPS = ".$FIPS;
 		return $this->executeSQL($sql);
 	}
 	
-	function STATES_SingleStateAllCanidateTotals($year, $FIPS){
-		$sql = "EXEC STATES_SingleStateAllCanidateTotals @YEAR = ". $year .", @FIPS = ".$FIPS;
+	function STATES_SingleStateAllCandidateTotals($year, $FIPS){
+		$sql = "EXEC STATES_SingleStateAllCandidateTotals @YEAR = ". $year .", @FIPS = ".$FIPS;
 		return $this->executeSQL($sql);
 	}
 
