@@ -2,75 +2,46 @@
 /* Copyright © 2019 TLA Designs, LLC. All rights reserved. */
 include_once 'database.php';
 $db = new database;
-$request = json_decode(file_get_contents('php://input'), true);
 $reply = NULL;
-$action = $request["action"];
+switch($_POST['action']) {
 
-switch($action) {
-	case "stateWinner" :
-		if($reply = $db->stateWinner($request["state"], $request["year"]));
+	case "FEC_AllCandidateTotals" :
+		$reply = $db->FEC_AllCandidateTotals($_POST["YEAR"]);
 		break;
 
-	case "countyWinner" :
-		$reply = $db->countyWinner($request["year"], $request["state"], $request["FIPS"]);
+	case "FEC_AllStateWinners" :
+		$reply = $db->FEC_AllStateWinners($_POST["YEAR"]);
 		break;
 
-	case "allCountyWinners" :
-		$reply = $db->allCountyWinners($request["year"], $request["state"], $request["FIPS"]);
+	case "FEC_SingleStateAllCandidateTotals" :
+		$reply = $db->FEC_SingleStateAllCandidateTotals($_POST["YEAR"], $_POST["FIPS"]);
 		break;
 
-	case "FECResultsStateWinnerForYear" :
-		$reply = $db->FECResultsStateWinnerForYear($request["year"], $request["state"]);
-		break;
-
-	case "FECResultsAllStateWinnersForYear" :
-		$reply = $db->FECResultsAllStateWinnersForYear($request["year"], $request["state"]);
-		break;
-
-	case "stateResultsByCanidate" :
-	    $reply = $db->stateResultsByCanidate($request["year"], $request["state"]);
-		break;
-
-	case "countyResults" :
-	    $reply = $db->countyResults($request["year"], $request["state"], $request["FIPS"]);
-		break;
-
-	case "FECResultsByCanidate" :
-		$reply = $db->FECResultsByCanidate($request["year"]);
-		break;
-
-	case "getCanidate" :
-		$reply = $db->getCanidate($request["year"], $request["can"]);
-		break;
-
-	case "getParty" :
-		$reply = $db->getParty($request["year"], $request["can"]);
-		break;
-
-	case "getAllCanidates" :
-		$reply = $db->getAllCanidates($request["year"], $request["can"]);
-		break;
-
-	case "getAllParties" :
-		$reply = $db->getAllParties($request["year"], $request["can"]);
+	case "FEC_SingleStateWinner" :
+		$reply = $db->FEC_SingleStateWinner($_POST["YEAR"], $_POST["FIPS"]);
 		break;
 
 	case "getFIPS" :
-		$reply = $db->getFIPSName($request["FIPS"]);
+		$reply = $db->getFIPS($_POST["FIPS"]);
 		break;
 
-	case "countyWinnersByStateForYear" :
-		$reply = $db->countyWinnersByStateForYear($request["year"], $request["state"]);
+	case "STATES_SingleCountyAllCandidateTotals" :
+		$reply = $db->STATES_SingleCountyAllCandidateTotals($_POST["year"], $_POST["FIPS"]);
 		break;
 
-	case "allCountyWinnersByStateForYear" :
-		$reply = $db->allCountyWinnersByStateForYear($request["year"], $request["state"]);
-		break;
-		case "getWordpressResultsTableData" :
-		$reply = $db->getWordpressResultsTableData($request["year"], $request["state"]);
+	case "STATES_SingleCountyWinner" :
+	    $reply = $db->STATES_SingleCountyWinner($_POST["year"], $_POST["FIPS"]);
 		break;
 
-	default: echo "Switch Failure for: " . $action;
+	case "STATES_SingleStateAllCandidateTotals" :
+	    $reply = $db->STATES_SingleStateAllCandidateTotals($_POST["year"], $_POST["state"], $_POST["FIPS"]);
+		break;
+
+	case "STATES_SingleStateAllCountyWinners" :
+		$reply = $db->STATES_SingleStateAllCountyWinners($_POST["year"], $_POST["FIPS"]);
+		break;
+
+	default: $reply =  "Switch Failure for: " . $_POST['action'];
 }
 
 $response = json_encode($reply);
