@@ -41,7 +41,11 @@ switch($_POST['action']) {
 		$reply = $db->STATES_SingleStateAllCountyWinners($_POST["year"], $_POST["FIPS"]);
 		break;
 
-	default: $reply =  "Switch Failure for: " . $_POST['action'];
+	case "STATES_AllStatesAllCountyWinners" :
+		$reply = $db->STATES_AllStatesAllCountyWinners($_POST["year"]);
+		break;
+
+	default: $reply =  "Unknown Action: " . $_POST['action'];
 }
 
 $response = json_encode($reply);
