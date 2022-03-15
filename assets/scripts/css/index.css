@@ -39,3 +39,11 @@ body {
 	width: 85%;
 	margin: auto;
 }
+
+.DEM {
+	fill: blue
+}
+
+.REP {
+	fill: red
+}
