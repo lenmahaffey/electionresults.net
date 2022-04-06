@@ -13,6 +13,10 @@ body {
 	margin: 0px;
 }
 
+#buttons {
+	z-index: 1100;
+}
+
 #countyResults {
 
 }
@@ -28,16 +32,25 @@ body {
 #toolTip {
 	position: absolute;
 	background: black;
-	z-index: 100;
+	z-index: 1100;
+}
+
+.modal .modal-body {
+	overflow-y: auto;
+	max-height: 350px;
 }
 
 .modal-content {
 	background: rgba(0,0,0,0.8);
 }
 
+.modal-dialog{
+	margin-top: 0px;
+}
 .resultsContainer {
 	width: 85%;
 	margin: auto;
+	pointer-events: none;
 }
 
 .DEM {

@@ -101,5 +101,10 @@ class database{
 		$sql = "EXEC STATES_AllStatesAllCountyWinners @YEAR = ". $year;
 		return $this->executeSQL($sql);
 	}
+
+	function STATES_SingleStateTop2CandidateTotals($year, $FIPS){
+		$sql = "EXEC STATES_SingleStateTop2CandidateTotals @YEAR = ". $year.", @FIPS = ".$FIPS;
+		return $this->executeSQL($sql);
+	}
 }
 ?>

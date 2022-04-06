@@ -34,7 +34,7 @@ switch($_POST['action']) {
 		break;
 
 	case "STATES_SingleStateAllCandidateTotals" :
-	    $reply = $db->STATES_SingleStateAllCandidateTotals($_POST["year"], $_POST["state"], $_POST["FIPS"]);
+	    $reply = $db->STATES_SingleStateAllCandidateTotals($_POST["year"], $_POST["FIPS"]);
 		break;
 
 	case "STATES_SingleStateAllCountyWinners" :
@@ -43,6 +43,10 @@ switch($_POST['action']) {
 
 	case "STATES_AllStatesAllCountyWinners" :
 		$reply = $db->STATES_AllStatesAllCountyWinners($_POST["year"]);
+		break;
+
+	case "STATES_SingleStateTop2CandidateTotals" :
+		$reply = $db->STATES_SingleStateTop2CandidateTotals($_POST["year"], $_POST["FIPS"]);
 		break;
 
 	default: $reply =  "Unknown Action: " . $_POST['action'];

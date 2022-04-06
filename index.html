@@ -27,14 +27,14 @@
 	<div class="row" id="candidates">
 		<div class="col-6" id="DEM_header">
 			<div class="row">
-				<div class="col-6 h3 text-start" id="DEM_candidate">DEM</div>
-				<div class="col-6 h3 text-end" id="DEM_vote">000</div>
+				<div class="col-6 h3 text-start" id="DEM_candidate"> </div>
+				<div class="col-6 h3 text-end" id="DEM_vote"> </div>
 			</div>
 		</div>
 		<div class="col-6" id="REP_header">
 			<div class="row">
-				<div class="col-6 h3 text-start" id="REP_vote">000</div>
-				<div class="col-6 h3 text-end" id="REP_candidate">REP</div>
+				<div class="col-6 h3 text-start" id="REP_vote"> </div>
+				<div class="col-6 h3 text-end" id="REP_candidate"> </div>
 			</div>
 		</div>
 	</div>
@@ -71,13 +71,7 @@
 			</button>
 		</div>
 	</div>
-	<div id="maps">
-		<div>
-			<div id="allStatesView">
-				<div id="allStatesSVG"></div>
-			</div>
-		</div>
-	</div>
+	<div id="maps"></div>
 	<div class="resultsContainer fixed-bottom h-25">
 		<div id="resultsWindow" class="row border border-5 border-secondary border-bottom-0 h-100 overflow-auto">
 			<div id="column1" class="col border-end border-secondary border-3"></div>
@@ -104,18 +98,39 @@
 		<div class="modal-dialog modal-xl">
 			<div class="modal-content border border-1 border-secondary">
 				<div class="modal-header">
-					<h5 class="modal-title">Modal title</h5>
-					<button type="button" id="modalCloseButton" class="btn-close text-white" aria-label="Close">X</button>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div id="stateMap" class="col"></div>
-						<div id="countyResults" class="col"></div>
+					<h3 class="modal-title col text-center ps-4">Modal title</h3>
+					<div class="text-end">
+						<button type="button" id="modalCloseButton" class="btn-close text-white" aria-label="Close">X</button>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<div class="modal-body">
+					<div class="row pb-3">
+						<div id="modalStateResults" class="row">
+							<div class="col-6" id="modal_DEM_header">
+								<div class="row">
+									<div class="col-6 h3 text-start" id="modal_DEM_candidate">Can</div>
+									<div class="col-6 h3 text-end" id="modal_DEM_vote">000</div>
+								</div>
+							</div>
+							<div class="col-6" id="modal_REP_header">
+								<div class="row">
+									<div class="col-6 h3 text-start" id="modal_REP_vote">000</div>
+									<div class="col-6 h3 text-end" id="modal_REP_candidate">Can</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div id="stateMap" class="col"></div>
+						<div class="col">
+							<h4 id="countyName" class="text-center">County Name</h4>
+							<div id="countyResults"></div>
+						</div>
+					</div>
 				</div>
+				<!--<div class="modal-footer">
+					<button id="modalCloseButton" type="button" class="btn btn-secondary">Close</button>
+				</div>-->
 			</div>
 		</div>
 	</div>
