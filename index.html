@@ -2,19 +2,29 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<!--<script async src="https://www.googletagmanager.com/gtag/js?id=G-HQN9BMGPTB"></script>-->
+	<!--<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'G-HQN9BMGPTB');
+	</script>-->
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>United States of America Election Results</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="assets/scripts/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/scripts/css/index.css">
 	<link rel="stylesheet" type="text/css" href="assets/img/maps/states.css">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="assets/scripts/js/bootstrap.min.js"></script>
+	<script src="assets/scripts/js/jquery-3.6.0.min.js"></script>
 	<script src="assets/scripts/js/index.js"></script>
 	<script>
 		$(document).ready(function () {
 			$("#resultsWindow").toggle()
 			$("#toolTip").toggle()
+            $(".myModal").toggle()
 			setupButtons()
 			setupMaps()
 		})
@@ -22,115 +32,112 @@
 </head>
 
 <body>
-	<div id="toolTip"></div>
-	<div id="heading" class="h1 text-center">Select a Year</div>
-	<div class="row" id="candidates">
-		<div class="col-6" id="DEM_header">
-			<div class="row">
-				<div class="col-6 h3 text-start" id="DEM_candidate"> </div>
-				<div class="col-6 h3 text-end" id="DEM_vote"> </div>
+	<div class="container-fluid">
+		<div id="toolTip"></div>
+		<div id="heading" class="h1 text-center">Select a Year</div>
+		<div class="row" id="candidates">
+			<div class="col-6" id="DEM_header">
+				<div class="row">
+					<div class="col-6 h3 text-start" id="DEM_candidate"><div class="ph">Placeholder</div></div>
+					<div class="col-6 h3 text-end" id="DEM_vote"> </div>
+				</div>
 			</div>
-		</div>
-		<div class="col-6" id="REP_header">
-			<div class="row">
-				<div class="col-6 h3 text-start" id="REP_vote"> </div>
-				<div class="col-6 h3 text-end" id="REP_candidate"> </div>
-			</div>
-		</div>
-	</div>
-	<div id="buttons" class="row">
-		<div class="col-1 text-start">
-			<button id="resultsButton" class="btn btn-light" type="button">
-				Show Totals
-			</button>
-		</div>
-		<div class="col-10 text-center">
-			<div class="row">
-				<div class="col p-0">
-					<button class="btn btn-light" id="2000Results" type="button">
-						2000
-					</button>
-					<button class="btn btn-light" id="2004Results" type="button">
-						2004
-					</button>
-					<button class="btn btn-light" id="2008Results" type="button">
-						2008
-					</button>
-					<button class="btn btn-light" id="2012Results" type="button">
-						2012
-					</button>
-					<button class="btn btn-light" id="2016Results" type="button">
-						2016
-					</button>
+			<div class="col-6" id="REP_header">
+				<div class="row">
+					<div class="col-6 h3 text-start" id="REP_vote"> </div>
+					<div class="col-6 h3 text-end" id="REP_candidate"> </div>
 				</div>
 			</div>
 		</div>
-		<div class="col-1 text-end">
-			<button id="countiesButton" class="btn btn-light" type="button">
-				Show Counties
-			</button>
-		</div>
-	</div>
-	<div id="maps"></div>
-	<div class="resultsContainer fixed-bottom h-25">
-		<div id="resultsWindow" class="row border border-5 border-secondary border-bottom-0 h-100 overflow-auto">
-			<div id="column1" class="col border-end border-secondary border-3"></div>
-			<div id="column2" class="col"></div>
-		</div>
-	</div>
-	<div class="position-absolute bottom-0 end-0">
-		Copyright © 2021<br>TLA Designs, LLC.<br>All rights reserved
-	</div>
-	<!--<div id="topBanner">-->
-	<!-- Facebook Like Button -->
-	<!--<div class="right">
-		<div class="fb-like"
-			 data-href="https://www.electionresults.net"
-			 data-layout="button_count"
-			 data-action="like"
-			 data-size="large"
-			 data-show-faces="false"
-			 data-share="true"></div>
-	 </div>-->
-	<!-- Facebook Like Button -->
-	<!--</div>-->
-	<div class="modal" tabindex="-1">
-		<div class="modal-dialog modal-xl">
-			<div class="modal-content border border-1 border-secondary">
-				<div class="modal-header">
-					<h3 class="modal-title col text-center ps-4">Modal title</h3>
-					<div class="text-end">
-						<button type="button" id="modalCloseButton" class="btn-close text-white" aria-label="Close">X</button>
+		<div id="buttons" class="row">
+			<div class="col-1 text-start">
+				<button id="resultsButton" class="btn btn-light" type="button">
+					Show Totals
+				</button>
+			</div>
+			<div class="col-10 text-center">
+				<div class="row">
+					<div class="col p-0">
+						<button class="btn btn-light" id="2000Results" type="button">
+							2000
+						</button>
+						<button class="btn btn-light" id="2004Results" type="button">
+							2004
+						</button>
+						<button class="btn btn-light" id="2008Results" type="button">
+							2008
+						</button>
+						<button class="btn btn-light" id="2012Results" type="button">
+							2012
+						</button>
+						<button class="btn btn-light" id="2016Results" type="button">
+							2016
+						</button>
 					</div>
 				</div>
-				<div class="modal-body">
-					<div class="row pb-3">
-						<div id="modalStateResults" class="row">
-							<div class="col-6" id="modal_DEM_header">
-								<div class="row">
-									<div class="col-6 h3 text-start" id="modal_DEM_candidate">Can</div>
-									<div class="col-6 h3 text-end" id="modal_DEM_vote">000</div>
-								</div>
+			</div>
+			<div class="col-1 text-end">
+				<button id="countiesButton" class="btn btn-light" type="button">
+					Show Counties
+				</button>
+			</div>
+		</div>
+		<div id="maps"></div>
+		<div class="resultsContainer fixed-bottom h-25">
+			<div id="resultsWindow" class="row border border-5 border-secondary border-bottom-0 h-100 overflow-auto">
+				<div id="column1" class="col border-end border-secondary border-3"></div>
+				<div id="column2" class="col"></div>
+			</div>
+		</div>
+		<div class="position-absolute bottom-0 end-0">
+			Copyright © 2021<br>TLA Designs, LLC.<br>All rights reserved
+		</div>
+		<div id="topBanner">
+			<!--Facebook Like Button-->
+			<div class="fb-like"
+				 data-href="https://www.electionresults.net"
+				 data-layout="button_count"
+				 data-action="like"
+				 data-size="large"
+				 data-show-faces="false"
+				 data-share="true"></div>
+			<!--Facebook Like Button-->
+		</div>
+		<div class="row d-flex justify-content-center">
+			<div class="myModal col-8 ">
+				<div class="modalDialog">
+					<div class="modalContent border border-1 border-secondary">
+						<div class="row modalHeader pt-1 pb-1">
+							<h3 class="col modalTitle text-center ps-4">Modal title</h3>
+							<div class="col position-absolute text-end">
+								<button type="button" id="modalCloseButton" class="btn-close text-white" aria-label="Close">X</button>
 							</div>
-							<div class="col-6" id="modal_REP_header">
-								<div class="row">
-									<div class="col-6 h3 text-start" id="modal_REP_vote">000</div>
-									<div class="col-6 h3 text-end" id="modal_REP_candidate">Can</div>
+						</div>
+						<div class="modalBody border-top border-2 border-secondary p-1">
+							<div id="modalStateResults" class="row pb-3">
+									<div class="col-6" id="modal_DEM_header">
+										<div class="row">
+											<div class="col-6 h3 text-start" id="modal_DEM_candidate">Can</div>
+											<div class="col-6 h3 text-end" id="modal_DEM_vote">000</div>
+										</div>
+									</div>
+									<div class="col-6" id="modal_REP_header">
+										<div class="row">
+											<div class="col-6 h3 text-start" id="modal_REP_vote">000</div>
+											<div class="col-6 h3 text-end" id="modal_REP_candidate">Can</div>
+										</div>
+									</div>
+							</div>
+							<div class="row p-1">
+								<div id="stateMap" class="col"></div>
+								<div class="col">
+									<h4 id="countyName" class="text-center">County Name</h4>
+									<div id="countyResults" class="overflow-auto"></div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div id="stateMap" class="col"></div>
-						<div class="col">
-							<h4 id="countyName" class="text-center">County Name</h4>
-							<div id="countyResults"></div>
-						</div>
-					</div>
 				</div>
-				<!--<div class="modal-footer">
-					<button id="modalCloseButton" type="button" class="btn btn-secondary">Close</button>
-				</div>-->
 			</div>
 		</div>
 	</div>

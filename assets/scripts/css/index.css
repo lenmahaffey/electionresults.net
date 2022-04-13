@@ -24,9 +24,8 @@ body {
 #resultsWindow {
 	background: rgba(0,0,0,0.8);
 }
-
 #stateMap {
-
+	overflow: hidden
 }
 
 #toolTip {
@@ -34,29 +33,32 @@ body {
 	background: black;
 	z-index: 1100;
 }
-
-.modal .modal-body {
-	overflow-y: auto;
-	max-height: 350px;
+#topBanner {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100%;
+	font-size: 10px;
+	margin: auto;
 }
 
-.modal-content {
+.myModal {
+	position: absolute;
+}
+
+.modalContent {
 	background: rgba(0,0,0,0.8);
 }
 
-.modal-dialog{
+.modalDialog{
 	margin-top: 0px;
+}
+
+.ph{
+	opacity: 0.0;
 }
 .resultsContainer {
 	width: 85%;
 	margin: auto;
 	pointer-events: none;
-}
-
-.DEM {
-	fill: blue
-}
-
-.REP {
-	fill: red
 }

@@ -3,6 +3,9 @@ var currentYear;
 var lastCountyClicked;
 var countiesVisible = false;
 
+//formatter to format integers with commas
+var formatter = new Intl.NumberFormat('en-US');
+
 function setHeading(year) {
 	$("#heading").text(year + " General Presidential Elections")
 }
@@ -15,7 +18,7 @@ function setupButtons() {
 			currentYear = year;
 			setHeading(currentYear);
 			getResults()
-			if ($(".modal").is(":visible")) {
+			if ($(".myModal").is(":visible")) {
 				getResultsForModal()
             }
 		})
@@ -23,11 +26,7 @@ function setupButtons() {
 
 	$("#resultsButton").click(function () {
 		$("#resultsWindow").toggle()
-		if ($("#resultsWindow:visible").length > 0) {
-			$("#resultsButton").text("Hide Totals")
-		} else {
-			$("#resultsButton").text("Show Totals")
-        }
+		$("#resultsWindow").is(":visible") ? $("#resultsButton").text("Hide Totals") : $("#resultsButton").text("Show Totals")
 	})
 
 	$("#countiesButton").click(function () {
@@ -38,7 +37,7 @@ function setupButtons() {
 	$("#modalCloseButton").click(function () {
 		clearModalCountyTotals()
 		lastCountyClicked = ""
-		$(".modal").toggle()
+		$(".myModal").toggle()
 	})
 }
 
@@ -46,7 +45,7 @@ function setupMaps() {
 	$.get("assets/img/maps/states.svg", function (data, status) {
 		$("#maps").html(data.children)
 
-		$(".state").mouseenter(function (e) {
+		$("#maps > svg > g >.state").mouseenter(function (e) {
 			var element = $(this)
 			var x = e.clientX
 			var y = e.clientY
@@ -56,27 +55,27 @@ function setupMaps() {
 			$("#toolTip").toggle()
 		})
 
-		$(".state").mousemove(function (e) {
+		$("#maps > svg > g >.state").mousemove(function (e) {
 			var x = e.clientX
 			var y = e.clientY
 			setToolTipPosition(x, y)
 
 		})
 
-		$(".state").mouseleave(function (e) {
+		$("#maps > svg > g >.state").mouseleave(function (e) {
 			$("#toolTip").toggle()
 		})
 
-		$(".state").click(function (e) {
+		$("#maps > svg > g >.state").click(function (e) {
 			state = e.target.parentNode.parentNode.id
-			setupModal(state)
+			getSingleStateMap(state)
 		})
 	})
 
 	$.get("assets/img/maps/counties.svg", function (data, status) {
 		addCountiesToSVG(data)
-		$(".county").toggle()
-		$(".county").mouseenter(function (e) {
+		$("#maps > svg > g > .county").toggle()
+		$("#maps > svg > g > .county").mouseenter(function (e) {
 			var x = e.clientX
 			var y = e.clientY
 			var target = e.currentTarget.id
@@ -85,17 +84,17 @@ function setupMaps() {
 			$("#toolTip").toggle()
 		})
 
-		$(".county").mousemove(function (e) {
+		$("#maps > svg > g > .county").mousemove(function (e) {
 			var x = e.clientX;
 			var y = e.clientY;
 			setToolTipPosition(x, y)
 		})
 
-		$(".county").mouseleave(function (e) {
+		$("#maps > svg > g > .county").mouseleave(function (e) {
 			$("#toolTip").toggle()
 		})
 
-		$(".county").click(function (e) {
+		$("#maps > svg > g > .county").click(function (e) {
 			var countyID = e.currentTarget.id
 			var stateID = e.currentTarget.parentElement.id
 			lastCountyClicked = countyID
@@ -145,11 +144,11 @@ function setCandidateResults(data) {
 		//Look for major party candidates and set the heading with them
 		if (party == "Democratic Party") {
 			$("#DEM_candidate").text(pFirst + pMid + pLast)
-			$("#DEM_vote").text(votes.toLocaleString())
+			$("#DEM_vote").text(formatter.format(votes))
 		}
 		if (party == "Republican Party") {
 			$("#REP_candidate").text(pFirst + pMid + pLast)
-			$("#REP_vote").text(votes.toLocaleString())
+			$("#REP_vote").text(formatter.format(votes))
 		}
 
 		//Create new canidateRow
@@ -166,7 +165,7 @@ function setCandidateResults(data) {
 
 		var CandidateVotes = document.createElement("div")
 		CandidateVotes.classList.add("CandidateVotes", "col-2", "text-end")
-		CandidateVotes.innerText = votes.toLocaleString()
+		CandidateVotes.innerText = formatter.format(votes)
 
 		newElement.appendChild(CandidateName)
 		newElement.appendChild(CandidateParty)
@@ -232,12 +231,10 @@ function getResults() {
 
 //Modal functions
 function setupModal(state) {
-	$(".modal").css({ top: $("#maps").position().top + 5 })
-	var heightInPx = ($(window).height() - $(".resultsContainer").height() - $("#buttons").height() - $("#heading").height() - $("#candidates").height() - $(".modal-header").height())
-	$(".modal-body").css({ "maxHeight": heightInPx.toString() + "px" })
-	//$("#stateMap > .row").css({ "maxHeight": $(".modal-body").height() + "px" })
-	//$("#stateMap").css({ "maxHeight": $(".modal-body").height() + "px" })
-	getSingleStateMap(state)
+	var modalHeight = ($(window).height() - $("#maps").position().top - $(".resultsContainer").height() - $("#candidates").height() - 25)
+	var modalTopPosition = $("#maps").position().top + 5
+	$(".myModal").css({ top: modalTopPosition })
+	$(".modalBody").css({ "maxHeight": modalHeight.toString() + "px" })
 }
 
 function getSingleStateMap(state) {
@@ -257,8 +254,9 @@ function getSingleStateMap(state) {
 		}
 		$("#stateMap").html(data.children)
 		setupModalMap()
-		$(".modal").toggle()
 		getResultsForModal()
+		setupModal();
+		$(".myModal").toggle()
 	})
 }
 
@@ -335,7 +333,7 @@ function getResultsForModal() {
 
 	$.post("assets/scripts/php/ajaxResponse.php", { action: "getFIPS", FIPS: stateFIPS }, function (result) {
 		var data = JSON.parse(result)
-		$(".modal-title").text(data[0]["NAME"])
+		$(".modalTitle").text(data[0]["NAME"])
 	})
 }
 
@@ -393,14 +391,15 @@ function setModalCandidateResults(data) {
 		//Look for major party candidates and set the heading with them
 		if (party == "Democratic Party") {
 			$("#modal_DEM_candidate").text(pFirst + pMid + pLast)
-			$("#modal_DEM_vote").text(votes.toLocaleString())
+			$("#modal_DEM_vote").text(formatter.format(votes))
 		}
 		if (party == "Republican Party") {
 			$("#modal_REP_candidate").text(pFirst + pMid + pLast)
-			$("#modal_REP_vote").text(votes.toLocaleString())
+			$("#modal_REP_vote").text(formatter.format(votes))
 		}
 	}
 }
+
 function clearModalCountyTotals() {
 	document.getElementById("countyResults").innerHTML = ""
 	document.getElementById("countyName").innerHTML = ""

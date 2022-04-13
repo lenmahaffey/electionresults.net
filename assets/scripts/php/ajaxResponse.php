@@ -1,6 +1,6 @@
 <?php
 /* Copyright © 2019 TLA Designs, LLC. All rights reserved. */
-include_once 'database.php';
+include_once 'mysql.php';
 $db = new database;
 $reply = NULL;
 switch($_POST['action']) {
