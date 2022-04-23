@@ -8,7 +8,7 @@ html {
 body {
 	color: white;
 	background: linear-gradient(black, black, rgba(15,0,153,1));
-	overflow: hidden;
+	/*overflow: hidden;*/
 	min-height: 100%;
 	margin: 0px;
 }
@@ -18,14 +18,11 @@ body {
 }
 
 #countyResults {
-
+	max-height: 250px;
 }
 
 #resultsWindow {
 	background: rgba(0,0,0,0.8);
-}
-#stateMap {
-	overflow: hidden
 }
 
 #toolTip {
@@ -33,6 +30,7 @@ body {
 	background: black;
 	z-index: 1100;
 }
+
 #topBanner {
 	position: absolute;
 	top: 0;
@@ -43,7 +41,7 @@ body {
 }
 
 .myModal {
-	position: absolute;
+	/*position: absolute;*/
 }
 
 .modalContent {
@@ -60,5 +58,4 @@ body {
 .resultsContainer {
 	width: 85%;
 	margin: auto;
-	pointer-events: none;
 }

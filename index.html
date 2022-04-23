@@ -92,47 +92,51 @@
 		<div class="position-absolute bottom-0 end-0">
 			Copyright © 2021<br>TLA Designs, LLC.<br>All rights reserved
 		</div>
-		<div id="topBanner">
-			<!--Facebook Like Button-->
-			<div class="fb-like"
-				 data-href="https://www.electionresults.net"
-				 data-layout="button_count"
-				 data-action="like"
-				 data-size="large"
-				 data-show-faces="false"
-				 data-share="true"></div>
-			<!--Facebook Like Button-->
-		</div>
+		<!--<div id="topBanner">-->
+		<!--Facebook Like Button-->
+		<!--<div class="fb-like"
+			 data-href="https://www.electionresults.net"
+			 data-layout="button_count"
+			 data-action="like"
+			 data-size="large"
+			 data-show-faces="false"
+			 data-share="true"></div>-->
+		<!--Facebook Like Button-->
+		<!--</div>-->
+	</div>
+	<div class="myModal">
 		<div class="row d-flex justify-content-center">
-			<div class="myModal col-8 ">
-				<div class="modalDialog">
-					<div class="modalContent border border-1 border-secondary">
-						<div class="row modalHeader pt-1 pb-1">
-							<h3 class="col modalTitle text-center ps-4">Modal title</h3>
-							<div class="col position-absolute text-end">
-								<button type="button" id="modalCloseButton" class="btn-close text-white" aria-label="Close">X</button>
+			<div class="modalDialog col-8">
+				<div class="modalContent border border-1 border-secondary">
+					<div class="row modalHeader pt-1 pb-1">
+						<h3 class="col modalTitle text-center ps-4">Modal title</h3>
+						<div class="col text-end">
+							<button type="button" id="modalCloseButton" class="btn-close text-white" aria-label="Close">X</button>
+						</div>
+					</div>
+					<div class="modalBody border-top border-2 border-secondary p-1">
+						<div id="modalStateResults" class="row pb-3">
+							<div class="col-6" id="modal_DEM_header">
+								<div class="row">
+									<div class="col-6 h3 text-start" id="modal_DEM_candidate">Can</div>
+									<div class="col-6 h3 text-end" id="modal_DEM_vote">000</div>
+								</div>
+							</div>
+							<div class="col-6" id="modal_REP_header">
+								<div class="row">
+									<div class="col-6 h3 text-start" id="modal_REP_vote">000</div>
+									<div class="col-6 h3 text-end" id="modal_REP_candidate">Can</div>
+								</div>
 							</div>
 						</div>
-						<div class="modalBody border-top border-2 border-secondary p-1">
-							<div id="modalStateResults" class="row pb-3">
-									<div class="col-6" id="modal_DEM_header">
-										<div class="row">
-											<div class="col-6 h3 text-start" id="modal_DEM_candidate">Can</div>
-											<div class="col-6 h3 text-end" id="modal_DEM_vote">000</div>
-										</div>
-									</div>
-									<div class="col-6" id="modal_REP_header">
-										<div class="row">
-											<div class="col-6 h3 text-start" id="modal_REP_vote">000</div>
-											<div class="col-6 h3 text-end" id="modal_REP_candidate">Can</div>
-										</div>
-									</div>
-							</div>
-							<div class="row p-1">
-								<div id="stateMap" class="col"></div>
-								<div class="col">
-									<h4 id="countyName" class="text-center">County Name</h4>
-									<div id="countyResults" class="overflow-auto"></div>
+						<div class="row p-1 mh-100">
+							<div id="stateMap" class="col"></div>
+							<div class="col">
+								<div class="row">
+									<h4 id="countyName" class="col text-center">County Name</h4>
+								</div>
+								<div class="row">
+									<div id="countyResults" class="col overflow-scroll"></div>
 								</div>
 							</div>
 						</div>
