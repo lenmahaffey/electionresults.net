@@ -230,17 +230,17 @@ function getResults() {
 }
 
 //Modal functions
-
 function getSingleStateMap(state) {
 	url = "assets/img/maps/states/" + state + ".svg"
 	$.get(url, function (data, status) {
 		var state = $(data.children[0]).attr("id")
 		var svg = $(data.children[0].children)
 		var modalHeight = ($(window).height() - $("#maps").position().top - $(".resultsContainer").height() - $("#candidates").height() - 25)
-		
+
+		$(data.children[0]).attr("height", modalHeight - $(".modalHeader").height())
+		$(data.children[0]).attr("width", $(".modalHeader").width() *.25)
 		$(data.children[0]).addClass(state)
 		$(data.children[0]).attr("id", "modalMap")
-		$(data.children[0]).attr("height", modalHeight)
 
 		for (var i = 0; i < svg.length; i++) {
 			var element = $(svg[i])
@@ -248,11 +248,11 @@ function getSingleStateMap(state) {
 			element.attr("id", "")
 			element.addClass(id)
 		}
-
+		setModalSize()
 		$("#stateMap").html(data.children)
-		setupModalMap()
-		getResultsForModal()
-		setupModal();
+		//setupModalMap()
+		//getResultsForModal()
+		setModalPosition()
 		$(".myModal").toggle()
 	})
 }
@@ -334,12 +334,17 @@ function getResultsForModal() {
 	})
 }
 
-function setupModal(state) {
-	var modalHeight = ($(window).height() - $("#maps").position().top - $(".resultsContainer").height() - $("#candidates").height() - 25)
+function setModalPosition(state) {
 	var modalTopPosition = $("#maps").position().top + 5
 	$(".myModal").css({ top: modalTopPosition })
-	$(".myModal").css({ "maxHeight": modalHeight.toString() + "px" })
 }
+
+function setModalSize() {
+	var modalHeight = ($(window).height() - $("#maps").position().top) - ($(window).height() - $(".resultsContainer").position().top) - 10
+	$(".modalContent").attr("height", modalHeight)
+	$(".modalContent").css({ "maxHeight": modalHeight + "px" });
+}
+
 function setModalMapColor(data) {
 	if (data['PARTY'] == "Democratic Party") {
 		$("#modalMap > ." + data['FIPS_ID']).css("fill", "blue")
