@@ -8,7 +8,7 @@ html {
 body {
 	color: white;
 	background: linear-gradient(black, black, rgba(15,0,153,1));
-	overflow: hidden;
+
 	min-height: 100%;
 	margin: 0px;
 }
@@ -18,7 +18,7 @@ body {
 }
 
 #countyResults {
-	max-height: 250px;
+
 }
 
 #resultsWindow {
@@ -42,6 +42,7 @@ body {
 
 .myModal {
 	position: absolute;
+	overflow: hidden;
 }
 
 .modalContent {

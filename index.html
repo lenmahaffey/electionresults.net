@@ -3,14 +3,14 @@
 <html>
 <head>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<!--<script async src="https://www.googletagmanager.com/gtag/js?id=G-HQN9BMGPTB"></script>-->
-	<!--<script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-HQN9BMGPTB"></script>
+	<script>
 		window.dataLayer = window.dataLayer || [];
 		function gtag() { dataLayer.push(arguments); }
 		gtag('js', new Date());
 
 		gtag('config', 'G-HQN9BMGPTB');
-	</script>-->
+	</script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>United States of America Election Results</title>
@@ -83,7 +83,7 @@
 			</div>
 		</div>
 		<div id="maps"></div>
-		<div class="resultsContainer fixed-bottom h-25">
+		<div class="resultsContainer fixed-bottom h-25 pt-2">
 			<div id="resultsWindow" class="row border border-5 border-secondary border-bottom-0 h-100 overflow-auto">
 				<div id="column1" class="col border-end border-secondary border-3"></div>
 				<div id="column2" class="col"></div>
@@ -108,14 +108,14 @@
 		<div class="row d-flex justify-content-center">
 			<div class="modalDialog col-8">
 				<div class="modalContent border border-1 border-secondary">
-					<div class="row modalHeader pt-1 pb-1 justify-content-end">
+					<div class="row modalHeader p-2 justify-content-end">
 						<h3 class="col-4 modalTitle text-center">Title</h3>
 						<div class="col-4 text-end ">
 							<button type="button" id="modalCloseButton" class="btn-close text-white" aria-label="Close">X</button>
 						</div>
 					</div>
-					<div class="modalBody border-top border-2 border-secondary p-1">
-						<div id="modalStateResults" class="row pb-3">
+					<div class="modalBody border-top border-2 border-secondary ps-4 pe-4">
+						<div id="modalStateResults pt-2 pb-2" class="row">
 							<div class="col-6" id="modal_DEM_header">
 								<div class="row">
 									<div class="col-6 h3 text-start" id="modal_DEM_candidate">Can</div>
@@ -129,7 +129,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="row p-1 mh-100">
+						<div class="row">
 							<div id="stateMap" class="col"></div>
 							<div class="col">
 								<div class="row">

@@ -231,30 +231,34 @@ function getResults() {
 
 //Modal functions
 function getSingleStateMap(state) {
-	url = "assets/img/maps/states/" + state + ".svg"
+	var url = "assets/img/maps/states/" + state + ".svg"
 	$.get(url, function (data, status) {
-		var state = $(data.children[0]).attr("id")
-		var svg = $(data.children[0].children)
-		var modalHeight = ($(window).height() - $("#maps").position().top - $(".resultsContainer").height() - $("#candidates").height() - 25)
+		var svg = $(data.children[0])
+		var stateAbbr = svg.attr("id")
+		var svgGroups = svg.children()
+		var modalHeight = $(window).height() - ($("#maps").position().top + $(".resultsContainer").outerHeight(true))
+		var mapHeight = modalHeight - ($(".modalHeader").outerHeight(true) + $("#candidates").outerHeight())
+		$(svg).addClass(stateAbbr)
+		$(svg).attr("id", "modalMap")
 
-		$(data.children[0]).attr("height", modalHeight - $(".modalHeader").height())
-		$(data.children[0]).attr("width", $(".modalHeader").width() *.25)
-		$(data.children[0]).addClass(state)
-		$(data.children[0]).attr("id", "modalMap")
-
-		for (var i = 0; i < svg.length; i++) {
-			var element = $(svg[i])
-			var id = element.attr("id")
-			element.attr("id", "")
-			element.addClass(id)
+		for (var i = 0; i < svgGroups.length; i++) {
+			var element = svgGroups[i]
+			var id = $(element).attr("id")
+			$(element).attr("id", "")
+			$(element).addClass(id)
 		}
-		setModalSize()
-		$("#stateMap").html(data.children)
-		//setupModalMap()
-		//getResultsForModal()
+		$("#stateMap").html(data.children[0])
+		$(".modalContent").attr("height", modalHeight)
+		$(".modalContent").css({ "maxHeight": modalHeight + "px" });
+		$("#countyResults").css({ "maxHeight": modalHeight + "px" });
+		$(svg).attr("height", mapHeight)
+		$(svg).attr("width", $(".modalBody").outerWidth(true) * .5)
+
+		setupModalMap()
+		getResultsForModal()
 		setModalPosition()
-		$(".myModal").toggle()
 	})
+	$(".myModal").toggle()
 }
 
 function setupModalMap() {
@@ -337,12 +341,6 @@ function getResultsForModal() {
 function setModalPosition(state) {
 	var modalTopPosition = $("#maps").position().top + 5
 	$(".myModal").css({ top: modalTopPosition })
-}
-
-function setModalSize() {
-	var modalHeight = ($(window).height() - $("#maps").position().top) - ($(window).height() - $(".resultsContainer").position().top) - 10
-	$(".modalContent").attr("height", modalHeight)
-	$(".modalContent").css({ "maxHeight": modalHeight + "px" });
 }
 
 function setModalMapColor(data) {
