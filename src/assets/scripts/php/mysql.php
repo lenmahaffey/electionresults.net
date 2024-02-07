@@ -3,15 +3,12 @@
 class database{
 
 	private $link;
-	
 	private function openDBConnection(){
-		$serverName = "3.130.76.95";
-		$userName = "electionResults";
-		$password = "ntX-2dH-ssm-NW2";
-		$dbName = "electionResults";
-        $connectionOptions = array("Database"=>"electionResults",
-								   "Uid"=>"electionResults", 
-								   "PWD"=>"P@ssw0rd");
+		$serverName = "172.31.28.165";
+		$userName = "";
+		$password = "";
+		$dbName = "election_results";
+
 		try{
 			$this->link = mysqli_init();
 			$this->link = new mysqli($serverName, $userName, $password, $dbName);
@@ -46,17 +43,17 @@ class database{
 				} else return NULL;
 		}
 		catch(Exception $e){
-			print_r(e);
+			return $e->getMessage();
 		}
 	}
 	function FEC_AllStateWinners($year){
-		$sql = "CALL FEC_AllStateWinners(". $year .")";
+		$sql = "SELECT * FROM " . $year . "_FEC WHERE STATE='" . $state . "'";
 		$data = $this->executeSQL($sql);
 		return $data;
 	}
 	
 	function FEC_AllCandidateTotals($year){
-		$sql = "CALL FEC_AllCandidateTotals(". $year .")";
+		$sql = "SELECT * FROM " . $year . "_FEC WHERE STATE = 'CAN_TOTAL'";
 		$data = $this->executeSQL($sql);
 		return $data;
 	}
@@ -72,7 +69,7 @@ class database{
 	}
 
 	function getFIPS($FIPS){
-		$sql = "CALL GetFIPS (". $FIPS .")";
+		$sql = "SELECT * FROM FIPS WHERE FIPS=" . $FIPS;
 		return $this->executeSQL($sql);
 	}
 
