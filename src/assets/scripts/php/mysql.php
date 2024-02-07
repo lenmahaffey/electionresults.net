@@ -47,13 +47,13 @@ class database{
 		}
 	}
 	function FEC_AllStateWinners($year){
-		$sql = "SELECT * FROM " . $year . "_FEC WHERE STATE='" . $state . "'";
+		$sql = "CALL FEC_AllStateWinners(". $year .")";
 		$data = $this->executeSQL($sql);
 		return $data;
 	}
 	
 	function FEC_AllCandidateTotals($year){
-		$sql = "SELECT * FROM " . $year . "_FEC WHERE STATE = 'CAN_TOTAL'";
+		$sql = "CALL FEC_AllCandidateTotals(". $year .")";
 		$data = $this->executeSQL($sql);
 		return $data;
 	}
@@ -69,7 +69,7 @@ class database{
 	}
 
 	function getFIPS($FIPS){
-		$sql = "SELECT * FROM FIPS WHERE FIPS=" . $FIPS;
+		$sql = "CALL GetFIPS (". $FIPS .")";
 		return $this->executeSQL($sql);
 	}
 
