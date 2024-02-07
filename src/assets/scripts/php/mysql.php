@@ -4,9 +4,9 @@ class database{
 
 	private $link;
 	private function openDBConnection(){
-		$serverName = "172.31.28.165";
-		$userName = "";
-		$password = "";
+		$serverName = "192.168.0.4";
+		$userName = "election_results";
+		$password = "password";
 		$dbName = "election_results";
 
 		try{
