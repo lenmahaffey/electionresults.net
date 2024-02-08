@@ -25,8 +25,8 @@ function setupButtons() {
 	})
 
 	$("#resultsButton").click(function () {
-		$("#resultsWindow").toggle()
-		$("#resultsWindow").is(":visible") ? $("#resultsButton").text("Hide Totals") : $("#resultsButton").text("Show Totals")
+		$(".resultsContainer").is(":visible") ? $(".resultsContainer").hide() : $(".resultsContainer").show() 
+		$(".resultsContainer").is(":visible") ? $("#resultsButton").text("Hide Totals") : $("#resultsButton").text("Show Totals")
 	})
 
 	$("#countiesButton").click(function () {
