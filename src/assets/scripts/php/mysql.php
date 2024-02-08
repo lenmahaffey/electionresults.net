@@ -6,7 +6,7 @@ class database{
 	private function openDBConnection(){
 		$serverName = "192.168.0.4";
 		$userName = "election_results";
-		$password = "password";
+		$password = "tfxx1Y.(Tm.z5OUyKK7X";
 		$dbName = "election_results";
 
 		try{

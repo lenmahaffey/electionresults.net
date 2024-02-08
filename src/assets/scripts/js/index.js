@@ -43,9 +43,9 @@ function setupButtons() {
 
 function setupMaps() {
 	$.get("assets/img/maps/states.svg", function (data, status) {
-		$("#maps").html(data.children)
+		$("#mapContainer > svg").html(data.children[0].children)
 
-		$("#maps > svg > g >.state").mouseenter(function (e) {
+		$("#mapContainer > svg > g >.state").mouseenter(function (e) {
 			var element = $(this)
 			var x = e.clientX
 			var y = e.clientY
@@ -55,18 +55,18 @@ function setupMaps() {
 			$("#toolTip").toggle()
 		})
 
-		$("#maps > svg > g >.state").mousemove(function (e) {
+		$("#mapContainer > svg > g >.state").mousemove(function (e) {
 			var x = e.clientX
 			var y = e.clientY
 			setToolTipPosition(x, y)
 
 		})
 
-		$("#maps > svg > g >.state").mouseleave(function (e) {
+		$("#mapContainer > svg > g >.state").mouseleave(function (e) {
 			$("#toolTip").toggle()
 		})
 
-		$("#maps > svg > g >.state").click(function (e) {
+		$("#mapContainer > svg > g >.state").click(function (e) {
 			state = e.target.parentNode.parentNode.id
 			getSingleStateMap(state)
 		})
@@ -74,8 +74,8 @@ function setupMaps() {
 
 	$.get("assets/img/maps/counties.svg", function (data, status) {
 		addCountiesToSVG(data)
-		$("#maps > svg > g > .county").toggle()
-		$("#maps > svg > g > .county").mouseenter(function (e) {
+		$("#mapContainer > svg > g > .county").toggle()
+		$("#mapContainer > svg > g > .county").mouseenter(function (e) {
 			var x = e.clientX
 			var y = e.clientY
 			var target = e.currentTarget.id
@@ -84,17 +84,17 @@ function setupMaps() {
 			$("#toolTip").toggle()
 		})
 
-		$("#maps > svg > g > .county").mousemove(function (e) {
+		$("#mapContainer > svg > g > .county").mousemove(function (e) {
 			var x = e.clientX;
 			var y = e.clientY;
 			setToolTipPosition(x, y)
 		})
 
-		$("#maps > svg > g > .county").mouseleave(function (e) {
+		$("#mapContainer > svg > g > .county").mouseleave(function (e) {
 			$("#toolTip").toggle()
 		})
 
-		$("#maps > svg > g > .county").click(function (e) {
+		$("#mapContainer > svg > g > .county").click(function (e) {
 			var countyID = e.currentTarget.id
 			var stateID = e.currentTarget.parentElement.id
 			lastCountyClicked = countyID
@@ -194,13 +194,9 @@ function removeColor() {
 }
 
 function toggleMap() {
-	$("#allStatesSVG > g > .state").toggle()
+	//$("#allStatesSVG > g > .state").toggle()
 	$("#allStatesSVG > g > .county").toggle()
-	if ($(".county:visible").length > 0) {
-		countiesVisible = true
-	} else {
-		countiesVisible = false
-    }
+	countiesVisible = !countiesVisible
 	getResults()
 }
 
@@ -209,7 +205,7 @@ function getResults() {
 		removeColor()
 		$(".state").each(function () {
 			$.post("assets/scripts/php/ajaxResponse.php", { action: "STATES_SingleStateAllCountyWinners", year: currentYear, FIPS: this.id }, function (result) {
-				if (result != "null") {
+				if (result != null) {
 					result = JSON.parse(result)
 					result.forEach(element => setColor(element))
 				}
@@ -217,10 +213,12 @@ function getResults() {
 		})
 	} else {
 		$.post("assets/scripts/php/ajaxResponse.php", { action: "FEC_AllStateWinners", YEAR: currentYear }, function (result) {
-			result = JSON.parse(result)
-			result.forEach(function (result) {
+			if (result != null) {
+				result = JSON.parse(result)
+				result.forEach(function (result) {
 				setColor(result)
-			})
+				})
+			}
 		})
 	}
 	$.post("assets/scripts/php/ajaxResponse.php", { action: "FEC_AllCandidateTotals", YEAR: currentYear }, function (result) {
@@ -236,7 +234,7 @@ function getSingleStateMap(state) {
 		var svg = $(data.children[0])
 		var stateAbbr = svg.attr("id")
 		var svgGroups = svg.children()
-		var modalHeight = $(window).height() - ($("#maps").position().top + $(".resultsContainer").outerHeight(true))
+		var modalHeight = $(window).height() - ($("#mapContainer").position().top + $(".resultsContainer").outerHeight(true))
 		var mapHeight = modalHeight - ($(".modalHeader").outerHeight(true) + $("#candidates").outerHeight())
 		$(svg).addClass(stateAbbr)
 		$(svg).attr("id", "modalMap")
@@ -339,7 +337,7 @@ function getResultsForModal() {
 }
 
 function setModalPosition(state) {
-	var modalTopPosition = $("#maps").position().top + 5
+	var modalTopPosition = $("#mapContainer").position().top + 5
 	$(".myModal").css({ top: modalTopPosition })
 }
 
