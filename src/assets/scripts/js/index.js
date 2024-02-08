@@ -96,9 +96,10 @@ function setupMaps() {
 
 		$("#mapContainer > svg > g > .county").click(function (e) {
 			var countyID = e.currentTarget.id
-			var stateID = e.currentTarget.parentElement.id
+			var stateID = e.currentTarget.parentElement.children[0].id
+			var state =  e.currentTarget.parentElement.id
 			lastCountyClicked = countyID
-			setupModal(stateID)
+			getSingleStateMap(state)
 		})
 	})
 }
@@ -315,7 +316,7 @@ function getResultsForModal() {
 			result.forEach(element => setModalMapColor(element))
 		})
 		if (lastCountyClicked) {
-			$.post("assets/scripts/php/ajaxResponse.php", { action: "STATES_SingleCountyAllCandidateTotals", year: currentYear, FIPS: countyID }, function (result) {
+			$.post("assets/scripts/php/ajaxResponse.php", { action: "STATES_SingleCountyAllCandidateTotals", year: currentYear, FIPS: lastCountyClicked }, function (result) {
 				result = JSON.parse(result)
 				result.forEach(element => setModalCountyResults(element))
 			})
